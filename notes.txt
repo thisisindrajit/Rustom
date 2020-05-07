@@ -1,0 +1,18 @@
+customers 
+- cars and dealers searchbox
+- menu
+- profile
+- description of car and payment type
+
+dealers
+- load only dealer's cars
+- add,delete,edit cars
+- profile
+- no buy option
+- payment requests
+- initiated, pending, successful - status
+
+car status - available,sold out,rented
+
+
+
