@@ -15,4 +15,15 @@ dealers
 car status - available,sold out,rented
 
 
+for cloning a repo:
+git clone /*ssh_url*/
+
+for staging changes:
+git add /*file_name*/
+
+for committing changes:
+git commit -m /*"Commit Message"*/
+
+for pushing to github:
+git push origin master
 
