@@ -25,5 +25,5 @@ for committing changes:
 git commit -m /*"Commit Message"*/
 
 for pushing to github:
-git push origin master
+git push origin /*branch_name or master*/
 
