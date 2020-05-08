@@ -11,6 +11,46 @@ function createreqobj() {
     return xhttp;
 }
 
+function getcardetails()
+{
+    var cardetails = createreqobj();
+
+    cardetails.onreadystatechange = function(){
+
+        if(this.readyState===4&&this.status===200)
+        {
+            result = JSON.parse(this.responseText);
+
+            for(var x in result)
+            {
+                var card = "<div class='col-sm-3'>"+
+      
+                "<div class='card'>"+
+                "<img src='dummy.png' class='card-img-top' alt='Car image'>"+
+                "<div class='card-body'>"+
+                "<h5 class='card-title'>"+result[x].mname+" "+result[x].name+"</h5>"+
+                "<h6 class='card-subtitle mb-2'>"+result[x].status+"</h6>";
+
+                for(i=0;i<result[x].features.length;i++)
+                {
+                    card += "<li>"+result[x].features[i]+"</li>";
+                }
+
+                card +="<hr><a href='#' class='card-link'>More Details</a>"+
+                "</div>"+
+                "</div>"+
+                "</div>";
+
+                document.getElementsByClassName("row")[0].innerHTML += card;
+            }
+        }
+    };
+
+    cardetails.open("GET","cardetails.php",true);
+    cardetails.send();
+}
+
+
 function searchcars()
 {
     var searchbox=document.getElementsByClassName("searchbox")[0];
@@ -36,7 +76,7 @@ function searchcars()
         };
 
         searchresults.open("GET","searchresults.php?query="+query,true);
-        searchresults.send(null);
+        searchresults.send();
 
     }
 }

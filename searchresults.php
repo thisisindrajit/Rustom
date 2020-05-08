@@ -16,7 +16,7 @@ $output = '
 <img src="dummy.png" class="card-img-top" alt="Car image">
 <div class="card-body">
 <h5 class="card-title">Car Name</h5>
-<h6 class="card-subtitle mb-2 text-muted">Availability Status</h6>
+<h6 class="card-subtitle mb-2">Availability Status</h6>
 <p class="card-text">Car Details go here...</p>
 <a href="#" class="card-link">More Details</a>
 </div>

@@ -14,6 +14,17 @@ dealers
 
 car status - available,sold out,rented
 
+for manufacturer, we have to create a new admin page to manipulate their Details
+
+In future, add customer requests table which contains data about which customers have requested which cars that had been sold out at that time. If their status has been changed
+to available, then they can be notified.
+
+uploadedtime attr in Car table - used to sort cars based on the time they were added
+
+car types can be either new,resale or rental
+status can be available or unavailable
+
+_________________________________________________________
 
 for cloning a repo:
 git clone /*ssh_url*/
