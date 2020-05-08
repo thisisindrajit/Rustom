@@ -28,8 +28,8 @@ function getcardetails()
                 "<div class='card'>"+
                 "<img src='dummy.png' class='card-img-top' alt='Car image'>"+
                 "<div class='card-body'>"+
-                "<h5 class='card-title'>"+result[x].mname+" "+result[x].name+"</h5>"+
-                "<h6 class='card-subtitle mb-2'>"+result[x].status+"</h6>";
+                "<h5 class='card-title'>"+result[x].name+"</h5>"+
+                "<h6 class='card-subtitle mb-2'>"+result[x].status+" | TYPE : "+result[x].cartype+"</h6>";
 
                 for(i=0;i<result[x].features.length;i++)
                 {
@@ -75,8 +75,11 @@ function searchcars()
             }
         };
 
-        searchresults.open("GET","searchresults.php?query="+query,true);
-        searchresults.send();
+        var param='query='+query;
+
+        searchresults.open("POST","searchresults.php",true);
+        searchresults.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        searchresults.send(param);
 
     }
 }

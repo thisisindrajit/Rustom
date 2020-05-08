@@ -2,25 +2,7 @@
 
 include("dbconnect.php");
 
-$query="select carid,name,mname,status from car natural join manufacturer"; //to select cars along with their manufacturers and status
-
-/*function findfeatures($id)
-{
-    $featurearr = array();
-
-    $featurequery = "select features from features where carid=$id limit 3";
-    $featureresult = $conn->query($featurequery);
-
-    if($featureresult)
-    {
-        while($featurerow = $featureresult->fetch_array(MYSQLI_ASSOC))
-        {
-            $featurearr[] = $featurerow;
-        }
-    }
-
-    return $featurearr;
-}*/
+$query="select carid,name,cartype,status from car"; //to select cars along with its status
 
 if($result = $conn->query($query))
 {

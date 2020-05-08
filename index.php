@@ -113,7 +113,7 @@ li
 
 </style>
 
-<script type="text/javascript" src="JS/search.js"></script>
+<script type="text/javascript" src="JS/home.js"></script>
 
 <body onload="getcardetails()">
 
@@ -146,6 +146,9 @@ li
 
 
 <div class="searchbox container-fluid py-3">
+
+</div>
+
 </div>
 
 <div class="container-fluid py-3" style="width:80%">

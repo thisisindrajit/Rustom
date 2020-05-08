@@ -29,4 +29,4 @@ INSERT INTO `cars`.`Customer` (`CustomerName`, `DOB`, `PhoneNo`, `Address`, `Dri
 
 For selecting the cars and their manufacturer names:
 
--select carid,name,mname,status from car natural join manufacturer;
+-select carid,name,status from car;
