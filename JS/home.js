@@ -26,7 +26,7 @@ function getcardetails()
                 var card = "<div class='col-sm-3'>"+
       
                 "<div class='card'>"+
-                "<img src='dummy.png' class='card-img-top' alt='Car image'>"+
+                "<img src='"+result[x].images+"' class='card-img-top' alt='Car image'>"+
                 "<div class='card-body'>"+
                 "<h5 class='card-title'>"+result[x].name+"</h5>"+
                 "<h6 class='card-subtitle mb-2'>"+result[x].status+" | TYPE : "+result[x].cartype+"</h6>";

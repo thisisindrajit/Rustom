@@ -3,20 +3,20 @@
 include("dbconnect.php");
 
 $query = '%'.$_POST["query"].'%';
-
-$stmt = $conn->prepare("select carid,name,cartype,status from car where name like ?");
+ 
+$stmt = $conn->prepare("select car.carid,name,cartype,status,images from car inner join images where car.carid=images.carid and images=(select images from images where carid=car.carid limit 1) and name like ?");
 $stmt->bind_param("s",$query);
 $stmt->execute();
 
 $result = $stmt->get_result();
 
-/*if($result->num_rows===0)
+if($result->num_rows===0)
 {
-$output = "No cars found!";
+$output = '<div style="border:1px solid red;margin-top:15px;padding:10px 0;text-align:center;font-size:1.2rem;font-weight:lighter;color:red">No cars found!</div>';
 }
 
 else
-{*/
+{
 
 $output = "<div class='row'>";
 
@@ -29,7 +29,7 @@ $output .= '
     
 <div class="card">
 
-<img src="dummy.png" class="card-img-top" alt="Car image">
+<img src="'.$row["images"].'" class="card-img-top" alt="Car image">
 <div class="card-body">
 <h5 class="card-title">'.$row["name"].'</h5>
 <h6 class="card-subtitle mb-2">'.$row["status"].' | TYPE : '.$row["cartype"].'</h6><hr><a href="#" class="card-link">More Details</a>
@@ -40,6 +40,8 @@ $output .= '
 }
 
 $output .= "</div>";
+
+}
 
 
 echo $output;

@@ -2,7 +2,8 @@
 
 include("dbconnect.php");
 
-$query="select carid,name,cartype,status from car"; //to select cars along with its status
+$query="select car.carid,name,cartype,status,images from car inner join images where car.carid=images.carid and
+ images=(select images from images where carid=car.carid limit 1)"; //to select cars along with its status
 
 if($result = $conn->query($query))
 {

@@ -1,13 +1,10 @@
-<?php
-
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Car Dealership</title>
+    <title>Rustom - Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
+    <link rel="icon" href="logo.ico">
     <!--Google Fonts-->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
     <!--BOOTSTRAP CDN-->
@@ -31,6 +28,13 @@
 .card{
     margin-bottom:10px;
     margin-top:15px;
+}
+
+.card-img-top
+{
+    min-height:250px;
+    max-height:250px;
+    object-fit:cover;
 }
 
 #listicon
@@ -128,11 +132,13 @@ li
   <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
 </svg>
 
-<h3 id="title">Title</h3>
+<!--<h3 id="title">Rustom</h3>-->
+
+<img src="logow.png" height="50px" style="margin:auto">
 
 </div>
 
-<div class="input-group mb-3" style="width:80%;margin:auto;margin-top:125px">
+<div class="input-group mb-3" style="width:80%;margin:auto;margin-top:135px">
   <span class="input-group-text" id="basic-addon1" style="position:relative;margin-right:0;background-color:#C39BD3;border:none;border-radius:0">
   
   <svg class="bi bi-search" width="1em" height="1em" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
