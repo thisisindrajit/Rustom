@@ -1,0 +1,32 @@
+Creating dummy manufacturers:
+
+INSERT INTO `cars`.`Manufacturer` (`Mname`, `PhoneNo`, `Location`, `Email`, `Website`) VALUES ('Ford', '12345678', 'USA', 'contact@ford.com', 'www.fordmotors.com');
+INSERT INTO `cars`.`Manufacturer` (`Mname`, `PhoneNo`, `Location`, `Email`, `Website`) VALUES ('Lamborghini', '9842689247', 'Germany', 'feedback@lm.com', 'www.lm.com');
+INSERT INTO `cars`.`Manufacturer` (`Mname`, `PhoneNo`, `Location`, `Email`, `Website`) VALUES ('Volkswagen', '6576434213', 'Germany', 'queries@volkswagen.com', 'www.volkswagenmotors.com');
+
+Creating dummy cars:
+
+INSERT INTO `cars`.`Car` (`Name`, `carType`, `Mileage`, `Color`, `Status`, `fuelType`, `LicensePlateNo`, `ManufactureDate`, `ManufacturerID`) VALUES ('Aventador', 'new', '5', 'orange', 'available', 'Petrol', '', '2019-10-23', '2');
+INSERT INTO `cars`.`Car` (`Name`, `carType`, `Mileage`, `Color`, `Status`, `fuelType`, `ManufactureDate`, `ManufacturerID`) VALUES ('EcoSport', 'new', '20', 'white', 'available', 'Petrol', '2020-04-01', '1');
+INSERT INTO `cars`.`Car` (`Name`, `carType`, `Mileage`, `Color`, `Status`, `fuelType`, `LicensePlateNo`, `ManufactureDate`, `ManufacturerID`) VALUES ('Jetta', 'resale', '16', 'black', 'available', 'Diesel', 'TN-02-RD-1254', '2016-03-19', '3');
+
+Inserting these cars into appropriate sub tables(newcar,resale):
+
+NewCar table:
+
+INSERT INTO `cars`.`newcar` (`NewCarid`, `Price`) VALUES ('10000', '12500000.00');
+INSERT INTO `cars`.`newcar` (`NewCarid`, `Price`) VALUES ('10001', '1000000.00');
+
+PreOwnedCar table:
+
+INSERT INTO `cars`.`preownedcar` (`PreOwnedCarid`, `ResalePrice`, `KMdriven`) VALUES ('10002', '1200000.00', '42560');
+
+
+Creating a new customer:
+
+INSERT INTO `cars`.`Customer` (`CustomerName`, `DOB`, `PhoneNo`, `Address`, `DrivingLicense`) VALUES ('Indrajit', '2000-10-23', '8668189160', '75,Reliance Gardens,Singanallur,Coimbatore', 'TN1423110062821');
+
+
+For selecting the cars and their manufacturer names:
+
+-select carid,name,status from car;

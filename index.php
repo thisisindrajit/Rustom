@@ -1,14 +1,10 @@
-<?php
-
-
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Car Dealership</title>
+    <title>Rustom - Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
+    <link rel="icon" href="logo.ico">
     <!--Google Fonts-->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
     <!--BOOTSTRAP CDN-->
@@ -34,6 +30,13 @@
     margin-top:15px;
 }
 
+.card-img-top
+{
+    min-height:250px;
+    max-height:250px;
+    object-fit:cover;
+}
+
 #listicon
 {
     position:absolute;
@@ -57,11 +60,31 @@
     font-size:1.5rem;
 }
 
-@media screen and (max-width:1000px)
+.row
+{
+    align-items:flex-start;
+}
+
+li
+{
+    text-align:left;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    margin-bottom:1px;
+    max-width:100%;
+}
+
+.card-subtitle
+{
+    color:#884EA0;
+}
+
+
+@media screen and (max-width:1200px)
 {
     .row
     {
-        align-items:center;
         flex-direction:row;
         min-width:80%;
     }
@@ -72,9 +95,29 @@
     }
 }
 
+@media screen and (max-width:769px)
+{
+    .row
+    {
+        justify-content:center;
+    }
+
+    .col-sm-3 
+    {
+    min-width:80%;
+    }
+
+    #explore
+    {
+        text-align:center;
+        padding:20px 0;
+        border-bottom:1px solid #C39BD3;
+    }
+}
+
 </style>
 
-<body>
+<body onload="getcardetails()">
 
 <div class="container-fluid text-white py-3" style="background-color:black;position:fixed;z-index:5;top:0;display:flex;align-items:center">
 
@@ -87,11 +130,13 @@
   <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
 </svg>
 
-<h3 id="title">EXYNOS</h3>
+<!--<h3 id="title">Rustom</h3>-->
+
+<img src="logow.png" height="50px" style="margin:auto">
 
 </div>
 
-<div class="input-group mb-3" style="width:80%;margin:auto;margin-top:125px">
+<div class="input-group mb-3" style="width:80%;margin:auto;margin-top:135px">
   <span class="input-group-text" id="basic-addon1" style="position:relative;margin-right:0;background-color:#C39BD3;border:none;border-radius:0">
   
   <svg class="bi bi-search" width="1em" height="1em" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
@@ -100,167 +145,26 @@
   </svg>
     
   </span>
-  <input type="text" id="query" class="form-control shadow-none" placeholder="Search for Cars..." onkeyup="searchcars()" style="border-color:#C39BD3;border-radius:0;border-left:none">
+  <input type="text" id="query" class="form-control shadow-none" placeholder="Search for Cars..." onkeyup="searchcars()" onclick="searchcars()" style="border-color:#C39BD3;border-radius:0;border-left:none">
 </div>
 
 
 <div class="searchbox container-fluid py-3">
+
+</div>
+
 </div>
 
 <div class="container-fluid py-3" style="width:80%">
 
-<h3 style="font-weight:lighter">Explore</h3>
+<h3 id="explore" style="font-weight:lighter">Explore</h3>
 
 <div class="row">
 
-    <div class="col-sm-3">
-    
-    <div class="card" style="padding:0px 0px 10px 0">
-    
-    <img src="dummy.png" class="card-img-top" alt="Car image">
-    <div class="card-body">
-    <h5 class="card-title">Car Name</h5>
-    <h6 class="card-subtitle mb-2 text-muted">Availability Status</h6>
-    <p class="card-text">Car Details go here...</p>
-    <a href="#" class="card-link">More Details</a>
-    </div>
-    </div>
-
-    </div>
-
-
-
-    <div class="col-sm-3">
-      
-    <div class="card" style="padding:0px 0px 10px 0">
-    
-    <img src="dummy.png" class="card-img-top" alt="Car image">
-    <div class="card-body">
-    <h5 class="card-title">Car Name</h5>
-    <h6 class="card-subtitle mb-2 text-muted">Availability Status</h6>
-    <p class="card-text">Car Details go here...</p>
-    <a href="#" class="card-link">More Details</a>
-    </div>
-    </div>
-
-    </div>
-
-
-
-
-    <div class="col-sm-3">
-      
-    <div class="card" style="padding:0px 0px 10px 0">
-    
-    <img src="dummy.png" class="card-img-top" alt="Car image">
-    <div class="card-body">
-    <h5 class="card-title">Car Name</h5>
-    <h6 class="card-subtitle mb-2 text-muted">Availability Status</h6>
-    <p class="card-text">Car Details go here...</p>
-    <a href="#" class="card-link">More Details</a>
-    </div>
-    </div>
-
-    </div>
-
-
-
-    <div class="col-sm-3">
-      
-    <div class="card" style="padding:0px 0px 10px 0">
-    
-    <img src="dummy.png" class="card-img-top" alt="Car image">
-    <div class="card-body">
-    <h5 class="card-title">Car Name</h5>
-    <h6 class="card-subtitle mb-2 text-muted">Availability Status</h6>
-    <p class="card-text">Car Details go here...</p>
-    <a href="#" class="card-link">More Details</a>
-    </div>
-    </div>
-
-    </div>
-  
 </div>
-
-
-
-
-
-<div class="row">
-
-    <div class="col-sm-3">
-      
-    <div class="card" style="padding:0px 0px 10px 0">
-    
-    <img src="dummy.png" class="card-img-top" alt="Car image">
-    <div class="card-body">
-    <h5 class="card-title">Car Name</h5>
-    <h6 class="card-subtitle mb-2 text-muted">Availability Status</h6>
-    <p class="card-text">Car Details go here...</p>
-    <a href="#" class="card-link">More Details</a>
-    </div>
-    </div>
-
-    </div>
-
-
-
-    <div class="col-sm-3">
-      
-    <div class="card" style="padding:0px 0px 10px 0">
-    
-    <img src="dummy.png" class="card-img-top" alt="Car image">
-    <div class="card-body">
-    <h5 class="card-title">Car Name</h5>
-    <h6 class="card-subtitle mb-2 text-muted">Availability Status</h6>
-    <p class="card-text">Car Details go here...</p>
-    <a href="#" class="card-link">More Details</a>
-    </div>
-    </div>
-
-    </div>
-
-
-
-
-    <div class="col-sm-3">
-      
-    <div class="card" style="padding:0px 0px 10px 0">
-    
-    <img src="dummy.png" class="card-img-top" alt="Car image">
-    <div class="card-body">
-    <h5 class="card-title">Car Name</h5>
-    <h6 class="card-subtitle mb-2 text-muted">Availability Status</h6>
-    <p class="card-text">Car Details go here...</p>
-    <a href="#" class="card-link">More Details</a>
-    </div>
-    </div>
-
-    </div>
-
-
-
-    <div class="col-sm-3">
-      
-    <div class="card" style="padding:0px 0px 10px 0">
-    
-    <img src="dummy.png" class="card-img-top" alt="Car image">
-    <div class="card-body">
-    <h5 class="card-title">Car Name</h5>
-    <h6 class="card-subtitle mb-2 text-muted">Availability Status</h6>
-    <p class="card-text">Car Details go here...</p>
-    <a href="#" class="card-link">More Details</a>
-    </div>
-    </div>
-
-    </div>
-  
-</div>
-
-
-</div>
-
-<script type="text/javascript" src="JS/search.js"></script>
 
 </body>
+
+<script type="text/javascript" src="JS/home.js"></script>
+
 </html>
