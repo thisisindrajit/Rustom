@@ -23,6 +23,22 @@ $output = "<div class='row'>";
 while($row = $result->fetch_array(MYSQLI_ASSOC))
 {
 
+//setting link 
+if($row["cartype"]==='new')
+{
+    $link="newcar.php?carid=".$row["carid"];
+}
+
+else if($row["cartype"]==='resale')
+{
+    $link="resalecar.php?carid=".$row["carid"];
+}
+
+else
+{
+    $link="rentalcar.php?carid=".$row["carid"];
+}
+
 $output .= '
 
 <div class="col-sm-3">
@@ -32,7 +48,7 @@ $output .= '
 <img src="'.$row["images"].'" class="card-img-top" alt="Car image">
 <div class="card-body">
 <h5 class="card-title">'.$row["name"].'</h5>
-<h6 class="card-subtitle mb-2">'.$row["status"].' | TYPE : '.$row["cartype"].'</h6><hr><a href="#" class="card-link">More Details</a>
+<h6 class="card-subtitle mb-2">'.$row["status"].' | TYPE : '.$row["cartype"].'</h6><hr><a href="'.$link.'" class="card-link">More Details</a>
 </div>
 </div>
 </div>';

@@ -117,8 +117,6 @@ li
 
 </style>
 
-<script type="text/javascript" src="JS/home.js"></script>
-
 <body onload="getcardetails()">
 
 <div class="container-fluid text-white py-3" style="background-color:black;position:fixed;z-index:5;top:0;display:flex;align-items:center">
@@ -147,7 +145,7 @@ li
   </svg>
     
   </span>
-  <input type="text" id="query" class="form-control shadow-none" placeholder="Search for Cars..." onkeyup="searchcars()" style="border-color:#C39BD3;border-radius:0;border-left:none">
+  <input type="text" id="query" class="form-control shadow-none" placeholder="Search for Cars..." onkeyup="searchcars()" onclick="searchcars()" style="border-color:#C39BD3;border-radius:0;border-left:none">
 </div>
 
 
@@ -166,4 +164,7 @@ li
 </div>
 
 </body>
+
+<script type="text/javascript" src="JS/home.js"></script>
+
 </html>

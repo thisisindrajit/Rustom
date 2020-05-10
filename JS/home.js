@@ -36,7 +36,7 @@ function getcardetails()
                     card += "<li>"+result[x].features[i]+"</li>";
                 }
 
-                card +="<hr><a href='#' class='card-link'>More Details</a>"+
+                card +="<hr><a href='"+result[x].link+"' class='card-link'>More Details</a>"+
                 "</div>"+
                 "</div>"+
                 "</div>";
@@ -49,7 +49,6 @@ function getcardetails()
     cardetails.open("GET","cardetails.php",true);
     cardetails.send();
 }
-
 
 function searchcars()
 {
