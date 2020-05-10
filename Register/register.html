@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Register | Rustom</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+ <!--Google Fonts-->
+ <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+    <!--BOOTSTRAP CDN-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<head>
+<style>
+body,html{
+    height: 100%;
+}
+.bg{
+    background-image: url('Rolls-Royce bg.jpg') ;
+    height: 100%;
+
+    filter:blur(6px);
+    -webkit-filter: blur(6px);
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: scroll;
+
+    z-index:-1;
+}
+
+.container{    
+    height: 100%;
+    width: 60%;
+    text-align: center;
+    z-index: 1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: black;
+    opacity: 0.7;
+    color: white;
+}
+form{
+    border: 10px double white;
+    height: 50%;
+    align : center;
+}
+#select{
+    display: grid;
+    position: relative;
+    top: 20%;
+    left: 15%;
+    grid-template-columns: 300px 300px;
+    grid-template-rows: 70px 300px;
+    justify-items: center;
+}
+.container img{
+    border: 2px;
+    border-radius: 50%;
+    height: 200px;
+    width: 200px;
+    background-color: white;
+}
+#customer:hover , #dealer:hover{
+    transform: scale(1.2);
+}
+
+#customer_register{
+    position: absolute;
+    top:20%;
+    height: 100%;
+    width: 95%;
+    display: none;
+}
+#dealer_register{
+    position: absolute;
+    top: 20%;
+    height: 100%;
+    width: 95%;
+    display:none;
+}
+</style>
+<body>
+
+<div class = "bg"></div>
+
+<div class= "container">
+        <h1>Time to move!</h1>
+        <h2>Rustom Registration</h2>
+        <div id="select">
+            <h3>Customer</h3>
+            <h3>Dealer</h3>
+            <img id="customer" onclick="customer()" src="../customer.png">
+            <img id="dealer" onclick="dealer()" src="../dealer.png">
+        </div>
+        
+        <!--Customer Registration-->
+        <form id="customer_register" action="customer_register.php" method="post">
+            <h3>Customer Registration</h3>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" name="C_name" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" name="C_email" aria-describedby="emailHelp" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" class="form-control" name="C_DOB" placeholder="Date of Birth">
+            </div>
+            <div class="form-group">
+                <label for="phone_no">Phone Number</label>
+                <input type="text" class="form-control" name="C_phoneNo" placeholder="Phone Number">
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" class="form-control" name="C_address" placeholder="Address">
+            </div>
+            <div class="form-group">
+                <label for="drivinglicense">Driving License</label>
+                <input type="text" class="form-control" name="C_drivingLicense" placeholder="Driving License">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" name="C_password" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        
+        <!--Dealer Registration-->
+        <form id="dealer_register" action="dealer_register.php" method="post">
+            <h3>Dealer Registration</h3>
+            <div class="form-group">
+                <label for="name">Dealer Name</label>
+                <input type="text" class="form-control" name="D_name" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" name="D_email" aria-describedby="emailHelp" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label for="phone_no">Phone Number</label>
+                <input type="text" class="form-control" name="phone_no" placeholder="Phone Number">
+            </div>
+            <div class="form-group">
+                <label for="website">Website</label>
+                <input type="url" class="form-control" name="website" placeholder="Website">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" name="D_password" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+</div>
+</body>
+<script src="register.js"></script>
+</html>
+
