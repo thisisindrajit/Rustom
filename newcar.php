@@ -12,6 +12,17 @@ owns.carid=car.carid and owns.dealerid=dealer.dealerid and car.carid=newcar.newc
 $result1 = mysqli_query($conn,$query1);
 $firstquery = mysqli_fetch_assoc($result1);
 
+//second query to get the features of the car
+$query2 = "select features from features where carid=$carid";
+
+$result2 = mysqli_query($conn,$query2);
+
+//third query to get the images of the car
+$query3 = "select images from images where carid=$carid";
+
+$result3 = mysqli_query($conn,$query3);
+
+
 
 ?>
 
@@ -52,11 +63,103 @@ $firstquery = mysqli_fetch_assoc($result1);
     margin:auto;
 }
 
-</style>
+.image
+{
+  height:500px;
+  margin:0.5% 0.5%;
+  width:49%;
+  object-fit:cover;
+  overflow:hidden;
+}
 
+.image img
+{
+  height:500px;
+}
+
+#overlay {
+  position: fixed;
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+  justify-content:center;
+  height:100%;
+  opacity:0;
+  margin-top:50px;
+  width:100%;
+  top:0;
+  background-color:black;
+  z-index:-1;
+}
+
+#modal
+{
+  height:450px;
+  min-width:80%;
+  max-width:80%;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+#modal img {
+  height:450px;
+}
+
+/*#close
+{
+  background-color:red;
+  width:fit-content;
+  color:gre
+}*/
+
+@media screen and (max-width:1000px)
+{
+
+#modal
+{
+  height:350px;
+}
+
+#modal img {
+  height:350px;
+}
+
+
+}
+
+@media screen and (max-width:600px)
+{
+
+#modal
+{
+  height:200px;
+}
+
+#modal img {
+  height:200px;
+}
+
+
+}
+
+
+
+@media screen and (max-width:1200px)
+{
+.image
+{
+  width:99%;
+}
+
+}
+
+</style>
 
 <body>
 
+<div id="overlay"></div>
 
 <div class="container-fluid text-white py-3" style="background-color:black;position:fixed;z-index:5;top:0;display:flex;align-items:center">
 
@@ -139,22 +242,48 @@ $firstquery = mysqli_fetch_assoc($result1);
   
   
   <div class="tab-pane fade" id="nav-features" role="tabpanel" aria-labelledby="nav-features-tab">
+  <ul class="list-group" style="margin-top:15px">
   
+  <?php
+    while($features=mysqli_fetch_assoc($result2))
+    {
+    ?>
+
+  <li class="list-group-item">
+  <h5 class="mb-1"><?php echo $features["features"]?></h5>
+  <p class="mb-1">Detailed descripton of the feature will go here. (Feature coming soon!)</p>
+  </li>
+
+  <?php
+    }
+  ?>
   
-  
-  
+  </ul>
   
   
   </div>
+
   <div class="tab-pane fade" id="nav-gallery" role="tabpanel" aria-labelledby="nav-gallery-tab">
   
+  <div class="container" style="margin:15px 0;min-width:100%">
+  <div class="row">
   
+  <?php
+    while($images=mysqli_fetch_assoc($result3))
+    {
+    ?>
   
+  <div class="image">
+  <img src="<?php echo $images["images"]?>" alt="car_image" onclick="showimage(event)">
+  </div>
   
-  
-  
-  
-  
+  <?php
+    }
+
+    ?>
+
+  </div>
+  </div>
   
   
   </div>
@@ -175,6 +304,23 @@ function gotodash()
 $('#myTab a').on('click', function (e) {
   $(this).tab('show');
 })
+
+function showimage(event)
+{
+  $('#overlay').css('opacity','1');
+  $('#overlay').css('z-index','5');
+
+  var div = '<div id="modal" style="opacity:1"><img src="'+event.target.src+'"></div>'+'<button type="button" id="close" class="btn btn-danger" style="margin-top:5px" onclick="closeimage()">Close</button>';
+  $('#overlay').append(div);
+}
+
+function closeimage()
+{
+  $('#overlay').css('opacity','0');
+  $('#overlay').css('z-index','-1');
+  $('#modal').remove();
+  $('#close').remove();
+}
 
 
 </script>
