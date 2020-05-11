@@ -6,7 +6,7 @@ $carid = $_REQUEST["carid"];
 
 //first query to select all car and its dealer details
 $query1 = "select Name,Dname,Mname,manufacturer.phoneno as mph,manufacturer.location as mloc,manufacturer.email as memail,manufacturer.website as mweb,dealer.phoneno as dph,d_email,dealer.website as dweb,mileage,color,status,
-fueltype,licenseplateno,Price from car inner join newcar inner join manufacturer inner join owns inner join dealer where car.manufacturerid=manufacturer.manufacturerid and 
+fueltype,Price from car inner join newcar inner join manufacturer inner join owns inner join dealer where car.manufacturerid=manufacturer.manufacturerid and 
 owns.carid=car.carid and owns.dealerid=dealer.dealerid and car.carid=newcar.newcarid and car.carid=$carid";
 
 $result1 = mysqli_query($conn,$query1);
@@ -120,8 +120,11 @@ $result3 = mysqli_query($conn,$query3);
 
   .photo {
     overflow:hidden;
-    height:500px;
     transition: transform .5s ease-in-out;
+  }
+
+  .photo img {
+    height:500px;
   }
 
 /*#close
@@ -145,8 +148,6 @@ $result3 = mysqli_query($conn,$query3);
   height:350px;
 }
 
-
-
 }
 
 @media screen and (max-width:600px)
@@ -154,7 +155,17 @@ $result3 = mysqli_query($conn,$query3);
 
 #modal,#modal img,.image,.image img
 {
-  height:200px;
+  height:250px;
+}
+
+}
+
+@media screen and (max-width:400px)
+{
+
+#modal,#modal img,.image,.image img
+{
+  height:175px;
 }
 
 }
@@ -215,6 +226,7 @@ $result3 = mysqli_query($conn,$query3);
   <div class="card-body">
     <p class="card-text"><b>Car Name - </b><?php echo $firstquery["Name"]?></p>
     <p class="card-text"><b>Manufacturer - </b><?php echo $firstquery["Mname"]?></p>
+    <p class="card-text"><b>Type - </b><?php echo "New Car"?></p>
     <p class="card-text"><b>Color - </b><?php echo $firstquery["color"]?></p>
     <p class="card-text"><b>Mileage - </b><?php echo $firstquery["mileage"]." km/l" ?></p>
     <p class="card-text"><b>Fuel Type - </b><?php echo $firstquery["fueltype"]?></p>
@@ -331,7 +343,8 @@ function showimage(event)
 
   $('#overlay').append(div);
 
-$('.tile')
+
+  $('.tile')
     // tile mouse actions
     .on('mouseover', function(){
       $(this).children('.photo').css({'transform': 'scale('+ $(this).attr('data-scale') +')'});
@@ -347,7 +360,7 @@ $('.tile')
 
   else
   {
-
+    
     var div = '<div id="modal" style="opacity:1"><img src="'+event.target.src+'"></div>'+'<button type="button" id="close" class="btn btn-danger" style="margin-top:5px" onclick="closeimage()">Close</button>';
     $('#overlay').append(div);
 
