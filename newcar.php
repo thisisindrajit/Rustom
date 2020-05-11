@@ -65,7 +65,7 @@ $result3 = mysqli_query($conn,$query3);
 
 .image
 {
-  height:500px;
+  height:475px;
   margin:0.5% 0.5%;
   width:49%;
   object-fit:cover;
@@ -74,7 +74,7 @@ $result3 = mysqli_query($conn,$query3);
 
 .image img
 {
-  height:500px;
+  height:475px;
 }
 
 #overlay {
@@ -94,7 +94,7 @@ $result3 = mysqli_query($conn,$query3);
 
 #modal
 {
-  height:450px;
+  height:475px;
   min-width:80%;
   max-width:80%;
   overflow:hidden;
@@ -104,27 +104,47 @@ $result3 = mysqli_query($conn,$query3);
 }
 
 #modal img {
-  height:450px;
+  height:475px;
 }
+
+
+.tile {
+    height:500px;
+    min-width:60%;
+    max-width:60%;
+    overflow: hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .photo {
+    overflow:hidden;
+    height:500px;
+    transition: transform .5s ease-in-out;
+  }
 
 /*#close
 {
   background-color:red;
   width:fit-content;
-  color:gre
 }*/
+
+
 
 @media screen and (max-width:1000px)
 {
 
-#modal
+#carname
+{
+  font-size:40px;
+}
+
+#modal,#modal img,.image,.image img
 {
   height:350px;
 }
 
-#modal img {
-  height:350px;
-}
 
 
 }
@@ -132,22 +152,16 @@ $result3 = mysqli_query($conn,$query3);
 @media screen and (max-width:600px)
 {
 
-#modal
+#modal,#modal img,.image,.image img
 {
   height:200px;
 }
 
-#modal img {
-  height:200px;
 }
-
-
-}
-
-
 
 @media screen and (max-width:1200px)
 {
+
 .image
 {
   width:99%;
@@ -178,7 +192,7 @@ $result3 = mysqli_query($conn,$query3);
 
 <div class="jumbotron jumbotron-fluid" style="margin-top:80px">
   <div class="container">
-    <h1 class="display-4 text-center"><?php echo $firstquery["Name"] ?></h1>
+    <h1 id="carname" class="display-4 text-center"><?php echo $firstquery["Name"] ?></h1>
     <p class="lead text-center">Dealer - <a href="#"><?php echo $firstquery["Dname"] ?></a></p>
   </div>
 </div>
@@ -265,7 +279,7 @@ $result3 = mysqli_query($conn,$query3);
 
   <div class="tab-pane fade" id="nav-gallery" role="tabpanel" aria-labelledby="nav-gallery-tab">
   
-  <div class="container" style="margin:15px 0;min-width:100%">
+  <div class="container" style="min-width:100%;margin:15px 0">
   <div class="row">
   
   <?php
@@ -276,7 +290,7 @@ $result3 = mysqli_query($conn,$query3);
   <div class="image">
   <img src="<?php echo $images["images"]?>" alt="car_image" onclick="showimage(event)">
   </div>
-  
+
   <?php
     }
 
@@ -310,16 +324,53 @@ function showimage(event)
   $('#overlay').css('opacity','1');
   $('#overlay').css('z-index','5');
 
-  var div = '<div id="modal" style="opacity:1"><img src="'+event.target.src+'"></div>'+'<button type="button" id="close" class="btn btn-danger" style="margin-top:5px" onclick="closeimage()">Close</button>';
+
+  if($( window ).width() >= 1000)
+  {
+  var div = '<div class="tile" data-scale="2"><div class="photo"><img src="'+event.target.src+'"></div></div>' + '<button type="button" id="close" class="btn btn-danger" style="margin-top:5px" onclick="closeimage()">Close</button>';
+
   $('#overlay').append(div);
+
+$('.tile')
+    // tile mouse actions
+    .on('mouseover', function(){
+      $(this).children('.photo').css({'transform': 'scale('+ $(this).attr('data-scale') +')'});
+    })
+    .on('mouseout', function(){
+      $(this).children('.photo').css({'transform': 'scale(1)'});
+    })
+    .on('mousemove', function(e){
+      $(this).children('.photo').css({'transform-origin': ((e.pageX - $(this).offset().left) / $(this).width()) * 100 + '% ' + ((e.pageY - $(this).offset().top) / $(this).height()) * 100 +'%'});
+    })
+
+  }
+
+  else
+  {
+
+    var div = '<div id="modal" style="opacity:1"><img src="'+event.target.src+'"></div>'+'<button type="button" id="close" class="btn btn-danger" style="margin-top:5px" onclick="closeimage()">Close</button>';
+    $('#overlay').append(div);
+
+  }
 }
 
 function closeimage()
 {
   $('#overlay').css('opacity','0');
   $('#overlay').css('z-index','-1');
+
+  if($( window ).width() >= 1000)
+  {
+  $('.tile').remove();
+  $('.photo').remove();
+  $('#close').remove();
+  }
+
+  else
+  {
   $('#modal').remove();
   $('#close').remove();
+  }
 }
 
 
