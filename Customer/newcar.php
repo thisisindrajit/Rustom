@@ -1,10 +1,10 @@
 <?php
 
-include("dbconnect.php");
 session_start();
-include("login/session_check.php");
+include("../dbconnect.php");
+
 $carid = $_REQUEST["carid"];
-$cusid = $_REQUEST["cusid"];
+$cusid = $_SESSION['userid'];
 
 //first query to select all car and its dealer details
 $query1 = "select Name,Dname,Mname,manufacturer.phoneno as mph,manufacturer.location as mloc,manufacturer.email as memail,manufacturer.website as mweb,dealer.phoneno as dph,d_email,dealer.website as dweb,mileage,color,status,
@@ -74,7 +74,6 @@ $result3 = mysqli_query($conn,$query3);
 #list a
 {
     font-weight:350;
-    width:280px;
     text-align:center;
     color:white;
     font-size:1.5rem;
@@ -267,7 +266,7 @@ $result3 = mysqli_query($conn,$query3);
 </div>
 
 
-<a id="logout" href="../index.html">
+<a id="logout" href="../Login/logout.php">
 <svg id="person" class="bi bi-x-square" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" d="M14 1H2a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V2a1 1 0 00-1-1zM2 0a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2H2z" clip-rule="evenodd"/>
   <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>

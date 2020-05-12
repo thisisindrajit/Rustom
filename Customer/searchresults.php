@@ -1,6 +1,6 @@
 <?php
 
-include("dbconnect.php");
+include("../dbconnect.php");
 
 $query = '%'.$_POST["query"].'%';
 $cusid = $_POST["cusid"];
@@ -28,17 +28,17 @@ while($row = $result->fetch_array(MYSQLI_ASSOC))
 
 if($row["cartype"]==='new')
 {
-    $link="newcar.php?cusid=".$cusid."&carid=".$row["carid"];
+    $link="newcar.php?carid=".$row["carid"];
 }
 
 else if($row["cartype"]==='resale')
 {
-    $link="resalecar.php?cusid=".$cusid."&carid=".$row["carid"];
+    $link="resalecar.php?carid=".$row["carid"];
 }
 
 else
 {
-    $link="rentalcar.php?cusid=".$cusid."&carid=".$row["carid"];
+    $link="rentalcar.php?carid=".$row["carid"];
 }
 
 $output .= '

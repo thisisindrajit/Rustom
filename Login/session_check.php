@@ -1,9 +1,8 @@
 <?php
 
 session_start();
-if(!isset($_SESSION['logged_in']))
+if(isset($_SESSION['logged_in'])) //user has already logged in previously
 {
-    header('location: Login/login.php');
     /*include('dbconnect.php');
     $email_check = $_SESSION['email'];
     if($_SESSION['usertype'] == "customer")
@@ -24,6 +23,15 @@ if(!isset($_SESSION['logged_in']))
             header('location: Login/login.php');
         }
     }*/
+
+    if($_SESSION['usertype'] == "customer") //if last logged in user was a customer
+    {
+        header('location: Customer/index.php');
+    }
+
+    else
+    {
+        header('location: Dealer/index.php');
+    }
 }
 ?>
-

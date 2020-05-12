@@ -1,3 +1,9 @@
+<?php
+
+include("Login/session_check.php"); //checking whether to redirect the user to his/her account if previously logged in
+
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -21,6 +27,16 @@
 #header a
 {
     font-size: 22.5px;
+}
+
+#loginbut,#loginbut:hover,#loginbut:focus,#loginbut:visited
+{
+    padding:3.5px 7.5px;
+    border-radius:2.5px;
+    border:none;
+    background-color: rgba(114,22,77,0.9);
+    text-decoration:none;
+    color:white;
 }
 
 
@@ -59,7 +75,7 @@
 <body>
     <nav class="navbar navbar-light navbar-expand bg-light navigation-clean">
         <div class="container" id="header"><a class="navbar-brand" href="#" style="color: rgba(114,22,77,0.9)">RUSTOM <span style="color:black">Car Dealership</span></a>
-                <div class="collapse navbar-collapse" id="navcol-1"><a class="btn btn-primary ml-auto" role="button" href="Login/login.php" style="border:none;background-color: rgba(114,22,77,0.9);">Sign in</a></div>
+                <div class="collapse navbar-collapse" id="navcol-1"><a class="ml-auto" id="loginbut" href="Login/login.php">Sign in</a></div>
         </div>
     </nav>
     <header class="masthead text-white text-center" style="background: url('assets/img/bg-neon.jpg')no-repeat center center;background-size: cover;">

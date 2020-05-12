@@ -27,7 +27,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         $result = mysqli_query($conn, $update);
         if($result)
         {
-            header("Location: ../Customer/index.php?");
+            header("location: ../Customer/index.php");
         }
     }
     else
@@ -53,7 +53,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
             $result = mysqli_query($conn, $update);
             if($result)
             {
-                header("Location: ../Dealer/index.php?");
+                header("location: ../Dealer/index.php"); //create a new folder named Dealer and set dashboard's name as index.php
             }
         }
         else
@@ -68,7 +68,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 <html>
 <head>
 <title>Rustom - Login</title>
-<link rel="icon" href="../logo.ico">
+<link rel="icon" href="../icon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
  <!--Google Fonts-->
