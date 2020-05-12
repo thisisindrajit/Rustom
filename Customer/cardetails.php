@@ -1,6 +1,6 @@
 <?php
 
-include("dbconnect.php");
+include("../dbconnect.php");
 
 $cusid = $_GET["cusid"];
 
@@ -17,17 +17,17 @@ if($result = $conn->query($query))
         //setting link 
         if($row["cartype"]==='new')
         {
-            $row["link"]="newcar.php?cusid=".$cusid."&carid=".$row["carid"];
+            $row["link"]="newcar.php?carid=".$row["carid"];
         }
 
         else if($row["cartype"]==='resale')
         {
-            $row["link"]="resalecar.php?cusid=".$cusid."&carid=".$row["carid"];
+            $row["link"]="resalecar.php?carid=".$row["carid"];
         }
 
         else
         {
-            $row["link"]="rentalcar.php?cusid=".$cusid."&carid=".$row["carid"];
+            $row["link"]="rentalcar.php?carid=".$row["carid"];
         }
 
 

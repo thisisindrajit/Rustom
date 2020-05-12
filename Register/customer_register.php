@@ -81,7 +81,7 @@ if($stmt = mysqli_prepare($conn, $customer_login))
             $_SESSION['email'] = $email;
             $_SESSION['usertype'] = 'customer';
             $_SESSION['logged_in'] = true;
-            header("Location: ../Customer/index.php?cusid=".$cusid); //moving in to customer dashboard
+            header("Location: ../Customer/index.php"); //moving in to customer dashboard
         }
         else
         {
