@@ -1,10 +1,8 @@
 <?php
 session_start();
-if(isset($_POST['logout']))
-{
-    if(session_destroy()) {
-        header("Location: ../Rustom/Rustom.html");
-     }
+
+if(session_destroy()) {
+        header("Location: ../index.php");
 }
 ?>
 

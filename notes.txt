@@ -24,6 +24,8 @@ uploadedtime attr in Car table - used to sort cars based on the time they were a
 car types can be either new,resale or rental
 status can be available or unavailable
 
+after registration redirect to login page
+
 _________________________________________________________
 
 for cloning a repo:
