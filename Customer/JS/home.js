@@ -19,6 +19,7 @@ function getcardetails(cusid)
 
         if(this.readyState===4&&this.status===200)
         {
+            document.getElementsByClassName("row")[0].innerHTML='';   
             result = JSON.parse(this.responseText);
 
             for(x=0;x<result.length;x++)
@@ -43,6 +44,11 @@ function getcardetails(cusid)
 
                 document.getElementsByClassName("row")[0].innerHTML += card;
             }
+        }
+
+        else
+        {
+                document.getElementsByClassName("row")[0].innerHTML='<div style="width:100%;border:1px solid #C39BD3;margin-top:15px;padding:10px 0;text-align:center;font-size:1.2rem;font-weight:lighter;color:#C39BD3">Loading!</div>';
         }
     };
 
@@ -82,3 +88,4 @@ function searchcars(cusid)
 
     }
 }
+    
