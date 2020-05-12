@@ -2,6 +2,8 @@
 
 include("dbconnect.php");
 
+$cusid = $_GET["cusid"];
+
 $query="select car.carid,name,cartype,status,images from car inner join images where car.carid=images.carid and
  images=(select images from images where carid=car.carid limit 1) order by uploadedtime desc"; //to select cars along with its status
 
@@ -15,17 +17,17 @@ if($result = $conn->query($query))
         //setting link 
         if($row["cartype"]==='new')
         {
-            $row["link"]="newcar.php?carid=".$row["carid"];
+            $row["link"]="newcar.php?cusid=".$cusid."&carid=".$row["carid"];
         }
 
         else if($row["cartype"]==='resale')
         {
-            $row["link"]="resalecar.php?carid=".$row["carid"];
+            $row["link"]="resalecar.php?cusid=".$cusid."&carid=".$row["carid"];
         }
 
         else
         {
-            $row["link"]="rentalcar.php?carid=".$row["carid"];
+            $row["link"]="rentalcar.php?cusid=".$cusid."&carid=".$row["carid"];
         }
 
 

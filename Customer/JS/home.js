@@ -11,7 +11,7 @@ function createreqobj() {
     return xhttp;
 }
 
-function getcardetails()
+function getcardetails(cusid)
 {
     var cardetails = createreqobj();
 
@@ -21,12 +21,12 @@ function getcardetails()
         {
             result = JSON.parse(this.responseText);
 
-            for(var x in result)
+            for(x=0;x<result.length;x++)
             {
                 var card = "<div class='col-sm-3'>"+
       
                 "<div class='card'>"+
-                "<img src='"+result[x].images+"' class='card-img-top' alt='Car image'>"+
+                "<img src='../"+result[x].images+"' class='card-img-top' alt='Car image'>"+
                 "<div class='card-body'>"+
                 "<h5 class='card-title'>"+result[x].name+"</h5>"+
                 "<h6 class='card-subtitle mb-2'>"+result[x].status+" | TYPE : "+result[x].cartype+"</h6>";
@@ -46,11 +46,11 @@ function getcardetails()
         }
     };
 
-    cardetails.open("GET","cardetails.php",true);
+    cardetails.open("GET","cardetails.php?cusid="+cusid,true);
     cardetails.send();
 }
 
-function searchcars()
+function searchcars(cusid)
 {
     var searchbox=document.getElementsByClassName("searchbox")[0];
     var query=document.getElementById("query").value;
@@ -74,7 +74,7 @@ function searchcars()
             }
         };
 
-        var param='query='+query;
+        var param='query='+query+'&cusid='+cusid;
 
         searchresults.open("POST","searchresults.php",true);
         searchresults.setRequestHeader("Content-type","application/x-www-form-urlencoded");

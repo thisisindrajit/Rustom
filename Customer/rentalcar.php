@@ -3,11 +3,12 @@
 include("dbconnect.php");
 
 $carid = $_REQUEST["carid"];
+$cusid = $_REQUEST["cusid"];
 
 //first query to select all car and its dealer details
-$query1 = "select Name,Dname,Mname,manufacturer.phoneno as mph,manufacturer.location as mloc,manufacturer.email as memail,manufacturer.website as mweb,dealer.phoneno as dph,d_email,
-dealer.website as dweb,mileage,color,status,fueltype,licenseplateno,resaleprice,kmdriven from car inner join preownedcar inner join manufacturer inner join owns inner join dealer where car.manufacturerid=manufacturer.manufacturerid and 
-owns.carid=car.carid and owns.dealerid=dealer.dealerid and car.carid=preownedcar.preownedcarid and car.carid=$carid";
+$query1 = "select Name,Dname,Mname,dealer.phoneno as dph,d_email,
+dealer.website as dweb,mileage,color,status,fueltype,licenseplateno,rentamount from car inner join rentalcar inner join manufacturer inner join owns inner join dealer where
+car.manufacturerid=manufacturer.manufacturerid and owns.carid=car.carid and owns.dealerid=dealer.dealerid and car.carid=rentalcar.rentalcarid and car.carid=$carid";   
 
 $result1 = mysqli_query($conn,$query1);
 $firstquery = mysqli_fetch_assoc($result1);
@@ -30,7 +31,7 @@ $result3 = mysqli_query($conn,$query3);
     <title>Rustom - <?php echo $firstquery["Name"]?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <link rel="icon" href="logo.ico">
+    <link rel="icon" href="../icon.ico">
     <!--Google Fonts-->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
     <!--BOOTSTRAP CDN-->
@@ -195,7 +196,7 @@ $result3 = mysqli_query($conn,$query3);
   <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
 </svg>
 
-<img src="logow.png" onclick="gotodash()" height="50px" style="margin:auto;cursor:pointer">
+<img src="../logow.png" onclick="gotodash(<?php echo $cusid ?>)" height="50px" style="margin:auto;cursor:pointer">
 
 </div>
 
@@ -224,20 +225,19 @@ $result3 = mysqli_query($conn,$query3);
   <div class="card-body">
     <p class="card-text"><b>Car Name - </b><?php echo $firstquery["Name"]?></p>
     <p class="card-text"><b>Manufacturer - </b><?php echo $firstquery["Mname"]?></p>
-    <p class="card-text"><b>Type - </b><?php echo "Resale Car"?></p>
+    <p class="card-text"><b>Type - </b><?php echo "Rental Car"?></p>
     <p class="card-text"><b>Color - </b><?php echo $firstquery["color"]?></p>
     <p class="card-text"><b>Mileage - </b><?php echo $firstquery["mileage"]." km/l" ?></p>
     <p class="card-text"><b>Fuel Type - </b><?php echo $firstquery["fueltype"]?></p>
-    
+
     <p class="card-text"><b>License plate no</b>
     
     <li class="list-group-item list-group-item-warning" style="width:400px;text-align:center"><?php echo $firstquery["licenseplateno"]?></li>
 
     </p>
 
-    <p class="card-text"><b>Kilometers driven - </b><?php echo $firstquery["kmdriven"]?></p>
-    <p class="card-text"><b>Resale Price - </b><?php echo "Rs ".$firstquery["resaleprice"]?></p>
-    <button type="button" class="btn btn-primary">Buy this car</button>
+    <p class="card-text"><b>Rent amount - </b><?php echo "Rs ".$firstquery["rentamount"]. " per hour" ?></p>
+    <button type="button" class="btn btn-primary">Rent this car</button>
     <button type="button" class="btn btn-outline-info">Add to wishlist</button>
 
   </div>
@@ -255,20 +255,6 @@ $result3 = mysqli_query($conn,$query3);
   </div>
 
   </div>
-
-  <div class="card bg-light mb-3" style="margin-top:15px">
-  <div class="card-header">Manufacturer Details</div>
-  <div class="card-body">
-    <p class="card-text"><b>Manufacturer Name - </b><?php echo $firstquery["Mname"]?></p>
-    <p class="card-text"><b>Phone no - </b><?php echo $firstquery["mph"]?></p>
-    <p class="card-text"><b>Email - </b><?php echo $firstquery["memail"]?></p>
-    <p class="card-text"><b>Website - </b><a href="<?php echo $firstquery["mweb"]?>" target="_blank"><?php echo $firstquery["mweb"]?></a></p>
-
-  </div>
-
-  </div>
-  
-  
   
   </div>
   
@@ -328,9 +314,9 @@ $result3 = mysqli_query($conn,$query3);
 
 <script type="text/javascript">
 
-function gotodash()
+function gotodash(cusid)
 {
-    window.location.href="index.php";
+    window.location.href="index.php?cusid="+cusid;
 }
 
 $('#myTab a').on('click', function (e) {

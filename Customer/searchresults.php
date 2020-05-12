@@ -3,6 +3,7 @@
 include("dbconnect.php");
 
 $query = '%'.$_POST["query"].'%';
+$cusid = $_POST["cusid"];
  
 $stmt = $conn->prepare("select car.carid,name,cartype,status,images from car inner join images where car.carid=images.carid and images=(select images from images where carid=car.carid limit 1) and name like ?");
 $stmt->bind_param("s",$query);
@@ -24,19 +25,20 @@ while($row = $result->fetch_array(MYSQLI_ASSOC))
 {
 
 //setting link 
+
 if($row["cartype"]==='new')
 {
-    $link="newcar.php?carid=".$row["carid"];
+    $link="newcar.php?cusid=".$cusid."&carid=".$row["carid"];
 }
 
 else if($row["cartype"]==='resale')
 {
-    $link="resalecar.php?carid=".$row["carid"];
+    $link="resalecar.php?cusid=".$cusid."&carid=".$row["carid"];
 }
 
 else
 {
-    $link="rentalcar.php?carid=".$row["carid"];
+    $link="rentalcar.php?cusid=".$cusid."&carid=".$row["carid"];
 }
 
 $output .= '
@@ -45,7 +47,7 @@ $output .= '
     
 <div class="card">
 
-<img src="'.$row["images"].'" class="card-img-top" alt="Car image">
+<img src="../'.$row["images"].'" class="card-img-top" alt="Car image">
 <div class="card-body">
 <h5 class="card-title">'.$row["name"].'</h5>
 <h6 class="card-subtitle mb-2">'.$row["status"].' | TYPE : '.$row["cartype"].'</h6><hr><a href="'.$link.'" class="card-link">More Details</a>

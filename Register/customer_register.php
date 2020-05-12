@@ -58,10 +58,18 @@ if($stmt = mysqli_prepare($conn, $customer_login))
         
         $login_time = "UPDATE CUSTOMER_LOGIN SET lastloggedintime = CURRENT_TIMESTAMP() WHERE C_Email = '" . $c_email . "'" ;
         $retval = mysqli_query($conn, $login_time);
+
+        $get_cus_id = "SELECT customerid FROM Customer where customername='$c_name'";
+        $result =  mysqli_query($conn, $get_cus_id);
+        $resfet = mysqli_fetch_assoc($result);
+
+        $cusid = $resfet["customerid"];
+
+        
         if($retval)
         {
             echo "Update Successfully";
-            header("Location: ../index.php");
+            header("Location: ../Customer/index.php?cusid=".$cusid); //moving in to customer dashboard
         }
         else
         {
