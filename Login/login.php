@@ -68,19 +68,112 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 <html>
 <head>
 <title>Rustom - Login</title>
-<link rel="icon" href="../icon.ico">
+<link rel="icon" href="../logo.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
  <!--Google Fonts-->
- <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+ <link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet">
     <!--BOOTSTRAP CDN-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <head>
 <style>
+body,html
+{
+    height: 100%;
+    width:100%;
+    font-family: 'Titillium Web', sans-serif;
+    font-size:1.1rem;
+}
 
+body{
+    background-image: url('../Register/mclaren.jpg') ;
+    height: 100%;
+    width:100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment:fixed;
+    opacity: 0.8;
+}
+.container
+{
+    border-radius:5px;
+    height: fit-content;
+    width: 25%;
+    z-index:1;
+    top: 50%;
+    left:50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    background-color: black;
+    opacity: 1;
+}
+.main-logo
+{
+    width: 100%;
+    text-align: center;
+    padding-top:20px;
+    color: white;
+}
+#logo
+{
+    background-color:black;
+    width:120px;
+    border-radius:50%;
+}
+.main-header
+{
+    color: #333;
+    font-size: 30px;
+    font-weight: 300;
+    text-align: center;
+    text-shadow: none;
+    color: white;
+    padding: 10px;
+
+}
+.main
+{
+    font-size: 16px;
+    font-weight: 600;
+    margin:20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #d8dee2;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.19), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.btn-primary
+{
+    width: 100%;
+}
+@media only screen and (max-width: 800px) {
+    .container
+    {
+        width: 75%;
+    }
+}
+@media only screen and (max-width: 1000px) {
+    .container
+    {
+        width: 50%;
+    }
+}
+@media only screen and (max-width: 1200px) {
+    .container
+    {
+        width: 40%;
+    }
+}
 </style>
 <body>
-<div class= "container-fluid">
+<div class = "bg"></div>
+<div class="container">
+<div class="main-logo"> <img id="logo" height='90px' src="../logow.png" > </div>
+
+<div class="main-header"> Login to Rustom </div>
+
+<div class= "main">
 <form id="login" action="" method="post">
     <div class="form-group">
         <label for="email">Email address</label>
@@ -90,9 +183,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         <label for="password">Password</label>
         <input type="password" class="form-control" name="password" placeholder="Password" required>
     </div>
-    <button type="submit" name="submit" class="btn btn-primary">Login</button>
+    <div style="text-align: center;"><button type="submit" name="submit" class="btn btn-primary">Login</button></div>
 </form>
 </div>
 
+<div class="main" style="text-align: center;">
+    New to Rustom? <a href="../Register/register.html">Register here</a>
+</div>
+</div>
 </body>
 </html>
