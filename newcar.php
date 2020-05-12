@@ -6,11 +6,22 @@ $carid = $_REQUEST["carid"];
 
 //first query to select all car and its dealer details
 $query1 = "select Name,Dname,Mname,manufacturer.phoneno as mph,manufacturer.location as mloc,manufacturer.email as memail,manufacturer.website as mweb,dealer.phoneno as dph,d_email,dealer.website as dweb,mileage,color,status,
-fueltype,licenseplateno,Price from car inner join newcar inner join manufacturer inner join owns inner join dealer where car.manufacturerid=manufacturer.manufacturerid and 
+fueltype,Price from car inner join newcar inner join manufacturer inner join owns inner join dealer where car.manufacturerid=manufacturer.manufacturerid and 
 owns.carid=car.carid and owns.dealerid=dealer.dealerid and car.carid=newcar.newcarid and car.carid=$carid";
 
 $result1 = mysqli_query($conn,$query1);
 $firstquery = mysqli_fetch_assoc($result1);
+
+//second query to get the features of the car
+$query2 = "select features from features where carid=$carid";
+
+$result2 = mysqli_query($conn,$query2);
+
+//third query to get the images of the car
+$query3 = "select images from images where carid=$carid";
+
+$result3 = mysqli_query($conn,$query3);
+
 
 
 ?>
@@ -52,11 +63,128 @@ $firstquery = mysqli_fetch_assoc($result1);
     margin:auto;
 }
 
-</style>
+.image
+{
+  height:475px;
+  margin:0.5% 0.5%;
+  width:49%;
+  object-fit:cover;
+  overflow:hidden;
+}
 
+.image img
+{
+  height:475px;
+}
+
+#overlay {
+  position: fixed;
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+  justify-content:center;
+  height:100%;
+  opacity:0;
+  margin-top:50px;
+  width:100%;
+  top:0;
+  background-color:black;
+  z-index:-1;
+}
+
+#modal
+{
+  height:475px;
+  min-width:80%;
+  max-width:80%;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+#modal img {
+  height:475px;
+}
+
+
+.tile {
+    height:500px;
+    min-width:60%;
+    max-width:60%;
+    overflow: hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .photo {
+    overflow:hidden;
+    transition: transform .5s ease-in-out;
+  }
+
+  .photo img {
+    height:500px;
+  }
+
+/*#close
+{
+  background-color:red;
+  width:fit-content;
+}*/
+
+
+
+@media screen and (max-width:1000px)
+{
+
+#carname
+{
+  font-size:40px;
+}
+
+#modal,#modal img,.image,.image img
+{
+  height:350px;
+}
+
+}
+
+@media screen and (max-width:600px)
+{
+
+#modal,#modal img,.image,.image img
+{
+  height:250px;
+}
+
+}
+
+@media screen and (max-width:400px)
+{
+
+#modal,#modal img,.image,.image img
+{
+  height:175px;
+}
+
+}
+
+@media screen and (max-width:1200px)
+{
+
+.image
+{
+  width:99%;
+}
+
+}
+
+</style>
 
 <body>
 
+<div id="overlay"></div>
 
 <div class="container-fluid text-white py-3" style="background-color:black;position:fixed;z-index:5;top:0;display:flex;align-items:center">
 
@@ -75,7 +203,7 @@ $firstquery = mysqli_fetch_assoc($result1);
 
 <div class="jumbotron jumbotron-fluid" style="margin-top:80px">
   <div class="container">
-    <h1 class="display-4 text-center"><?php echo $firstquery["Name"] ?></h1>
+    <h1 id="carname" class="display-4 text-center"><?php echo $firstquery["Name"] ?></h1>
     <p class="lead text-center">Dealer - <a href="#"><?php echo $firstquery["Dname"] ?></a></p>
   </div>
 </div>
@@ -98,6 +226,7 @@ $firstquery = mysqli_fetch_assoc($result1);
   <div class="card-body">
     <p class="card-text"><b>Car Name - </b><?php echo $firstquery["Name"]?></p>
     <p class="card-text"><b>Manufacturer - </b><?php echo $firstquery["Mname"]?></p>
+    <p class="card-text"><b>Type - </b><?php echo "New Car"?></p>
     <p class="card-text"><b>Color - </b><?php echo $firstquery["color"]?></p>
     <p class="card-text"><b>Mileage - </b><?php echo $firstquery["mileage"]." km/l" ?></p>
     <p class="card-text"><b>Fuel Type - </b><?php echo $firstquery["fueltype"]?></p>
@@ -139,22 +268,48 @@ $firstquery = mysqli_fetch_assoc($result1);
   
   
   <div class="tab-pane fade" id="nav-features" role="tabpanel" aria-labelledby="nav-features-tab">
+  <ul class="list-group" style="margin-top:15px">
   
+  <?php
+    while($features=mysqli_fetch_assoc($result2))
+    {
+    ?>
+
+  <li class="list-group-item">
+  <h5 class="mb-1"><?php echo $features["features"]?></h5>
+  <p class="mb-1">Detailed descripton of the feature will go here. (Feature coming soon!)</p>
+  </li>
+
+  <?php
+    }
+  ?>
   
-  
-  
+  </ul>
   
   
   </div>
+
   <div class="tab-pane fade" id="nav-gallery" role="tabpanel" aria-labelledby="nav-gallery-tab">
   
+  <div class="container" style="min-width:100%;margin:15px 0">
+  <div class="row">
   
+  <?php
+    while($images=mysqli_fetch_assoc($result3))
+    {
+    ?>
   
-  
-  
-  
-  
-  
+  <div class="image">
+  <img src="<?php echo $images["images"]?>" alt="car_image" onclick="showimage(event)">
+  </div>
+
+  <?php
+    }
+
+    ?>
+
+  </div>
+  </div>
   
   
   </div>
@@ -175,6 +330,61 @@ function gotodash()
 $('#myTab a').on('click', function (e) {
   $(this).tab('show');
 })
+
+function showimage(event)
+{
+  $('#overlay').css('opacity','1');
+  $('#overlay').css('z-index','5');
+
+
+  if($( window ).width() >= 1000)
+  {
+  var div = '<div class="tile" data-scale="2"><div class="photo"><img src="'+event.target.src+'"></div></div>' + '<button type="button" id="close" class="btn btn-danger" style="margin-top:5px" onclick="closeimage()">Close</button>';
+
+  $('#overlay').append(div);
+
+
+  $('.tile')
+    // tile mouse actions
+    .on('mouseover', function(){
+      $(this).children('.photo').css({'transform': 'scale('+ $(this).attr('data-scale') +')'});
+    })
+    .on('mouseout', function(){
+      $(this).children('.photo').css({'transform': 'scale(1)'});
+    })
+    .on('mousemove', function(e){
+      $(this).children('.photo').css({'transform-origin': ((e.pageX - $(this).offset().left) / $(this).width()) * 100 + '% ' + ((e.pageY - $(this).offset().top) / $(this).height()) * 100 +'%'});
+    })
+
+  }
+
+  else
+  {
+    
+    var div = '<div id="modal" style="opacity:1"><img src="'+event.target.src+'"></div>'+'<button type="button" id="close" class="btn btn-danger" style="margin-top:5px" onclick="closeimage()">Close</button>';
+    $('#overlay').append(div);
+
+  }
+}
+
+function closeimage()
+{
+  $('#overlay').css('opacity','0');
+  $('#overlay').css('z-index','-1');
+
+  if($( window ).width() >= 1000)
+  {
+  $('.tile').remove();
+  $('.photo').remove();
+  $('#close').remove();
+  }
+
+  else
+  {
+  $('#modal').remove();
+  $('#close').remove();
+  }
+}
 
 
 </script>
