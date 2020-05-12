@@ -4,6 +4,7 @@ include("dbconnect.php");
 session_start();
 include("login/session_check.php");
 $carid = $_REQUEST["carid"];
+$cusid = $_REQUEST["cusid"];
 
 //first query to select all car and its dealer details
 $query1 = "select Name,Dname,Mname,manufacturer.phoneno as mph,manufacturer.location as mloc,manufacturer.email as memail,manufacturer.website as mweb,dealer.phoneno as dph,d_email,dealer.website as dweb,mileage,color,status,
@@ -33,7 +34,7 @@ $result3 = mysqli_query($conn,$query3);
     <title>Rustom - <?php echo $firstquery["Name"]?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <link rel="icon" href="logo.ico">
+    <link rel="icon" href="../icon.ico">
     <!--Google Fonts-->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
     <!--BOOTSTRAP CDN-->
@@ -50,12 +51,68 @@ $result3 = mysqli_query($conn,$query3);
     position:absolute;
     left:20px;
     margin-top:1px;
+    cursor:pointer;
 }
 
-#person
+#list
+{
+    position:fixed;
+    top:0;
+    height:100%;
+    z-index:20;
+    left:0;
+    background-color:#C39BD3;
+    width:0;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    transition:width 0.15s ease-in-out;
+}
+
+#list a
+{
+    font-weight:350;
+    width:280px;
+    text-align:center;
+    color:white;
+    font-size:1.5rem;
+    margin:5px 0;
+    transition:color 0.15s ease-in-out;
+}
+
+#list #active
+{
+    cursor:default;
+    color:#76448A;
+}
+
+#list a:hover
+{
+    color:#76448A;
+    text-decoration:none;
+}
+
+#list #closelist
+{
+    cursor:pointer;
+    background-color:#76448A;
+    width:fit-content;
+    position:absolute;
+    top:10px;
+    padding:5px;
+    display:flex;
+    align-items:center;
+    right:10px;
+}
+
+
+#header #logout
 {
     position:absolute;
     right:20px;
+    cursor:pointer;
 }
 
 #content
@@ -185,20 +242,40 @@ $result3 = mysqli_query($conn,$query3);
 
 <body>
 
+<div id="list">
+<div id="closelist" onclick="openlist()">
+<svg class="bi bi-chevron-left" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 010 .708L5.707 8l5.647 5.646a.5.5 0 01-.708.708l-6-6a.5.5 0 010-.708l6-6a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+</svg>
+</div>
+
+<a id="active">Home</a>
+<a href="#">Profile</a>
+<a href="#">My Purchases</a>
+<a href="#">Rented cars</a>
+
+</div>
+
 <div id="overlay"></div>
 
-<div class="container-fluid text-white py-3" style="background-color:black;position:fixed;z-index:5;top:0;display:flex;align-items:center">
+<div class="container-fluid text-white py-3"  id="header"  style="background-color:black;position:fixed;z-index:5;top:0;display:flex;align-items:center">
 
-<svg id="listicon" class="bi bi-list" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+<div id="listicon" onclick="openlist()">
+<svg class="bi bi-list" width="2em" height="2em" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" d="M2.5 11.5A.5.5 0 013 11h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zm0-4A.5.5 0 013 7h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zm0-4A.5.5 0 013 3h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5z" clip-rule="evenodd"/>
 </svg>
+</div>
 
 
-<svg id="person" class="bi bi-person-fill" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
+<a id="logout" href="../index.html">
+<svg id="person" class="bi bi-x-square" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M14 1H2a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V2a1 1 0 00-1-1zM2 0a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2H2z" clip-rule="evenodd"/>
+  <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+  <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="evenodd"/>
 </svg>
+</a>
 
-<img src="logow.png" onclick="gotodash()" height="50px" style="margin:auto;cursor:pointer">
+<img src="../logow.png" onclick="gotodash(<?php echo $cusid ?>)" height="50px" style="margin:auto;cursor:pointer">
 
 </div>
 
@@ -301,7 +378,7 @@ $result3 = mysqli_query($conn,$query3);
     ?>
   
   <div class="image">
-  <img src="<?php echo $images["images"]?>" alt="car_image" onclick="showimage(event)">
+  <img src="<?php echo "../".$images["images"]?>" alt="car_image" onclick="showimage(event)">
   </div>
 
   <?php
@@ -323,9 +400,9 @@ $result3 = mysqli_query($conn,$query3);
 
 <script type="text/javascript">
 
-function gotodash()
+function gotodash(cusid)
 {
-    window.location.href="index.php";
+    window.location.href="index.php?cusid="+cusid;
 }
 
 $('#myTab a').on('click', function (e) {
@@ -389,5 +466,6 @@ function closeimage()
 
 
 </script>
+<script type="text/javascript" src="JS/list.js"></script>
 
 </html>

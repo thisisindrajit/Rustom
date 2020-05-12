@@ -11,7 +11,7 @@ function createreqobj() {
     return xhttp;
 }
 
-function getcardetails()
+function getcardetails(cusid)
 {
     var cardetails = createreqobj();
 
@@ -19,14 +19,15 @@ function getcardetails()
 
         if(this.readyState===4&&this.status===200)
         {
+            document.getElementsByClassName("row")[0].innerHTML='';   
             result = JSON.parse(this.responseText);
 
-            for(var x in result)
+            for(x=0;x<result.length;x++)
             {
                 var card = "<div class='col-sm-3'>"+
       
                 "<div class='card'>"+
-                "<img src='"+result[x].images+"' class='card-img-top' alt='Car image'>"+
+                "<img src='../"+result[x].images+"' class='card-img-top' alt='Car image'>"+
                 "<div class='card-body'>"+
                 "<h5 class='card-title'>"+result[x].name+"</h5>"+
                 "<h6 class='card-subtitle mb-2'>"+result[x].status+" | TYPE : "+result[x].cartype+"</h6>";
@@ -44,13 +45,18 @@ function getcardetails()
                 document.getElementsByClassName("row")[0].innerHTML += card;
             }
         }
+
+        else
+        {
+                document.getElementsByClassName("row")[0].innerHTML='<div style="width:100%;border:1px solid #C39BD3;margin-top:15px;padding:10px 0;text-align:center;font-size:1.2rem;font-weight:lighter;color:#C39BD3">Loading!</div>';
+        }
     };
 
-    cardetails.open("GET","cardetails.php",true);
+    cardetails.open("GET","cardetails.php?cusid="+cusid,true);
     cardetails.send();
 }
 
-function searchcars()
+function searchcars(cusid)
 {
     var searchbox=document.getElementsByClassName("searchbox")[0];
     var query=document.getElementById("query").value;
@@ -74,7 +80,7 @@ function searchcars()
             }
         };
 
-        var param='query='+query;
+        var param='query='+query+'&cusid='+cusid;
 
         searchresults.open("POST","searchresults.php",true);
         searchresults.setRequestHeader("Content-type","application/x-www-form-urlencoded");
@@ -82,3 +88,4 @@ function searchcars()
 
     }
 }
+    
