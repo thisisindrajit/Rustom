@@ -1,7 +1,8 @@
 <?php
 
 include("dbconnect.php");
-
+session_start();
+include("login/session_check.php");
 $cusid = $_REQUEST["cusid"]; //getting only the customer id
 
 $query = "Select customername from customer where customerid=$cusid";
