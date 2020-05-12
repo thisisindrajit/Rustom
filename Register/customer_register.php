@@ -1,5 +1,6 @@
 <?php
-
+if(isset($_POST["customerRegister"]))
+{
 $servername="localhost";
 $database="cars";
 $username="root";
@@ -56,7 +57,7 @@ if($stmt = mysqli_prepare($conn, $customer_login))
     {
         echo "Login insertion successful";
         
-        $login_time = "UPDATE CUSTOMER_LOGIN SET lastloggedintime = CURRENT_TIMESTAMP() WHERE C_Email = '" . $c_email . "'" ;
+        $login_time = "UPDATE CUSTOMER_LOGIN SET lastloggedintime = CURRENT_TIMESTAMP() WHERE C_Email = '$c_email'" ;
         $retval = mysqli_query($conn, $login_time);
 
         $get_cus_id = "SELECT customerid FROM Customer where customername='$c_name'";
@@ -69,6 +70,17 @@ if($stmt = mysqli_prepare($conn, $customer_login))
         if($retval)
         {
             echo "Update Successfully";
+            session_start();
+            $info_query = "SELECT customerID FROM customer where c_email = '$c_email'";
+            $info_result = mysqli_query($conn, $info_query);
+            $info = mysqli_fetch_array($info_result, MYSQLI_ASSOC);
+        
+        //storing the necessary information in session
+            $_SESSION['userid'] = $info['customerID'];
+            $_SESSION['username'] = $c_name;       
+            $_SESSION['email'] = $email;
+            $_SESSION['usertype'] = 'customer';
+            $_SESSION['logged_in'] = true;
             header("Location: ../Customer/index.php?cusid=".$cusid); //moving in to customer dashboard
         }
         else
@@ -85,5 +97,10 @@ else
 {
     echo "Error: Could not prepare the query: " . mysqli_error($conn);
 } 
+}
+else
+{
+    header("location: register.html");
+}
 ?>
 

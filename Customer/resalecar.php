@@ -1,7 +1,8 @@
 <?php
 
 include("dbconnect.php");
-
+session_start();
+include("login/session_check.php");
 $carid = $_REQUEST["carid"];
 $cusid = $_REQUEST["cusid"];
 
