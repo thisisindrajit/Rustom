@@ -1,9 +1,12 @@
 <?php
 
-include("dbconnect.php");
-session_start();
-include("login/session_check.php");
-$cusid = $_REQUEST["cusid"]; //getting only the customer id
+include("../dbconnect.php");
+if(!isset($_SESSION))
+{
+    session_start();
+}
+include("../Login/session_check.php");
+$cusid = $_SESSION['userid']; //getting only the customer id
 
 $query = "Select customername from customer where customerid=$cusid";
 $ex = mysqli_query($conn,$query);

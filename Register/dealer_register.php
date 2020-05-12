@@ -70,7 +70,7 @@ if($stmt = mysqli_prepare($conn, $dealer_login))
             $_SESSION['email'] = $email;
             $_SESSION['usertype'] = 'dealer';
             $_SESSION['logged_in'] = true;
-            header("Location: ../index.php");
+            header("Location: ../index.html");
         }
         else
         {
