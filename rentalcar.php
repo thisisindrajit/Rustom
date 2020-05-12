@@ -1,7 +1,8 @@
 <?php
 
 include("dbconnect.php");
-
+session_start();
+include("login/session_check.php");
 $carid = $_REQUEST["carid"];
 
 //first query to select all car and its dealer details

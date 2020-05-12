@@ -1,3 +1,7 @@
+<?php
+session_start();
+include("login/session_check.php");
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -162,9 +166,7 @@ li
 <div class="row">
 
 </div>
-
 </body>
 
 <script type="text/javascript" src="JS/home.js"></script>
-
 </html>

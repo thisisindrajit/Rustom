@@ -54,11 +54,22 @@ if($stmt = mysqli_prepare($conn, $dealer_login))
     {
         echo "Login insertion successful";
         
-        $login_time = "UPDATE DEALER_LOGIN SET lastloggedintime = CURRENT_TIMESTAMP() WHERE D_Email = '" . $d_email . "'" ;
+        $login_time = "UPDATE DEALER_LOGIN SET lastloggedintime = CURRENT_TIMESTAMP() WHERE D_Email = '$d_email'" ;
         $retval = mysqli_query($conn, $login_time);
         if($retval)
         {
             echo "Update Successfully";
+            session_start();
+            $info_query = "SELECT dealerID FROM dealer where d_email = '$d_email'";
+            $info_result = mysqli_query($conn, $info_query);
+            $info = mysqli_fetch_array($info_result, MYSQLI_ASSOC);
+        
+            //storing the necessary information in session
+            $_SESSION['userid'] = $info['dealerID'];
+            $_SESSION['username'] = $d_name;       
+            $_SESSION['email'] = $email;
+            $_SESSION['usertype'] = 'dealer';
+            $_SESSION['logged_in'] = true;
             header("Location: ../index.php");
         }
         else
