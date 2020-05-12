@@ -1,5 +1,6 @@
 <?php
-
+if(isset($_POST["dealerRegister"]))
+{
 $servername="localhost";
 $database="cars";
 $username="root";
@@ -74,5 +75,10 @@ else
 {
     echo "Error: Could not prepare the query: " . mysqli_error($conn);
 } 
+}
+else
+{
+    header("location: register.html");
+}
 ?>
 
