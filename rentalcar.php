@@ -253,7 +253,7 @@ $result3 = mysqli_query($conn,$query3);
 </svg>
 </div>
 
-<a id="active">Home</a>
+<a href="cus_index.php">Home</a>
 <a href="#">Profile</a>
 <a href="#">My Purchases</a>
 <a href="#">Rented cars</a>
@@ -368,8 +368,18 @@ $result3 = mysqli_query($conn,$query3);
   
   <div class="container" style="min-width:100%;margin:15px 0">
   <div class="row">
-  
+
   <?php
+
+if(mysqli_num_rows($result3)===0)
+{
+?>
+
+  No images to show! Please contact the dealer for more details!
+
+<?php
+  }
+  
     while($images=mysqli_fetch_assoc($result3))
     {
     ?>

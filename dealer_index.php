@@ -12,12 +12,8 @@ include("dbconnect.php");
 $dealerid = $_SESSION['userid']; //getting the dealer id
 $dealername = $_SESSION['username'];
 
-/*$dealerid = 1000;
-$dealername = "Horizon";*/
-
-
 //first query to select all the cars that the dealer owns
-$query1 = "select carid from owns where dealerid = $dealerid";
+$query1 = "select car.carid,dealerid from car inner join owns where owns.carid=car.carid and dealerid = $dealerid order by uploadedtime desc";
 $result1 = mysqli_query($conn,$query1);
 
 ?>
@@ -104,11 +100,11 @@ form.example::after {
 }
 
 .modal-contents {
-    height: 300px;
-    width: 700px;
-    background-color: white;
+    height: 350px;
+    width: 800px;
+    padding: 50px;
+    background-color:white;
     text-align: center;
-    padding: 20px;
     position: relative;
     border-radius: 4px;
 }
@@ -324,22 +320,22 @@ form.example::after {
         
         <div class="row">
             <div class="column">
-            <a href="new_form.html">
-            <img src="car2.jpg" alt="Forest" style="width:100%;height: 100%">
+            <a href="new_form.php">
+            <img src="car2.jpg" style="width:100%;height: 85%;margin-bottom:5px">
             <h4>New Car</h4>
             </a>
           </div>
 
           <div class="column">
-            <a href="resale_form.html">
-            <img src="car1.jpg" alt="Snow" style="width:100%;height: 100%">
+            <a href="resale_form.php">
+            <img src="car1.jpg" style="width:100%;height: 85%;margin-bottom:5px">
             <h4>Pre-Owned Car</h4>
             </a>
           </div>
           
           <div class="column">
-            <a href="renntal_from.html">
-            <img src="car3.jpg" alt="Forest" style="width:100%;height: 100%">
+            <a href="rental_from.php">
+            <img src="car3.jpg" style="width:100%;height: 85%;margin-bottom:5px">
             <h4>Rental Car</h4>
             </a>
           </div>
@@ -366,8 +362,38 @@ form.example::after {
 --> 
 
 <div class="container" style="width:80%;margin:auto;margin-top:135px;margin-bottom:35px">
+
 <h2 id="carname" class="display-4 text-center"><?php echo "Welcome ".$dealername."!" ?></h2>
 </div>
+
+<?php 
+
+if(isset($_SESSION['newcaradded'])&&$_SESSION['newcaradded']===true)
+{
+
+?>
+
+<div class="alert alert-info alert-dismissible fade show" role="alert">
+New Car has been added!
+</div>
+
+<?php 
+unset($_SESSION['newcaradded']); //destroying the session variable
+}
+
+if(isset($_SESSION['deletedcar'])&&$_SESSION['deletedcar']===true)
+{
+?>
+
+<div class="alert alert-danger" role="alert">
+Car has been deleted!
+</div>
+
+
+<?php 
+unset($_SESSION['deletedcar']); //destroying the session variable
+}
+?>
 
 <h3 id="explore" style="font-weight:lighter;padding:20px 0;border-bottom:1px solid #C39BD3;border-width:90%">My Cars</h3>
 
@@ -446,11 +472,11 @@ form.example::after {
                             <span class="caret"></span> 
                         </button> 
                         <ul class="dropdown-menu" style="padding:10px"> 
-                            <li> 
+                            <!--<li> 
                                 <a href="#">Edit</a> 
-                            </li> 
+                            </li> -->
                             <li> 
-                                <a href="#">Delete</a> 
+                                <a href="<?php echo "deletedealercar.php?carid=".$cardet["carid"]."&cartype=".$cardet["cartype"] ?>">Delete</a> 
                             </li> 
                         </ul> 
                 </div> 

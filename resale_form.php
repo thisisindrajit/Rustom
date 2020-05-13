@@ -42,7 +42,6 @@
       .banner {
       position: relative;
       height: 210px;
-      background-image: url("/uploads/media/default/0001/02/328c356e9bba5add698e405d0059aa4207d8f1f6.jpeg");      background-size: cover;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -188,20 +187,21 @@
     <div class="testbox">
       <form action="/">
         <div class="banner">
-          <h1>Pre-Owned Car Form</h1>
+          <h1>Resale Car Form</h1>
         </div>
         <div class="item">
-          <p>Car Details:</p>
+          <b>Car Details:</b>
           <div class="name-item">
-            <input type="text" name="name" placeholder="Car Name" />
-            <input type="text" name="name" placeholder="Manufacturer Name" />
+            <input type="text" name="name" placeholder="Car Name (along with manufacturer name | eg - Ford EcoSport)" required/>
+            <input type="text" name="name" placeholder="Manufacturer Name"  required/>
           </div>
           <div class="name-item">
-            <input type="text" name="name" placeholder="Color" />
-            <input type="number" name="name" placeholder="Mileage" step="0.1" min="0" />
+            <input type="text" name="name" placeholder="Color"  required/>
+            <input type="number" name="name" placeholder="Mileage" step="0.1" min="0"  required/>
           </div>
         </div>
-        <div class="question">
+        <!--
+          <div class="question">
           <p>Vehicle Type:</p>
           <div class="question-answer">
             <div>
@@ -231,6 +231,14 @@
             </div>
           </div>
         </div>
+
+      -->
+
+      <div class="item">
+        Manufacture Date
+        <input type="date" name="m_date" required/>
+      </div>
+
         <div class="item">
         	<select>
               <option value="">Fuel Type</option>
@@ -238,16 +246,13 @@
               <option value="2">Diesel</option>
             </select>
 		</div>
-    <div class="item">
-          <input type="text" name="name"/ placeholder="License Plate Number">
+		<div class="name-item">
+          <input type="number" name="name" placeholder="Kilometers driven (in numbers only)" min="0"  required>
+          <input type="number" name="name" placeholder="Resale Price (in numbers only)" min="0"  required>
         </div>
-    <div class="item">
-          <input type="number" name="name"/ placeholder="Kilometers Driven" step="1" min="0">
-        </div>
-		<div class="item">
-          <input type="number" name="name"/ placeholder="Resale Price" min="0">
-        </div>
-        <div class="item">
+
+        <!--
+          <div class="item">
           <p>Dealer Name</p>
           <div class="name-item">
             <input type="text" name="name" placeholder="First" />
@@ -285,6 +290,18 @@
           <p>Manufacturer Website</p>
           <input type="url" name="name"/>
         </div>
+      -->
+
+      <b>FEATURES (required)</b>
+      <div class="name-item">
+        <input type="text" name="name" placeholder="Car feature 1"  required>
+        <input type="text" name="name" placeholder="Car feature 2" required>
+      </div>
+
+      <div class="name-item">
+        <input type="text" name="name" placeholder="Car feature 3" required>
+        <input type="text" name="name" placeholder="Car feature 4" required>
+      </div>
         
         
         <div class="btn-block">
