@@ -1,29 +1,26 @@
 <?php
 
-include("../dbconnect.php");
-if(!isset($_SESSION))
+//this is the session check for this page
+session_start();
+
+if(!isset($_SESSION['logged_in'])) //user not logged in
 {
-    session_start();
+    header('location:index.php');
 }
-include("../Login/session_check.php");
+
+include("dbconnect.php");
+
 $cusid = $_SESSION['userid']; //getting only the customer id
 $cusname = $_SESSION['username'];
-
-/*$query = "Select customername from customer where customerid=$cusid";
-$ex = mysqli_query($conn,$query);
-$result = mysqli_fetch_assoc($ex);
-
-$cusname = $result["customername"];*/
-
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Rustom - <?php echo $cusname."'s " ?> Dashboard</title>
+    <title><?php echo $cusname."'s " ?> Dashboard - Rustom</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <link rel="icon" href="../icon.ico">
+    <link rel="icon" href="icon.ico">
     <!--Google Fonts-->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
     <!--BOOTSTRAP CDN-->
@@ -225,7 +222,7 @@ li
 </svg>
 </div>
 
-<a id="logout" href="../Login/logout.php">
+<a id="logout" href="logout.php">
 <svg class="bi bi-x-square" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" d="M14 1H2a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V2a1 1 0 00-1-1zM2 0a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2H2z" clip-rule="evenodd"/>
   <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
@@ -235,7 +232,7 @@ li
 
 <!--<h3 id="title">Rustom</h3>-->
 
-<img src="../logow.png" height="50px" style="margin:auto">
+<img src="logow.png" height="50px" style="margin:auto">
 
 </div>
 

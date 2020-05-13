@@ -1,6 +1,6 @@
 <?php
 
-include("Login/session_check.php"); //checking whether to redirect the user to his/her account if previously logged in
+include("session_check.php"); //checking whether to redirect the user to his/her account if previously logged in
 
 ?>
 
@@ -10,7 +10,7 @@ include("Login/session_check.php"); //checking whether to redirect the user to h
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Rustom - Home</title>
+    <title>Home - Rustom</title>
     <link rel="icon" href="icon.ico">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic">
@@ -75,7 +75,7 @@ include("Login/session_check.php"); //checking whether to redirect the user to h
 <body>
     <nav class="navbar navbar-light navbar-expand bg-light navigation-clean">
         <div class="container" id="header"><a class="navbar-brand" href="#" style="color: rgba(114,22,77,0.9)">RUSTOM <span style="color:black">Car Dealership</span></a>
-                <div class="collapse navbar-collapse" id="navcol-1"><a class="ml-auto" id="loginbut" href="Login/login.php">Sign in</a></div>
+                <div class="collapse navbar-collapse" id="navcol-1"><a class="ml-auto" id="loginbut" href="login.php">Sign in</a></div>
         </div>
     </nav>
     <header class="masthead text-white text-center" style="background: url('assets/img/bg-neon.jpg')no-repeat center center;background-size: cover;">
@@ -86,7 +86,7 @@ include("Login/session_check.php"); //checking whether to redirect the user to h
                     <h1 class="text-capitalize text-center text-white mb-5">GET!SET!GO!</h1>
                 </div>
                 <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-                    <form action="Register/register.html" target="_blank">
+                    <form action="register.html">
                         <div class="form-row">
                             <div class="col-12 col-md-3" id="signupbutholder">
                             <button class="btn btn-primary btn-block btn-lg" type="submit" id="signupbut" style="border:none;background-color: rgba(114,22,77,0.9);padding-left: 18px">Sign up!</button>
@@ -180,9 +180,9 @@ include("Login/session_check.php"); //checking whether to redirect the user to h
             </div>
         </div>
     </footer>
-    <!--<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>-->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 
 </html>

@@ -1,8 +1,13 @@
 <?php
-if($_SERVER["REQUEST_METHOD"] == "POST")
+
+//if($_SERVER["REQUEST_METHOD"] == "POST")
+
+if(isset($_POST["submit"]))
 {
-    include('../dbconnect.php');
+    include('dbconnect.php');
+
     session_start();
+
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
 
@@ -27,9 +32,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         $result = mysqli_query($conn, $update);
         if($result)
         {
-            header("location: ../Customer/index.php");
+            header("location: cus_index.php");
         }
     }
+
     else
     {
         $dealer_query = "SELECT * FROM dealer_login WHERE d_email= '$email' AND password = '$password'";
@@ -53,9 +59,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
             $result = mysqli_query($conn, $update);
             if($result)
             {
-                header("location: ../Dealer/index.php"); //create a new folder named Dealer and set dashboard's name as index.php
+                header("location: dealer_index.php"); //create a new file and name it as dealer_index.php
             }
         }
+        
         else
         {
             echo "<script> alert(\"Invalid email or password\")</script>";
@@ -67,8 +74,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 <!DOCTYPE html>
 <html>
 <head>
-<title>Rustom - Login</title>
-<link rel="icon" href="../logo.ico">
+<title>Login - Rustom</title>
+<link rel="icon" href="icon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
  <!--Google Fonts-->
@@ -86,7 +93,7 @@ body,html
 }
 
 body{
-    background-image: url('../Register/mclaren.jpg');
+    background-image: url('mclaren.jpg');
     height: 100%;
     width:100%;
     background-position: center;
@@ -169,7 +176,7 @@ body{
 <body>
 <div class = "bg"></div>
 <div class="container">
-<div class="main-logo"> <img id="logo" height='90px' src="../logow.png" > </div>
+<div class="main-logo"> <img id="logo" height='90px' src="logow.png" > </div>
 
 <div class="main-header"> Login to Rustom </div>
 
@@ -188,7 +195,7 @@ body{
 </div>
 
 <div class="main" style="text-align: center;">
-    New to Rustom? <a href="../Register/register.html">Register here</a>
+    New to Rustom? <a href="register.html">Register here</a>
 </div>
 </div>
 </body>
