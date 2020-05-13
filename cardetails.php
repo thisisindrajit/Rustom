@@ -1,8 +1,6 @@
 <?php
 
-include("../dbconnect.php");
-
-$cusid = $_GET["cusid"];
+include("dbconnect.php");
 
 $query="select car.carid,name,cartype,status,images from car inner join images where car.carid=images.carid and
  images=(select images from images where carid=car.carid limit 1) order by uploadedtime desc"; //to select cars along with its status

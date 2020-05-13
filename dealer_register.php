@@ -1,18 +1,8 @@
 <?php
 if(isset($_POST["dealerRegister"]))
 {
-$servername="localhost";
-$database="cars";
-$username="root";
-$password="";
 
-$conn=mysqli_connect($servername,$username,$password,$database);
-
-if(!$conn)
-{
-    /*die("Connection error: " . mysqli_connect_errno());*/
-    header("Location: ../error.php");
-}
+include("dbconnect.php");
 
 //Prepared statement to prevent SQL injection
 $dealer_insert= "INSERT INTO DEALER (DName, PhoneNo, Website, D_Email) VALUES (?,?,?,?)";
@@ -31,7 +21,7 @@ if($stmt= mysqli_prepare($conn, $dealer_insert) )
     //Execute the statement
     if(mysqli_stmt_execute($stmt))
     {
-        echo "Inserted successfully";
+        //echo "Inserted successfully";
     }
     else
     {
@@ -52,14 +42,15 @@ if($stmt = mysqli_prepare($conn, $dealer_login))
       
     if(mysqli_stmt_execute($stmt))
     {
-        echo "Login insertion successful";
+        //echo "Login insertion successful";
         
         $login_time = "UPDATE DEALER_LOGIN SET lastloggedintime = CURRENT_TIMESTAMP() WHERE D_Email = '$d_email'" ;
         $retval = mysqli_query($conn, $login_time);
         if($retval)
         {
-            echo "Update Successfully";
+            //echo "Updated Successfully";
             session_start();
+            
             $info_query = "SELECT dealerID FROM dealer where d_email = '$d_email'";
             $info_result = mysqli_query($conn, $info_query);
             $info = mysqli_fetch_array($info_result, MYSQLI_ASSOC);
@@ -70,7 +61,7 @@ if($stmt = mysqli_prepare($conn, $dealer_login))
             $_SESSION['email'] = $email;
             $_SESSION['usertype'] = 'dealer';
             $_SESSION['logged_in'] = true;
-            header("Location: ../index.html");
+            header("Location: dealer_index.php");
         }
         else
         {

@@ -1,19 +1,8 @@
 <?php
 if(isset($_POST["customerRegister"]))
 {
-$servername="localhost";
-$database="cars";
-$username="root";
-$password="";
 
-$conn=mysqli_connect($servername,$username,$password,$database);
-
-if(!$conn)
-{
-    /*die("Connection error: " . mysqli_connect_errno());*/
-    header("Location: ../error.php");
-}
-
+include("dbconnect.php");
 
 //Prepared statement to prevent SQL injection
 $customer_insert= "INSERT INTO CUSTOMER (CustomerName, DOB, PhoneNo, Address, DrivingLicense, C_Email) VALUES (?,?,?,?,?,?)";
@@ -34,7 +23,7 @@ if($stmt= mysqli_prepare($conn, $customer_insert) )
     //Execute the statement
     if(mysqli_stmt_execute($stmt))
     {
-        echo "Inserted successfully";
+        //echo "Inserted successfully";
     }
     else
     {
@@ -55,7 +44,7 @@ if($stmt = mysqli_prepare($conn, $customer_login))
       
     if(mysqli_stmt_execute($stmt))
     {
-        echo "Login insertion successful";
+        //echo "Login insertion successful";
         
         $login_time = "UPDATE CUSTOMER_LOGIN SET lastloggedintime = CURRENT_TIMESTAMP() WHERE C_Email = '$c_email'" ;
         $retval = mysqli_query($conn, $login_time);
@@ -69,8 +58,9 @@ if($stmt = mysqli_prepare($conn, $customer_login))
         
         if($retval)
         {
-            echo "Update Successfully";
+            //echo "Updated Successfully";
             session_start();
+
             $info_query = "SELECT customerID FROM customer where c_email = '$c_email'";
             $info_result = mysqli_query($conn, $info_query);
             $info = mysqli_fetch_array($info_result, MYSQLI_ASSOC);
@@ -81,7 +71,8 @@ if($stmt = mysqli_prepare($conn, $customer_login))
             $_SESSION['email'] = $email;
             $_SESSION['usertype'] = 'customer';
             $_SESSION['logged_in'] = true;
-            header("Location: ../Customer/index.php"); //moving in to customer dashboard
+            
+            header("Location: cus_index.php"); //moving in to customer dashboard
         }
         else
         {

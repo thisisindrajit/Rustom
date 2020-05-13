@@ -1,6 +1,6 @@
 <?php
 
-include("../dbconnect.php");
+include("dbconnect.php");
 
 $query = '%'.$_POST["query"].'%';
 $cusid = $_POST["cusid"];
@@ -47,7 +47,7 @@ $output .= '
     
 <div class="card">
 
-<img src="../'.$row["images"].'" class="card-img-top" alt="Car image">
+<img src="'.$row["images"].'" class="card-img-top" alt="Car image">
 <div class="card-body">
 <h5 class="card-title">'.$row["name"].'</h5>
 <h6 class="card-subtitle mb-2">'.$row["status"].' | TYPE : '.$row["cartype"].'</h6><hr><a href="'.$link.'" class="card-link">More Details</a>

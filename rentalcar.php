@@ -1,15 +1,21 @@
 <?php
 
 session_start();
-include("../dbconnect.php");
+
+if(!isset($_SESSION['logged_in'])) //user not logged in
+{
+    header('location:index.php');
+}
+
+include("dbconnect.php");
 
 $carid = $_REQUEST["carid"];
 $cusid = $_SESSION['userid'];
 
 //first query to select all car and its dealer details
-$query1 = "select Name,Dname,Mname,manufacturer.phoneno as mph,manufacturer.location as mloc,manufacturer.email as memail,manufacturer.website as mweb,dealer.phoneno as dph,d_email,
-dealer.website as dweb,mileage,color,status,fueltype,licenseplateno,resaleprice,kmdriven from car inner join preownedcar inner join manufacturer inner join owns inner join dealer where car.manufacturerid=manufacturer.manufacturerid and 
-owns.carid=car.carid and owns.dealerid=dealer.dealerid and car.carid=preownedcar.preownedcarid and car.carid=$carid";
+$query1 = "select Name,Dname,Mname,dealer.phoneno as dph,d_email,
+dealer.website as dweb,mileage,color,status,fueltype,licenseplateno,rentamount from car inner join rentalcar inner join manufacturer inner join owns inner join dealer where
+car.manufacturerid=manufacturer.manufacturerid and owns.carid=car.carid and owns.dealerid=dealer.dealerid and car.carid=rentalcar.rentalcarid and car.carid=$carid";   
 
 $result1 = mysqli_query($conn,$query1);
 $firstquery = mysqli_fetch_assoc($result1);
@@ -29,10 +35,10 @@ $result3 = mysqli_query($conn,$query3);
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Rustom - <?php echo $firstquery["Name"]?></title>
+    <title><?php echo $firstquery["Name"]?> - Rustom</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <link rel="icon" href="../icon.ico">
+    <link rel="icon" href="icon.ico">
     <!--Google Fonts-->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
     <!--BOOTSTRAP CDN-->
@@ -255,7 +261,7 @@ $result3 = mysqli_query($conn,$query3);
 
 <div id="overlay"></div>
 
-<div class="container-fluid text-white py-3" id="header" style="background-color:black;position:fixed;z-index:5;top:0;display:flex;align-items:center">
+<div class="container-fluid text-white py-3"  id="header" style="background-color:black;position:fixed;z-index:5;top:0;display:flex;align-items:center">
 
 <div id="listicon" onclick="openlist()">
 <svg class="bi bi-list" width="2em" height="2em" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
@@ -264,7 +270,7 @@ $result3 = mysqli_query($conn,$query3);
 </div>
 
 
-<a id="logout" href="../Login/logout.php">
+<a id="logout" href="logout.php">
 <svg id="person" class="bi bi-x-square" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" d="M14 1H2a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V2a1 1 0 00-1-1zM2 0a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2H2z" clip-rule="evenodd"/>
   <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
@@ -272,7 +278,7 @@ $result3 = mysqli_query($conn,$query3);
 </svg>
 </a>
 
-<img src="../logow.png" onclick="gotodash(<?php echo $cusid ?>)" height="50px" style="margin:auto;cursor:pointer">
+<img src="logow.png" onclick="gotodash(<?php echo $cusid ?>)" height="50px" style="margin:auto;cursor:pointer">
 
 </div>
 
@@ -301,20 +307,19 @@ $result3 = mysqli_query($conn,$query3);
   <div class="card-body">
     <p class="card-text"><b>Car Name - </b><?php echo $firstquery["Name"]?></p>
     <p class="card-text"><b>Manufacturer - </b><?php echo $firstquery["Mname"]?></p>
-    <p class="card-text"><b>Type - </b><?php echo "Resale Car"?></p>
+    <p class="card-text"><b>Type - </b><?php echo "Rental Car"?></p>
     <p class="card-text"><b>Color - </b><?php echo $firstquery["color"]?></p>
     <p class="card-text"><b>Mileage - </b><?php echo $firstquery["mileage"]." km/l" ?></p>
     <p class="card-text"><b>Fuel Type - </b><?php echo $firstquery["fueltype"]?></p>
-    
+
     <p class="card-text"><b>License plate no</b>
     
     <li class="list-group-item list-group-item-warning" style="width:400px;text-align:center"><?php echo $firstquery["licenseplateno"]?></li>
 
     </p>
 
-    <p class="card-text"><b>Kilometers driven - </b><?php echo $firstquery["kmdriven"]?></p>
-    <p class="card-text"><b>Resale Price - </b><?php echo "Rs ".$firstquery["resaleprice"]?></p>
-    <button type="button" class="btn btn-primary">Buy this car</button>
+    <p class="card-text"><b>Rent amount - </b><?php echo "Rs ".$firstquery["rentamount"]. " per hour" ?></p>
+    <button type="button" class="btn btn-primary">Rent this car</button>
     <button type="button" class="btn btn-outline-info">Add to wishlist</button>
 
   </div>
@@ -332,20 +337,6 @@ $result3 = mysqli_query($conn,$query3);
   </div>
 
   </div>
-
-  <div class="card bg-light mb-3" style="margin-top:15px">
-  <div class="card-header">Manufacturer Details</div>
-  <div class="card-body">
-    <p class="card-text"><b>Manufacturer Name - </b><?php echo $firstquery["Mname"]?></p>
-    <p class="card-text"><b>Phone no - </b><?php echo $firstquery["mph"]?></p>
-    <p class="card-text"><b>Email - </b><?php echo $firstquery["memail"]?></p>
-    <p class="card-text"><b>Website - </b><a href="<?php echo $firstquery["mweb"]?>" target="_blank"><?php echo $firstquery["mweb"]?></a></p>
-
-  </div>
-
-  </div>
-  
-  
   
   </div>
   
@@ -383,7 +374,7 @@ $result3 = mysqli_query($conn,$query3);
     ?>
   
   <div class="image">
-  <img src="<?php echo "../".$images["images"]?>" alt="car_image" onclick="showimage(event)">
+  <img src="<?php echo $images["images"]?>" alt="car_image" onclick="showimage(event)">
   </div>
 
   <?php

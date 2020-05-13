@@ -1,7 +1,13 @@
 <?php
 
 session_start();
-include("../dbconnect.php");
+
+if(!isset($_SESSION['logged_in'])) //user not logged in
+{
+    header('location:index.php');
+}
+
+include("dbconnect.php");
 
 $carid = $_REQUEST["carid"];
 $cusid = $_SESSION['userid'];
@@ -31,10 +37,10 @@ $result3 = mysqli_query($conn,$query3);
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Rustom - <?php echo $firstquery["Name"]?></title>
+    <title><?php echo $firstquery["Name"]?> - Rustom</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <link rel="icon" href="../icon.ico">
+    <link rel="icon" href="icon.ico">
     <!--Google Fonts-->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
     <!--BOOTSTRAP CDN-->
@@ -266,7 +272,7 @@ $result3 = mysqli_query($conn,$query3);
 </div>
 
 
-<a id="logout" href="../Login/logout.php">
+<a id="logout" href="logout.php">
 <svg id="person" class="bi bi-x-square" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" d="M14 1H2a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V2a1 1 0 00-1-1zM2 0a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2H2z" clip-rule="evenodd"/>
   <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
@@ -274,7 +280,7 @@ $result3 = mysqli_query($conn,$query3);
 </svg>
 </a>
 
-<img src="../logow.png" onclick="gotodash(<?php echo $cusid ?>)" height="50px" style="margin:auto;cursor:pointer">
+<img src="logow.png" onclick="gotodash(<?php echo $cusid ?>)" height="50px" style="margin:auto;cursor:pointer">
 
 </div>
 
@@ -377,7 +383,7 @@ $result3 = mysqli_query($conn,$query3);
     ?>
   
   <div class="image">
-  <img src="<?php echo "../".$images["images"]?>" alt="car_image" onclick="showimage(event)">
+  <img src="<?php echo $images["images"]?>" alt="car_image" onclick="showimage(event)">
   </div>
 
   <?php

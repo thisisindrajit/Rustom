@@ -1,8 +1,13 @@
 <?php
-if($_SERVER["REQUEST_METHOD"] == "POST")
+
+//if($_SERVER["REQUEST_METHOD"] == "POST")
+
+if(isset($_POST["submit"]))
 {
-    include('../dbconnect.php');
+    include('dbconnect.php');
+
     session_start();
+
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
 
@@ -27,9 +32,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         $result = mysqli_query($conn, $update);
         if($result)
         {
-            header("location: ../Customer/index.php");
+            header("location: cus_index.php");
         }
     }
+
     else
     {
         $dealer_query = "SELECT * FROM dealer_login WHERE d_email= '$email' AND password = '$password'";
@@ -53,9 +59,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
             $result = mysqli_query($conn, $update);
             if($result)
             {
-                header("location: ../Dealer/index.php"); //create a new folder named Dealer and set dashboard's name as index.php
+                header("location: dealer_index.php"); //create a new file and name it as dealer_index.php
             }
         }
+        
         else
         {
             echo "<script> alert(\"Invalid email or password\")</script>";
@@ -67,12 +74,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 <!DOCTYPE html>
 <html>
 <head>
-<title>Rustom - Login</title>
-<link rel="icon" href="../icon.ico">
+<title>Login - Rustom</title>
+<link rel="icon" href="icon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
  <!--Google Fonts-->
- <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+ <link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet">
     <!--BOOTSTRAP CDN-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <head>
@@ -82,22 +89,23 @@ body,html
     height: 100%;
     width:100%;
     font-family: 'Titillium Web', sans-serif;
+    font-size:1.1rem;
 }
-.bg{
-    background-image: url('../Register/mclaren.jpg') ;
+
+body{
+    background-image: url('mclaren.jpg');
     height: 100%;
     width:100%;
-    /*filter:blur(2px);
-    -webkit-filter: blur(2px);*/
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    z-index:-1;
+    background-attachment:fixed;
     opacity: 0.8;
 }
 .container
 {
-    height: 80%;
+    border-radius:5px;
+    height: fit-content;
     width: 25%;
     z-index:1;
     top: 50%;
@@ -105,7 +113,7 @@ body,html
     position: absolute;
     transform: translate(-50%, -50%);
     background-color: black;
-    opacity: 0.8;
+    opacity: 1;
 }
 .main-logo
 {
@@ -133,7 +141,7 @@ body,html
 }
 .main
 {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
     margin:20px auto;
     padding: 20px;
@@ -168,7 +176,7 @@ body,html
 <body>
 <div class = "bg"></div>
 <div class="container">
-<div class="main-logo"> <img id="logo" src="../logow.png" > </div>
+<div class="main-logo"> <img id="logo" height='90px' src="logow.png" > </div>
 
 <div class="main-header"> Login to Rustom </div>
 
@@ -187,7 +195,7 @@ body,html
 </div>
 
 <div class="main" style="text-align: center;">
-    New to Rustom? <a href="../Register/register.html">Register here</a>
+    New to Rustom? <a href="register.html">Register here</a>
 </div>
 </div>
 </body>
