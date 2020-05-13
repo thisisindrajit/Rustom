@@ -1,0 +1,79 @@
+
+.title {
+ 
+    margin-bottom: 50px;
+    text-transform: uppercase;
+}
+
+.card-block {
+    font-size: 1em;
+    position: relative;
+    margin: 0;
+    padding: 1em;
+    border: none;
+    box-shadow: none;
+     
+}
+.card {
+    font-size: 1em;
+    min-width:90%;
+    max-width:90%;
+    margin:auto;
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+    margin:15px 0;
+}
+
+.carousel-inner
+{
+  border-radius: 1rem;
+  background-color:#c0c0c0;
+  height:250px;
+}
+
+.carousel-inner img
+{
+  object-fit: cover;
+  height:250px;
+}
+
+.carousel-indicators li {
+    border-radius: 12px;
+    width: 12px;
+    height: 12px;
+    background-color: #404040;
+}
+
+.carousel-indicators .active {
+    background-color: white;
+    max-width: 12px;
+    margin: 0 3px;
+    height: 12px;
+}
+.carousel-control-prev-icon {
+ background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+}
+
+.carousel-control-next-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+}
+  
+
+.btn {
+  margin-top: auto;
+}
+
+@media screen and (max-width:1000px)
+{
+  .card
+  {
+    min-width:100%;
+    max-width:100%;
+  }
+
+  .carousel-inner,.carousel-inner img
+  {
+    height:200px;
+  }
+}

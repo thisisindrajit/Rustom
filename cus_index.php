@@ -10,7 +10,7 @@ if(!isset($_SESSION['logged_in'])) //user not logged in
 
 include("dbconnect.php");
 
-$cusid = $_SESSION['userid']; //getting only the customer id
+$cusid = $_SESSION['userid']; //getting the customer id
 $cusname = $_SESSION['username'];
 ?>
 
