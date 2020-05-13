@@ -57,7 +57,14 @@ body{
     grid-template-rows: 70px 300px;
     justify-items: center;
 }
-
+#redirect
+{
+    font-size: 20px;
+    font-weight: 600;
+    margin:20px auto;
+    padding: 20px;
+    text-align: center;
+}
 
 .container img{
     object-fit:contain;
@@ -98,6 +105,9 @@ body{
             <h3>I am a Dealer</h3>
             <img id="customer" onclick="customer()" src="customer.png">
             <img id="dealer" onclick="dealer()" src="dealer.png">
+        </div>
+        <div id="redirect">
+            Already Registered? <a href="login.php">Login here</a>
         </div>
         
         <!--Customer Registration-->
