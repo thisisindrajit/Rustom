@@ -5,8 +5,8 @@ include("dbconnect.php");
 $query = '%'.$_POST["query"].'%';
 $cusid = $_POST["cusid"];
  
-$stmt = $conn->prepare("select car.carid,name,cartype,status,images from car inner join images where car.carid=images.carid and images=(select images from images where carid=car.carid limit 1) and name like ?");
-$stmt->bind_param("s",$query);
+$stmt = $conn->prepare("select car.carid,name,cartype,status,images from car left join images on car.carid=images.carid and images=(select images from images where carid=car.carid limit 1) having name like ? or car.cartype like ?");
+$stmt->bind_param("ss",$query,$query);
 $stmt->execute();
 
 $result = $stmt->get_result();
@@ -23,6 +23,11 @@ $output = "<div class='row'>";
 
 while($row = $result->fetch_array(MYSQLI_ASSOC))
 {
+
+if($row["images"]===null)
+{
+    $row["images"]="dummy.png";
+}
 
 //setting link 
 

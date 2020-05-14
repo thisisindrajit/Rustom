@@ -10,11 +10,12 @@ if(!isset($_SESSION['logged_in'])) //user not logged in
 include("dbconnect.php");
 
 $carid = $_REQUEST["carid"];
-$cusid = $_SESSION['userid'];
+$userid = $_SESSION['userid'];
+$usertype =  $_SESSION['usertype'];
 
 //first query to select all car and its dealer details
 $query1 = "select Name,Dname,Mname,manufacturer.phoneno as mph,manufacturer.location as mloc,manufacturer.email as memail,manufacturer.website as mweb,dealer.phoneno as dph,d_email,dealer.website as dweb,mileage,color,status,
-fueltype,Price from car inner join newcar inner join manufacturer inner join owns inner join dealer where car.manufacturerid=manufacturer.manufacturerid and 
+fueltype,Price,customerid,paymentstatus from car inner join newcar inner join manufacturer inner join owns inner join dealer where car.manufacturerid=manufacturer.manufacturerid and 
 owns.carid=car.carid and owns.dealerid=dealer.dealerid and car.carid=newcar.newcarid and car.carid=$carid";
 
 $result1 = mysqli_query($conn,$query1);
@@ -254,9 +255,9 @@ $result3 = mysqli_query($conn,$query3);
 </svg>
 </div>
 
-<a id="active">Home</a>
+<a href="cus_index.php">Home</a>
 <a href="#">Profile</a>
-<a href="#">My Purchases</a>
+<a href="cus_purchased.php">My Purchases</a>
 <a href="#">Rented cars</a>
 
 </div>
@@ -280,7 +281,7 @@ $result3 = mysqli_query($conn,$query3);
 </svg>
 </a>
 
-<img src="logow.png" onclick="gotodash(<?php echo $cusid ?>)" height="50px" style="margin:auto;cursor:pointer">
+<img src="logow.png" onclick="gotodash(<?php echo $userid.',\''.$usertype.'\'' ?>)" height="50px" style="margin:auto;cursor:pointer">
 
 </div>
 
@@ -314,8 +315,28 @@ $result3 = mysqli_query($conn,$query3);
     <p class="card-text"><b>Mileage - </b><?php echo $firstquery["mileage"]." km/l" ?></p>
     <p class="card-text"><b>Fuel Type - </b><?php echo $firstquery["fueltype"]?></p>
     <p class="card-text"><b>Price - </b><?php echo "Rs ".$firstquery["Price"]?></p>
-    <button type="button" class="btn btn-primary">Buy this car</button>
+
+    <?php
+
+    if($firstquery["customerid"]===NULL&&$firstquery["paymentstatus"]===NULL) //no user has bought the car yet
+    {
+    ?>
+
+    <button type="button" class="btn btn-primary" onclick="buycar(<?php echo $carid.',\'new\'' ?>)">Buy this car</button>
     <button type="button" class="btn btn-outline-info">Add to wishlist</button>
+
+    <?php
+    }
+    else
+    {
+    ?>
+
+    <div class="alert alert-danger" role="alert" style="margin-bottom:0">
+    Sorry but this car is sold out!
+    </div>
+
+
+    <?php } ?>
 
   </div>
   </div>
@@ -377,7 +398,17 @@ $result3 = mysqli_query($conn,$query3);
   <div class="container" style="min-width:100%;margin:15px 0">
   <div class="row">
   
-  <?php
+<?php
+
+if(mysqli_num_rows($result3)===0)
+{
+?>
+
+  No images to show! Please contact the dealer for more details!
+
+<?php
+  }
+
     while($images=mysqli_fetch_assoc($result3))
     {
     ?>
@@ -405,9 +436,18 @@ $result3 = mysqli_query($conn,$query3);
 
 <script type="text/javascript">
 
-function gotodash(cusid)
+function gotodash(userid,usertype)
 {
-    window.location.href="index.php?cusid="+cusid;
+    if(usertype==="customer")
+    {
+      window.location.href="cus_index.php?cusid="+userid;
+    }
+
+    else
+    {
+      window.location.href="dealer_index.php?cusid="+userid;
+    }
+   
 }
 
 $('#myTab a').on('click', function (e) {
@@ -469,7 +509,10 @@ function closeimage()
   }
 }
 
-
+function buycar(carid,cartype)
+{
+  window.location.href="buycar.php?carid="+carid+"&cartype="+cartype;
+}
 </script>
 <script type="text/javascript" src="JS/list.js"></script>
 

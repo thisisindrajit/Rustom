@@ -10,7 +10,8 @@ if(!isset($_SESSION['logged_in'])) //user not logged in
 include("dbconnect.php");
 
 $carid = $_REQUEST["carid"];
-$cusid = $_SESSION['userid'];
+$userid = $_SESSION['userid'];
+$usertype =  $_SESSION['usertype'];
 
 //first query to select all car and its dealer details
 $query1 = "select Name,Dname,Mname,dealer.phoneno as dph,d_email,
@@ -252,9 +253,9 @@ $result3 = mysqli_query($conn,$query3);
 </svg>
 </div>
 
-<a id="active">Home</a>
+<a href="cus_index.php">Home</a>
 <a href="#">Profile</a>
-<a href="#">My Purchases</a>
+<a href="cus_purchased.php">My Purchases</a>
 <a href="#">Rented cars</a>
 
 </div>
@@ -278,7 +279,7 @@ $result3 = mysqli_query($conn,$query3);
 </svg>
 </a>
 
-<img src="logow.png" onclick="gotodash(<?php echo $cusid ?>)" height="50px" style="margin:auto;cursor:pointer">
+<img src="logow.png" onclick="gotodash(<?php echo $userid.',\''.$usertype.'\'' ?>)" height="50px" style="margin:auto;cursor:pointer">
 
 </div>
 
@@ -367,8 +368,18 @@ $result3 = mysqli_query($conn,$query3);
   
   <div class="container" style="min-width:100%;margin:15px 0">
   <div class="row">
-  
+
   <?php
+
+if(mysqli_num_rows($result3)===0)
+{
+?>
+
+  No images to show! Please contact the dealer for more details!
+
+<?php
+  }
+  
     while($images=mysqli_fetch_assoc($result3))
     {
     ?>
@@ -396,9 +407,18 @@ $result3 = mysqli_query($conn,$query3);
 
 <script type="text/javascript">
 
-function gotodash(cusid)
+function gotodash(userid,usertype)
 {
-    window.location.href="index.php?cusid="+cusid;
+    if(usertype==="customer")
+    {
+      window.location.href="cus_index.php?cusid="+userid;
+    }
+
+    else
+    {
+      window.location.href="dealer_index.php?cusid="+userid;
+    }
+   
 }
 
 $('#myTab a').on('click', function (e) {

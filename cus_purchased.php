@@ -17,7 +17,7 @@ $cusname = $_SESSION['username'];
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?php echo $cusname."'s " ?> Dashboard - Rustom</title>
+    <title><?php echo $cusname."'s " ?> Purchases - Rustom</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <link rel="icon" href="icon.ico">
@@ -29,17 +29,6 @@ $cusname = $_SESSION['username'];
 </head>
 
 <style>
-
-.searchbox
-{
-    display:block;
-    width:80%;
-    margin-top:50px;
-    /*height:0;*/
-    transform: scaleY(0);  
-    transform-origin: top;
-    transition:transform 0.15s linear;
-}
 
 .card{
     margin-bottom:10px;
@@ -198,7 +187,7 @@ li
 
 </style>
 
-<body onload="getcardetails(<?php echo $cusid ?>)">
+<body>
 
 <div id="list">
 <div id="closelist" onclick="openlist()">
@@ -207,9 +196,9 @@ li
 </svg>
 </div>
 
-<a id="active">Home</a>
+<a href="cus_index.php">Home</a>
 <a href="#">Profile</a>
-<a href="cus_purchased.php">My Purchases</a>
+<a id="active">My Purchases</a>
 <a href="#">Rented cars</a>
 
 </div>
@@ -237,54 +226,101 @@ li
 </div>
 
 <div class="container" style="width:80%;margin:auto;margin-top:135px">
-<h2 id="carname" class="display-4 text-center"><?php echo "Welcome ".$cusname."!" ?></h2>
-
-</div>
-
-
-<div class="input-group mb-3" style="width:80%;margin:auto;margin-top:65px">
-
-<span class="input-group-text" id="basic-addon1" style="position:relative;margin-right:0;background-color:#C39BD3;border:none;border-radius:0">
-  
-  <svg class="bi bi-search" width="1em" height="1em" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 011.415 0l3.85 3.85a1 1 0 01-1.414 1.415l-3.85-3.85a1 1 0 010-1.415z" clip-rule="evenodd"/>
-  <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM13 6.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" clip-rule="evenodd"/>
-  </svg>
-    
-  </span>
-  <input type="text" id="query" class="form-control shadow-none" placeholder="Search for cars and car types..." onkeyup="searchcars(<?php echo $cusid ?>)" onclick="searchcars(<?php echo $cusid ?>)" style="border-color:#C39BD3;border-radius:0;border-left:none">
-</div>
-
-
-<div class="searchbox container-fluid py-3">
-
-</div>
+<h2 id="carname" class="display-4 text-center">Purchased Cars</h2>
 
 </div>
 
 <div class="container-fluid py-3" style="width:80%">
 
-<?php if(isset($_SESSION['boughtnewcar'])&&$_SESSION['boughtnewcar']===true)
-{
-?>
-
-<div class="alert alert-primary" role="alert">
-  Hooray! You just bought a new car!
-</div>
-
-<?php 
-unset($_SESSION['boughtnewcar']);
-} ?>
-
-<h3 id="explore" style="font-weight:lighter">Explore</h3>
+<h3 id="explore" style="font-weight:lighter">New Cars</h3>
 
 <div class="row">
 
+<?php 
+
+$purchasedcarsquery = "select car.carid as carid,name,DATE_FORMAT(paymentdate,'%d %M %Y') as paymentdate from car inner join newcar where customerid = $cusid
+and paymentstatus = 'verified' and car.carid = newcarid";
+$ex = mysqli_query($conn,$purchasedcarsquery);
+
+if(mysqli_num_rows($ex)===0)
+{
+?>
+
+<div style="width:100%;border:1px solid #C39BD3;margin-top:15px;padding:10px 0;text-align:center;font-size:1.2rem;font-weight:lighter;color:black">No new cars bought yet! <a href="cus_index.php">Explore</a> now!</div>
+
+<?php
+}
+
+while($row=mysqli_fetch_assoc($ex))
+{
+
+?>
+
+<div class="col-sm-3">
+    
+<div class="card">
+<div class="card-body">
+<h5 class="card-title"><?php echo $row["name"] ?></h5>
+<h6 class="card-subtitle mb-2">Purchased on <?php echo $row["paymentdate"]?></h6>
+<hr>
+<a href="<?php echo "newcar.php?carid=".$row["carid"]?>" class="card-link">More Details</a>
 </div>
+</div>
+</div>
+
+<?php 
+
+}
+?>
+
+</div>
+
+<h3 id="explore" style="font-weight:lighter;margin-top:50px">Resale Cars</h3>
+
+<div class="row">
+
+
+<?php
+$purchasedresalecarsquery = "select car.carid as carid,name,DATE_FORMAT(paymentdate,'%d %M %Y') as paymentdate from car inner join preownedcar 
+where customerid = $cusid and paymentstatus = 'verified' and car.carid = preownedcarid";
+$ex2 = mysqli_query($conn,$purchasedresalecarsquery);
+
+if(mysqli_num_rows($ex2)===0)
+{
+?>
+
+
+<div style="width:100%;border:1px solid #C39BD3;margin-top:15px;padding:10px 0;text-align:center;font-size:1.2rem;font-weight:300;color:black">No resale cars bought yet! <a href="cus_index.php">Explore</a> now!</div>
+
+<?php    
+}
+
+while($row=mysqli_fetch_assoc($ex2))
+{
+
+?>
+
+<div class="col-sm-3">
+    
+<div class="card">
+<div class="card-body">
+<h5 class="card-title"><?php echo $row["name"] ?></h5>
+<h6 class="card-subtitle mb-2">Purchased on <?php echo $row["paymentdate"]?></h6>
+<hr>
+<a href="<?php echo "resalecar.php?carid=".$row["carid"]?>" class="card-link">More Details</a>
+</div>
+</div>
+</div>
+
+<?php } ?>
+
+</div>
+
+
+
 
 </body>
 
-<script type="text/javascript" src="JS/home.js"></script>
 <script type="text/javascript" src="JS/list.js"></script>
 
 </html>
