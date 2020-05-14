@@ -1,8 +1,132 @@
+<?php
+
+session_start();
+
+if(!isset($_SESSION['logged_in'])||(isset($_SESSION['logged_in'])&&$_SESSION['usertype']==="customer")) //user not logged in or user logged in is a customer
+{
+    header('location:index.php');
+}
+
+include("dbconnect.php");
+
+$dealerid = $_SESSION['userid']; //getting the dealer id
+$dealername = $_SESSION['username'];
+
+if(isset($_POST["submit"]))
+{
+
+$m_name = mysqli_real_escape_string($conn, $_POST["m_name"]);
+
+$query1 = "Select manufacturerid from manufacturer where mname = '$m_name'";
+$ex1 = mysqli_query($conn, $query1);
+$res1 = mysqli_fetch_assoc($ex1);
+
+$m_id = $res1["manufacturerid"];
+
+$rentamt = mysqli_real_escape_string($conn, $_POST["rentamt"]);
+$licenseplateno = mysqli_real_escape_string($conn, $_POST["licenseplateno"]);
+//prepared statement
+$prepstat = "insert into car(name,cartype,mileage,color,status,fueltype,manufacturedate,licenseplateno,manufacturerid) values (?,'rental',?,?,'available',?,?,?,?)";
+
+if($stmt = mysqli_prepare($conn, $prepstat))
+{
+
+//binding variables
+$name = mysqli_real_escape_string($conn, $_POST["name"]);
+$color = mysqli_real_escape_string($conn, $_POST["color"]);
+$mileage = mysqli_real_escape_string($conn, $_POST["mileage"]);
+$m_date = mysqli_real_escape_string($conn, $_POST["m_date"]);
+$fueltype = mysqli_real_escape_string($conn, $_POST["fueltype"]);
+
+//echo $name." ".$color." ".$mileage." ".$m_date." ".$fueltype." ".$price." ".$m_id;
+
+mysqli_stmt_bind_param($stmt, "sssssss", $name,  $mileage, $color, $fueltype, $m_date,$licenseplateno, $m_id);
+
+    if(mysqli_stmt_execute($stmt))
+    {
+        //echo "Inserted successfully into cars table";
+
+        $query2 = "Select carid from car where name = '$name' order by uploadedtime desc limit 1";
+        $ex2 = mysqli_query($conn, $query2);
+        $res2 = mysqli_fetch_assoc($ex2);
+
+        $car_id = $res2["carid"];
+
+
+        $ownsquery = "insert into owns values ($car_id,$dealerid)";
+
+        if(mysqli_query($conn, $ownsquery))
+        {
+
+          $priceinsertquery = "insert into rentalcar(rentalcarid,rentamount) values ($car_id,$rentamt)";
+        
+        
+            if(mysqli_query($conn, $priceinsertquery))
+            {
+            //echo "Inserted successfully into newcar table!";
+            
+            $f1 = mysqli_real_escape_string($conn, $_POST["f1"]);
+            $f2 = mysqli_real_escape_string($conn, $_POST["f2"]);
+            $f3 = mysqli_real_escape_string($conn, $_POST["f3"]);
+            $f4 = mysqli_real_escape_string($conn, $_POST["f4"]);
+
+            $featuresarr = array($f1,$f2,$f3,$f4);
+
+            $i = 0;
+
+            while($i<4)
+            {
+
+              $featurequery = "insert into features values ($car_id,'$featuresarr[$i]')";
+        
+                if(!mysqli_query($conn, $featurequery))
+                {
+                  echo "Error while inserting feature into table!";
+                }
+   
+
+                $i++;
+            }
+
+            $_SESSION['newcaradded'] = true;
+            header("location:dealer_index.php");
+            }
+
+            else
+            {
+            echo "Some error occurred while inserting data!" . mysqli_error($conn);
+            }
+
+        }
+
+        else
+        {
+            echo "Some error occurred while inserting data in owns table!";
+        }
+        
+    }
+    else
+    {
+        echo "Error: Could not execute the query: " . mysqli_error($conn);
+    }
+
+}
+
+}
+
+
+
+
+
+
+
+
+?>
 
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Rental</title>
+  <title>Add Rental Car - Rustom</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <style>
@@ -183,130 +307,65 @@
       }
     </style>
   </head>
+ 
+
   <body>
     <div class="testbox">
-      <form action="/">
+      <form action="" method="POST">
         <div class="banner">
           <h1>Rental Car Form</h1>
         </div>
         <div class="item">
           <b>Car Details:</b>
           <div class="name-item">
-            <input type="text" name="name" placeholder="Car Name (along with manufacturer name | eg - Ford EcoSport)" required/>
-            <input type="text" name="name" placeholder="Manufacturer Name"  required/>
+            <input type="text" name="name" placeholder="Car Name (along with manufacturer name | eg - Ford EcoSport)" required>
+            <input type="text" name="m_name" placeholder="Manufacturer Name"  required/>
           </div>
           <div class="name-item">
-            <input type="text" name="name" placeholder="Color"  required/>
-            <input type="number" name="name" placeholder="Mileage" step="0.1" min="0"  required/>
+            <input type="text" name="color" placeholder="Color"  required/>
+            <input type="number" name="mileage" placeholder="Mileage" step="0.1" min="0"  required>
           </div>
         </div>
-        <!--
-          <div class="question">
-          <p>Vehicle Type:</p>
-          <div class="question-answer">
-            <div>
-              <input type="radio" value="none" id="radio_1" name="vehicle" />
-              <label for="radio_1" class="radio"><span>Limousine (8-12 person)</span></label>
-            </div>
-            <div>
-              <input type="radio" value="none" id="radio_2" name="vehicle" />
-              <label for="radio_2" class="radio"><span>SUV (6-7 person)</span></label>
-            </div>
-            <div>
-              <input type="radio" value="none" id="radio_3" name="vehicle" />
-              <label for="radio_3" class="radio"><span>Sedan(4-5person)</span></label>
-            </div>
-            <div>
-              <input type="radio" value="none" id="radio_4" name="vehicle" />
-              <label for="radio_4" class="radio"><span>HatchBack (4-5 person)</span></label>
-            </div>
-            <div>
-              <input type="radio" value="none" id="radio_4" name="vehicle" />
-              <label for="radio_5" class="radio"><span>Coupe (1-2 person)</span></label>
-            </div>
-            <div>
-              <input type="radio" value="none" id="radio_5" name="vehicle" />
-              <label for="radio_6" class="radio other"><span>Other</span></label>
-              <input class="other" type="text" name="name" />
-            </div>
-          </div>
-        </div>
-
-      -->
 
       <div class="item">
         Manufacture Date
-        <input type="date" name="m_date" required/>
+        <input type="date" name="m_date" required>
+      </div>
+
+      <div class="item">
+        <input type="text" name="licenseplateno" placeholder="License Plate no" required>
       </div>
 
         <div class="item">
-        	<select>
-              <option value="">Fuel Type</option>
-              <option value="1">Petrol</option>
-              <option value="2">Diesel</option>
+          Fuel Type
+        	<select name="fueltype" required>
+              <option value="petrol" selected>Petrol</option>
+              <option value="diesel">Diesel</option>
             </select>
 		</div>
+		
 		<div class="item">
-          <input type="number" name="name" placeholder="Rent amount per hour (in numbers only)" min="0"  required>
-        </div>
-
-        <!--
-          <div class="item">
-          <p>Dealer Name</p>
-          <div class="name-item">
-            <input type="text" name="name" placeholder="First" />
-            <input type="text" name="name" placeholder="Last" />
-          </div>
-        </div>
-        <div class="item">
-          <p>Dealer Email</p>
-          <input type="email" name="name"/>
-        </div>
-        <div class="item">
-          <p>Dealer Phone</p>
-          <input type="tel" name="phone" pattern="[0-9]{10}"/>
-        </div>
-        <div class="item">
-          <p>Dealer Website</p>
-          <input type="url" name="name"/>
-        </div>
-        <div class="item">
-          <p>Manufacturer Name</p>
-          <div class="name-item">
-            <input type="text" name="name"/>
-            
-          </div>
-        </div>
-        <div class="item">
-          <p>Manufacturer Email</p>
-          <input type="email" name="name"/>
-        </div>
-        <div class="item">
-          <p>Manufacturer Phone</p>
-          <input type="tel" name="phone" pattern="[0-9]{10}"/>
-        </div>
-        <div class="item">
-          <p>Manufacturer Website</p>
-          <input type="url" name="name"/>
-        </div>
-      -->
-
-      <b>FEATURES (required)</b>
+          <input type="number" name="rentamt" placeholder="Rent Amount per hour (in INR)" min="0"  required>
+        </div>    
+        
+        
+        <b>FEATURES (required)</b>
         <div class="name-item">
-          <input type="text" name="name" placeholder="Car feature 1"  required>
-          <input type="text" name="name" placeholder="Car feature 2" required>
+          <input type="text" name="f1" placeholder="Car feature 1"  required>
+          <input type="text" name="f2" placeholder="Car feature 2" required>
         </div>
 
         <div class="name-item">
-          <input type="text" name="name" placeholder="Car feature 3" required>
-          <input type="text" name="name" placeholder="Car feature 4" required>
+          <input type="text" name="f3" placeholder="Car feature 3" required>
+          <input type="text" name="f4" placeholder="Car feature 4" required>
         </div>
-        
-        
+
         <div class="btn-block">
-          <button type="submit" href="/">SEND</button>
+          <button type="submit" name="submit">SEND</button>
         </div>
       </form>
     </div>
   </body>
+
+
 </html>

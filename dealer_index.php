@@ -2,7 +2,7 @@
 
 session_start();
 
-if(!isset($_SESSION['logged_in'])) //user not logged in
+if(!isset($_SESSION['logged_in'])||(isset($_SESSION['logged_in'])&&$_SESSION['usertype']==="customer")) //user not logged in or user logged in is a customer
 {
     header('location:index.php');
 }
@@ -280,7 +280,9 @@ form.example::after {
 </div>
 
 <a id="active">Home</a>
-<a href="#">Profile</a>
+<a href="dealer_profile.php">Profile</a>
+<a href="#">Cars Sold</a>
+<a href="#">Cars Rented</a>
 <!--<a href="#">My Purchases</a>
 <a href="#">Rented cars</a>-->
 

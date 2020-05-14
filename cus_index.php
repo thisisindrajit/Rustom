@@ -3,7 +3,7 @@
 //this is the session check for this page
 session_start();
 
-if(!isset($_SESSION['logged_in'])) //user not logged in
+if(!isset($_SESSION['logged_in'])||(isset($_SESSION['logged_in'])&&$_SESSION['usertype']==="dealer")) //user not logged in or user logged in is a dealer
 {
     header('location:index.php');
 }
@@ -251,7 +251,7 @@ li
   </svg>
     
   </span>
-  <input type="text" id="query" class="form-control shadow-none" placeholder="Search for Cars..." onkeyup="searchcars(<?php echo $cusid ?>)" onclick="searchcars(<?php echo $cusid ?>)" style="border-color:#C39BD3;border-radius:0;border-left:none">
+  <input type="text" id="query" class="form-control shadow-none" placeholder="Search for cars and car types..." onkeyup="searchcars(<?php echo $cusid ?>)" onclick="searchcars(<?php echo $cusid ?>)" style="border-color:#C39BD3;border-radius:0;border-left:none">
 </div>
 
 

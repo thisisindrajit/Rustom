@@ -2,16 +2,9 @@
 
 session_start();
 
-if(!isset($_SESSION['logged_in'])) //user not logged in
+if(!isset($_SESSION['logged_in'])||(isset($_SESSION['logged_in'])&&$_SESSION['usertype']==="customer")) //user not logged in or user logged in is a customer
 {
     header('location:index.php');
-}
-
-$usertype = $_SESSION['usertype'];
-
-if($usertype!=="dealer") //user is not a dealer
-{ 
-     header('location:index.php');
 }
 
 include("dbconnect.php");
@@ -329,39 +322,6 @@ mysqli_stmt_bind_param($stmt, "ssssss", $name,  $mileage, $color, $fueltype, $m_
             <input type="number" name="mileage" placeholder="Mileage" step="0.1" min="0"  required>
           </div>
         </div>
-        <!--
-          <div class="question">
-          <p>Vehicle Type:</p>
-          <div class="question-answer">
-            <div>
-              <input type="radio" value="none" id="radio_1" name="vehicle" />
-              <label for="radio_1" class="radio"><span>Limousine (8-12 person)</span></label>
-            </div>
-            <div>
-              <input type="radio" value="none" id="radio_2" name="vehicle" />
-              <label for="radio_2" class="radio"><span>SUV (6-7 person)</span></label>
-            </div>
-            <div>
-              <input type="radio" value="none" id="radio_3" name="vehicle" />
-              <label for="radio_3" class="radio"><span>Sedan(4-5person)</span></label>
-            </div>
-            <div>
-              <input type="radio" value="none" id="radio_4" name="vehicle" />
-              <label for="radio_4" class="radio"><span>HatchBack (4-5 person)</span></label>
-            </div>
-            <div>
-              <input type="radio" value="none" id="radio_4" name="vehicle" />
-              <label for="radio_5" class="radio"><span>Coupe (1-2 person)</span></label>
-            </div>
-            <div>
-              <input type="radio" value="none" id="radio_5" name="vehicle" />
-              <label for="radio_6" class="radio other"><span>Other</span></label>
-              <input class="other" type="text" name="name" />
-            </div>
-          </div>
-        </div>
-
-      -->
 
       <div class="item">
         Manufacture Date
@@ -377,50 +337,7 @@ mysqli_stmt_bind_param($stmt, "ssssss", $name,  $mileage, $color, $fueltype, $m_
 		</div>
 		<div class="item">
           <input type="number" name="price" placeholder="On-road price (in numbers only)" min="0"  required>
-        </div>
-
-        <!--
-          <div class="item">
-          <p>Dealer Name</p>
-          <div class="name-item">
-            <input type="text" name="name" placeholder="First" />
-            <input type="text" name="name" placeholder="Last" />
-          </div>
-        </div>
-        <div class="item">
-          <p>Dealer Email</p>
-          <input type="email" name="name"/>
-        </div>
-        <div class="item">
-          <p>Dealer Phone</p>
-          <input type="tel" name="phone" pattern="[0-9]{10}"/>
-        </div>
-        <div class="item">
-          <p>Dealer Website</p>
-          <input type="url" name="name"/>
-        </div>
-        <div class="item">
-          <p>Manufacturer Name</p>
-          <div class="name-item">
-            <input type="text" name="name"/>
-            
-          </div>
-        </div>
-        <div class="item">
-          <p>Manufacturer Email</p>
-          <input type="email" name="name"/>
-        </div>
-        <div class="item">
-          <p>Manufacturer Phone</p>
-          <input type="tel" name="phone" pattern="[0-9]{10}"/>
-        </div>
-        <div class="item">
-          <p>Manufacturer Website</p>
-          <input type="url" name="name"/>
-        </div>
-      -->
-
-        
+        </div>      
         
         
         <b>FEATURES (required)</b>
