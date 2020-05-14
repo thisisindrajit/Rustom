@@ -16,6 +16,14 @@ $dealername = $_SESSION['username'];
 $query1 = "select car.carid,dealerid from car inner join owns where owns.carid=car.carid and dealerid = $dealerid order by uploadedtime desc";
 $result1 = mysqli_query($conn,$query1);
 
+//second query to get whether any cars have been sold out
+$statusquery = "select count(status) as soldoutcount from car inner join owns where owns.carid=car.carid and dealerid = $dealerid and status='sold out'";
+$exec = mysqli_query($conn,$statusquery);
+$res = mysqli_fetch_assoc($exec);
+
+$soldoutcount = $res["soldoutcount"]; //no of cars sold out
+
+
 ?>
 
 <!DOCTYPE html>
@@ -395,7 +403,19 @@ Car has been deleted!
 <?php 
 unset($_SESSION['deletedcar']); //destroying the session variable
 }
+
+if($soldoutcount>0)
+{
 ?>
+
+<div class="alert alert-primary alert-dismissible fade show" role="alert">
+Hooray! You have sold <?php echo $soldoutcount ?> cars so far!
+<!--<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="padding:0;transform: rotate(0deg);height:0px;margin-right:5px">
+<span aria-hidden="true">&times;</span>
+</button>-->
+</div>
+
+<?php } ?>
 
 <h3 id="explore" style="font-weight:lighter;padding:20px 0;border-bottom:1px solid #C39BD3;border-width:90%">My Cars</h3>
 

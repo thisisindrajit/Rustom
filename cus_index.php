@@ -238,6 +238,7 @@ li
 
 <div class="container" style="width:80%;margin:auto;margin-top:135px">
 <h2 id="carname" class="display-4 text-center"><?php echo "Welcome ".$cusname."!" ?></h2>
+
 </div>
 
 
@@ -262,6 +263,18 @@ li
 </div>
 
 <div class="container-fluid py-3" style="width:80%">
+
+<?php if(isset($_SESSION['boughtnewcar'])&&$_SESSION['boughtnewcar']===true)
+{
+?>
+
+<div class="alert alert-primary" role="alert">
+  Hooray! You just bought a new car!
+</div>
+
+<?php 
+unset($_SESSION['boughtnewcar']);
+} ?>
 
 <h3 id="explore" style="font-weight:lighter">Explore</h3>
 

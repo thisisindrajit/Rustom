@@ -15,7 +15,7 @@ $usertype =  $_SESSION['usertype'];
 
 //first query to select all car and its dealer details
 $query1 = "select Name,Dname,Mname,manufacturer.phoneno as mph,manufacturer.location as mloc,manufacturer.email as memail,manufacturer.website as mweb,dealer.phoneno as dph,d_email,
-dealer.website as dweb,mileage,color,status,fueltype,licenseplateno,resaleprice,kmdriven from car inner join preownedcar inner join manufacturer inner join owns inner join dealer where car.manufacturerid=manufacturer.manufacturerid and 
+dealer.website as dweb,mileage,color,status,fueltype,licenseplateno,resaleprice,kmdriven,customerid,paymentstatus from car inner join preownedcar inner join manufacturer inner join owns inner join dealer where car.manufacturerid=manufacturer.manufacturerid and 
 owns.carid=car.carid and owns.dealerid=dealer.dealerid and car.carid=preownedcar.preownedcarid and car.carid=$carid";
 
 $result1 = mysqli_query($conn,$query1);
@@ -321,8 +321,28 @@ $result3 = mysqli_query($conn,$query3);
 
     <p class="card-text"><b>Kilometers driven - </b><?php echo $firstquery["kmdriven"]?></p>
     <p class="card-text"><b>Resale Price - </b><?php echo "Rs ".$firstquery["resaleprice"]?></p>
-    <button type="button" class="btn btn-primary">Buy this car</button>
-    <button type="button" class="btn btn-outline-info">Add to wishlist</button>
+
+<?php
+
+if($firstquery["customerid"]===NULL&&$firstquery["paymentstatus"]===NULL) //no user has bought the car yet
+{
+?>
+
+<button type="button" class="btn btn-primary" onclick="buycar(<?php echo $carid.',\'resale\'' ?>)">Buy this car</button>
+<button type="button" class="btn btn-outline-info">Add to wishlist</button>
+
+<?php
+}
+else
+{
+?>
+
+<div class="alert alert-danger" role="alert" style="margin-bottom:0">
+Sorry but this car is sold out!
+</div>
+
+
+<?php } ?>
 
   </div>
   </div>
@@ -494,6 +514,10 @@ function closeimage()
   }
 }
 
+function buycar(carid,cartype)
+{
+  window.location.href="buycar.php?carid="+carid+"&cartype="+cartype;
+}
 
 </script>
 <script type="text/javascript" src="JS/list.js"></script>
