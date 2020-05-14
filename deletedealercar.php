@@ -6,6 +6,16 @@ include("dbconnect.php");
 $carid = $_REQUEST["carid"];
 $cartype = $_REQUEST["cartype"];
 $dealerid = $_SESSION['userid'];
+$status = $_REQUEST['status'];
+
+if($status==="sold out")
+{
+    $_SESSION["deletesoldoutcar"]=true;
+    header("location: dealer_index.php");
+}
+
+else
+{
 
 $query2 = "delete from features where carid = $carid";
 
@@ -68,9 +78,7 @@ else
     header("Location:dealer_index.php");
 }
 
-
-
-
+}
 
 
 ?>

@@ -269,7 +269,7 @@ li
 ?>
 
 <div class="alert alert-primary" role="alert">
-  Hooray! You just bought a new car!
+  Hooray! You just bought a new car! Go to <a href="cus_purchased.php">My Purchases</a>!
 </div>
 
 <?php 

@@ -377,6 +377,18 @@ form.example::after {
 
 <?php 
 
+if(isset($_SESSION['deletesoldoutcar'])&&$_SESSION['deletesoldoutcar']===true)
+{
+?>
+
+<div class="alert alert-danger" role="alert">
+<b>Sorry! You can't delete a sold out car!</b>
+</div>
+
+<?php
+unset($_SESSION['deletesoldoutcar']);
+}
+
 if(isset($_SESSION['newcaradded'])&&$_SESSION['newcaradded']===true)
 {
 
@@ -497,7 +509,7 @@ if($soldoutcount>0)
                                 <a href="#">Edit</a> 
                             </li> -->
                             <li> 
-                                <a href="<?php echo "deletedealercar.php?carid=".$cardet["carid"]."&cartype=".$cardet["cartype"] ?>">Delete</a> 
+                                <a href="<?php echo "deletedealercar.php?carid=".$cardet["carid"]."&cartype=".$cardet["cartype"]."&status=".$cardet["status"] ?>">Delete</a> 
                             </li> 
                         </ul> 
                 </div> 
