@@ -238,8 +238,8 @@ li
 
 <?php 
 
-$purchasedcarsquery = "select car.carid as carid,name,DATE_FORMAT(paymentdate,'%d %M %Y') as paymentdate,images from car inner join newcar inner join images where customerid = $cusid
-and paymentstatus = 'verified' and car.carid = newcarid and images =(select images from images where carid=car.carid limit 1);";
+$purchasedcarsquery = "select car.carid as carid,name,DATE_FORMAT(paymentdate,'%d %M %Y') as paymentdate from car inner join newcar where customerid = $cusid
+and paymentstatus = 'verified' and car.carid = newcarid";
 $ex = mysqli_query($conn,$purchasedcarsquery);
 
 if(mysqli_num_rows($ex)===0)
@@ -259,8 +259,6 @@ while($row=mysqli_fetch_assoc($ex))
 <div class="col-sm-3">
     
 <div class="card">
-
-<img src="<?php echo $row["images"] ?>" class="card-img-top" alt="Car image">
 <div class="card-body">
 <h5 class="card-title"><?php echo $row["name"] ?></h5>
 <h6 class="card-subtitle mb-2">Purchased on <?php echo $row["paymentdate"]?></h6>
@@ -283,8 +281,8 @@ while($row=mysqli_fetch_assoc($ex))
 
 
 <?php
-$purchasedresalecarsquery = "select car.carid as carid,name,DATE_FORMAT(paymentdate,'%d %M %Y') as paymentdate,images from car inner join preownedcar inner join images where customerid = $cusid
-and paymentstatus = 'verified' and car.carid = preownedcarid and images =(select images from images where carid=car.carid limit 1);";
+$purchasedresalecarsquery = "select car.carid as carid,name,DATE_FORMAT(paymentdate,'%d %M %Y') as paymentdate from car inner join preownedcar 
+where customerid = $cusid and paymentstatus = 'verified' and car.carid = preownedcarid";
 $ex2 = mysqli_query($conn,$purchasedresalecarsquery);
 
 if(mysqli_num_rows($ex2)===0)
@@ -305,8 +303,6 @@ while($row=mysqli_fetch_assoc($ex2))
 <div class="col-sm-3">
     
 <div class="card">
-
-<img src="<?php echo $row["images"] ?>" class="card-img-top" alt="Car image">
 <div class="card-body">
 <h5 class="card-title"><?php echo $row["name"] ?></h5>
 <h6 class="card-subtitle mb-2">Purchased on <?php echo $row["paymentdate"]?></h6>
