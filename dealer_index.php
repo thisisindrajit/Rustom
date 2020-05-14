@@ -409,7 +409,7 @@ if($soldoutcount>0)
 ?>
 
 <div class="alert alert-primary alert-dismissible fade show" role="alert">
-Hooray! You have sold <?php echo $soldoutcount ?> cars so far!
+<b>QUICK INFO : </b>Number of cars you have sold - <?php echo $soldoutcount ?> | <a href="dealer_sold.php">All details here</a>
 <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="padding:0;transform: rotate(0deg);height:0px;margin-right:5px">
 <span aria-hidden="true">&times;</span>
 </button>-->
