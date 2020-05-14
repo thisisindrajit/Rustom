@@ -435,6 +435,19 @@ if($soldoutcount>0)
 
 <div class="container" style="display:flex;flex-direction:column;align-items:center">
   <?php 
+
+  if(mysqli_num_rows($result1)===0)
+  {
+  ?>
+
+<div style="width:100%;margin-top:15px;padding:10px 0;text-align:center;font-size:1.2rem;font-weight:350;color:black">
+No cars have been added yet! Add a car by clicking on the <i>Add entry</i> button!
+  </div>
+
+
+
+  <?php
+  }
   
   
   while($row= mysqli_fetch_assoc($result1))

@@ -24,6 +24,12 @@ if(!mysqli_query($conn, $query2))
     echo "Error occured while deleting features!";
 }
 
+$query5 = "delete from images where carid = $carid";
+
+if(!mysqli_query($conn, $query5))
+{
+    echo "Error occured while deleting images!";
+}
 
 
 
