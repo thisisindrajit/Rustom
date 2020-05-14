@@ -289,10 +289,9 @@ form.example::after {
 
 <a id="active">Home</a>
 <a href="dealer_profile.php">Profile</a>
-<a href="#">Cars Sold</a>
+<a href="dealer_sold.php">Cars Sold</a>
 <a href="#">Cars Rented</a>
-<!--<a href="#">My Purchases</a>
-<a href="#">Rented cars</a>-->
+
 
 </div>
 

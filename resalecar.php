@@ -253,10 +253,24 @@ $result3 = mysqli_query($conn,$query3);
 </svg>
 </div>
 
+<?php if($usertype==="customer")
+{
+?>
 <a href="cus_index.php">Home</a>
 <a href="#">Profile</a>
 <a href="cus_purchased.php">My Purchases</a>
 <a href="#">Rented cars</a>
+
+<?php }
+else{
+?>
+
+<a href="dealer_index.php">Home</a>
+<a href="dealer_profile.php">Profile</a>
+<a href="dealer_sold.php">Cars Sold</a>
+<a href="#">Cars Rented</a>
+
+<?php } ?>
 
 </div>
 

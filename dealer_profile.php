@@ -142,7 +142,7 @@ if ( window.history.replaceState ) {
     
     <a href="dealer_index.php">Home</a>
     <a id="active">Profile</a>
-    <a href="#">Cars Sold</a>
+    <a href="dealer_sold.php">Cars Sold</a>
     <a href="#">Cars Rented</a>
     
     </div>
