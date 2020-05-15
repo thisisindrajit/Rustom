@@ -9,7 +9,7 @@
  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet">
 <!--BOOTSTRAP CDN-->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<head>
+</head>
 <style>
 
 body,html
@@ -31,7 +31,7 @@ body{
 }
 
 .container{    
-    height: 100%;
+    height: auto;
     width: 70%;
     text-align: center;
     display:flex;
@@ -39,11 +39,7 @@ body{
     align-items:center;
     justify-content:center;
     padding:20px 0;
-    z-index: 1;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin: 20px auto;
     background-color: black;
     opacity: 0.8;
     color: white;
@@ -62,7 +58,7 @@ body{
     font-size: 20px;
     font-weight: 600;
     margin:20px auto;
-    padding: 20px;
+    padding: 10px;
     text-align: center;
 }
 
@@ -97,21 +93,24 @@ body{
 <body>
     
 <div class= "container">
-        <h1 class="text">Time to move on!</h1>
-        <h3 class="text">Register yourself as a Rustom member now!</h3>
-        <hr class="text" width="90%" style="background-color:white;border:none;height:2px">
-        <div id="select">
-            <h3>I am a Customer</h3>
-            <h3>I am a Dealer</h3>
-            <img id="customer" onclick="customer()" src="customer.png">
-            <img id="dealer" onclick="dealer()" src="dealer.png">
+        <div id = "register_option">
+            <h1 class="text">Time to move on!</h1>
+            <h3 class="text">Register yourself as a Rustom member now!</h3>
+            <hr class="text" width="90%" style="background-color:white;border:none;height:2px">
+            <div id="select">
+                <h3>I am a Customer</h3>
+                <h3>I am a Dealer</h3>
+                <img id="customer" onclick="customer()" src="customer.png">
+                <img id="dealer" onclick="dealer()" src="dealer.png">
+            </div>
         </div>
         <div id="redirect">
             Already Registered? <a href="login.php">Login here</a>
         </div>
         
         <!--Customer Registration-->
-        <form id="customer_register" action="customer_register.php" method="post">
+        <div id="customer_register">
+        <form action="customer_register.php" method="post">
             <h3>Customer Registration</h3>
             <hr width="90%" style="background-color:white;border:none;height:2px">
             <div class="form-group">
@@ -142,11 +141,13 @@ body{
                 <label for="password">Password</label>
                 <input type="password" class="form-control" name="C_password" placeholder="Password" required>
             </div>
-            <button type="submit" name="customerRegister" class="btn btn-primary">Register</button>
+            <div class="form-group"><button type="submit" name="customerRegister" class="btn btn-primary">Register</button></div>
         </form>
+        </div>
         
         <!--Dealer Registration-->
-        <form id="dealer_register" action="dealer_register.php" method="post">
+        <div id="dealer_register">
+        <form action="dealer_register.php" method="post">
             <h3>Dealer Registration</h3>
             <hr width="90%" style="background-color:white;border:none;height:2px">
             <div class="form-group">
@@ -169,8 +170,9 @@ body{
                 <label for="password">Password</label>
                 <input type="password" class="form-control" name="D_password" placeholder="Password" required>
             </div>
-            <button type="submit" name="dealerRegister" class="btn btn-primary">Register</button>
+            <div class="form-group"><button type="submit" name="dealerRegister" class="btn btn-primary">Register</button></div>
         </form>
+        </div>
 </div>
 </body>
 <script src="JS/register.js"></script>
