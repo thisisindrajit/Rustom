@@ -14,7 +14,7 @@ $userid = $_SESSION['userid'];
 $usertype =  $_SESSION['usertype'];
 
 //first query to select all car and its dealer details
-$query1 = "select Name,Dname,Mname,dealer.phoneno as dph,d_email,
+$query1 = "select Name,Dname,Mname,status,dealer.phoneno as dph,d_email,
 dealer.website as dweb,mileage,color,status,fueltype,licenseplateno,rentamount from car inner join rentalcar inner join manufacturer inner join owns inner join dealer where
 car.manufacturerid=manufacturer.manufacturerid and owns.carid=car.carid and owns.dealerid=dealer.dealerid and car.carid=rentalcar.rentalcarid and car.carid=$carid";   
 
@@ -267,7 +267,7 @@ $(function() {
     changeMonth: true,
     changeYear: true,
     minDate: today,
-    maxDate :'+1m'
+    maxDate :'+3d'
 	}); 
 }); 
 
@@ -357,7 +357,7 @@ function rentcar(carid,event)
 <a href="cus_index.php">Home</a>
 <a href="#">Profile</a>
 <a href="cus_purchased.php">My Purchases</a>
-<a href="#">Rented cars</a>
+<a href="cus_rented.php">Rented cars</a>
 
 <?php }
 else{
@@ -432,13 +432,28 @@ else{
     </p>
 
     <p class="card-text"><b>Rent amount - </b><?php echo "Rs ".$firstquery["rentamount"]. " per hour" ?></p>
+
+    <?php if($firstquery["status"]==="available") {?>//no user has bought the car yet
+
     <button type="button" class="btn btn-primary" onclick="openrent()">Rent this car</button>
     <button type="button" class="btn btn-outline-info">Add to wishlist</button>
+
+    <?php 
+    }
+    else
+    {
+    ?>
+
+    <div class="alert alert-danger" role="alert" style="margin-bottom:0">
+    Sorry but this car is rented!
+    </div>
+
+    <?php } ?>
 
     <div id="rentholder">
       Start date
       <input type="text" id="datepicker" style="padding:0 5px" placeholder="Select start date of rent">
-
+      <div style="color:#76448A">*Note - You can pre-rent a car now and start the rent within any 3 days from today.</div>
       <button type="button" id="rentbutton" class="btn btn-info" style="margin-top:10px" onclick="rentcar(<?php echo $carid.',event' ?>)">Rent now</button>
       </div>
 

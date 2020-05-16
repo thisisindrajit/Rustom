@@ -14,8 +14,8 @@ $userid = $_SESSION['userid'];
 $usertype =  $_SESSION['usertype'];
 
 //first query to select all car and its dealer details
-$query1 = "select Name,Dname,Mname,manufacturer.phoneno as mph,manufacturer.location as mloc,manufacturer.email as memail,manufacturer.website as mweb,dealer.phoneno as dph,d_email,
-dealer.website as dweb,mileage,color,status,fueltype,licenseplateno,resaleprice,kmdriven,customerid,paymentstatus from car inner join preownedcar inner join manufacturer inner join owns inner join dealer where car.manufacturerid=manufacturer.manufacturerid and 
+$query1 = "select Name,Dname,Mname,status,manufacturer.phoneno as mph,manufacturer.location as mloc,manufacturer.email as memail,manufacturer.website as mweb,dealer.phoneno as dph,d_email,
+dealer.website as dweb,mileage,color,status,fueltype,licenseplateno,resaleprice,kmdriven from car inner join preownedcar inner join manufacturer inner join owns inner join dealer where car.manufacturerid=manufacturer.manufacturerid and 
 owns.carid=car.carid and owns.dealerid=dealer.dealerid and car.carid=preownedcar.preownedcarid and car.carid=$carid";
 
 $result1 = mysqli_query($conn,$query1);
@@ -259,7 +259,7 @@ $result3 = mysqli_query($conn,$query3);
 <a href="cus_index.php">Home</a>
 <a href="#">Profile</a>
 <a href="cus_purchased.php">My Purchases</a>
-<a href="#">Rented cars</a>
+<a href="cus_rented.php">Rented cars</a>
 
 <?php }
 else{
@@ -338,7 +338,7 @@ else{
 
 <?php
 
-if($firstquery["customerid"]===NULL&&$firstquery["paymentstatus"]===NULL) //no user has bought the car yet
+if($firstquery["status"]==="available") //no user has bought the car yet
 {
 ?>
 

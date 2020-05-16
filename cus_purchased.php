@@ -199,7 +199,7 @@ li
 <a href="cus_index.php">Home</a>
 <a href="#">Profile</a>
 <a id="active">My Purchases</a>
-<a href="#">Rented cars</a>
+<a href="cus_rented.php">Rented cars</a>
 
 </div>
 
@@ -263,7 +263,7 @@ while($row=mysqli_fetch_assoc($ex))
 <h5 class="card-title"><?php echo $row["name"] ?></h5>
 <h6 class="card-subtitle mb-2">Purchased on <?php echo $row["paymentdate"]?></h6>
 <hr>
-<a href="<?php echo "newcar.php?carid=".$row["carid"]?>" class="card-link">More Details</a>
+<a href="<?php echo "newcar.php?carid=".$row["carid"]?>" class="card-link">Car Details</a>
 </div>
 </div>
 </div>
@@ -307,7 +307,7 @@ while($row=mysqli_fetch_assoc($ex2))
 <h5 class="card-title"><?php echo $row["name"] ?></h5>
 <h6 class="card-subtitle mb-2">Purchased on <?php echo $row["paymentdate"]?></h6>
 <hr>
-<a href="<?php echo "resalecar.php?carid=".$row["carid"]?>" class="card-link">More Details</a>
+<a href="<?php echo "resalecar.php?carid=".$row["carid"]?>" class="card-link">Car Details</a>
 </div>
 </div>
 </div>

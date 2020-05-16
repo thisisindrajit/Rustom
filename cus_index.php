@@ -210,7 +210,7 @@ li
 <a id="active">Home</a>
 <a href="#">Profile</a>
 <a href="cus_purchased.php">My Purchases</a>
-<a href="#">Rented cars</a>
+<a href="cus_rented.php">Rented cars</a>
 
 </div>
 
