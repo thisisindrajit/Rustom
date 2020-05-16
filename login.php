@@ -157,7 +157,7 @@ body{
 @media only screen and (max-width: 800px) {
     .container
     {
-        width: 75%;
+        min-width: 90%;
     }
 }
 @media only screen and (max-width: 1000px) {

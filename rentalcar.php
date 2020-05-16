@@ -205,7 +205,7 @@ $result3 = mysqli_query($conn,$query3);
   display:flex;
   flex-direction:column;
   line-height:2rem;
-  width:50%;
+  width:100%;
 }
 
 
@@ -427,13 +427,13 @@ else{
 
     <p class="card-text"><b>License plate no</b>
     
-    <li class="list-group-item list-group-item-warning" style="width:400px;text-align:center"><?php echo $firstquery["licenseplateno"]?></li>
+    <li class="list-group-item list-group-item-warning" style="text-align:center"><?php echo $firstquery["licenseplateno"]?></li>
 
     </p>
 
     <p class="card-text"><b>Rent amount - </b><?php echo "Rs ".$firstquery["rentamount"]. " per hour" ?></p>
 
-    <?php if($firstquery["status"]==="available") {?>//no user has bought the car yet
+    <?php if($firstquery["status"]==="available") {?> 
 
     <button type="button" class="btn btn-primary" onclick="openrent()">Rent this car</button>
     <button type="button" class="btn btn-outline-info">Add to wishlist</button>
@@ -453,7 +453,7 @@ else{
     <div id="rentholder">
       Start date
       <input type="text" id="datepicker" style="padding:0 5px" placeholder="Select start date of rent">
-      <div style="color:#76448A">*Note - You can pre-rent a car now and start the rent within any 3 days from today.</div>
+      <div style="color:#76448A">Note - You can pre-rent a car now and start the rent within any 3 days from today.</div>
       <button type="button" id="rentbutton" class="btn btn-info" style="margin-top:10px" onclick="rentcar(<?php echo $carid.',event' ?>)">Rent now</button>
       </div>
 

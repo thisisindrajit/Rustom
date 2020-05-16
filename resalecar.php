@@ -329,7 +329,7 @@ else{
     
     <p class="card-text"><b>License plate no</b>
     
-    <li class="list-group-item list-group-item-warning" style="width:400px;text-align:center"><?php echo $firstquery["licenseplateno"]?></li>
+    <li class="list-group-item list-group-item-warning" style="text-align:center"><?php echo $firstquery["licenseplateno"]?></li>
 
     </p>
 
