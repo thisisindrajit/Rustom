@@ -47,6 +47,14 @@ $result3 = mysqli_query($conn,$query3);
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- jQuery UI library -->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
 </head>
 
 <style>
@@ -189,11 +197,16 @@ $result3 = mysqli_query($conn,$query3);
     height:500px;
   }
 
-/*#close
+#rentholder
 {
-  background-color:red;
-  width:fit-content;
-}*/
+  margin-top:15px;
+  height:0;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  line-height:2rem;
+  width:50%;
+}
 
 
 
@@ -243,6 +256,91 @@ $result3 = mysqli_query($conn,$query3);
 }
 
 </style>
+
+<script type="text/javascript">
+
+var today = new Date();
+
+$(function() { 
+	$("#datepicker").datepicker({ 
+    dateFormat: 'dd-mm-yy',
+    changeMonth: true,
+    changeYear: true,
+    minDate: today,
+    maxDate :'+1m'
+	}); 
+}); 
+
+var rentisopen=0;
+
+function openrent()
+{
+  if(rentisopen===0)
+  {
+    $("#rentholder").css("height","fit-content");
+    rentisopen=1;
+  }
+
+  else
+  {
+    $("#rentholder").css("height","0");
+    rentisopen=0;
+  }
+}
+
+function rentcar(carid,event)
+{
+  var xhttp;
+    if (window.XMLHttpRequest) {
+      // code for modern browsers
+      xhttp = new XMLHttpRequest();
+      } else {
+      // code for IE6, IE5
+      xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+
+  //xhttp is the ajax req obj
+
+  xhttp.onreadystatechange = function() {
+    
+    if(this.readyState===4 && this.status===200)
+    {
+    if(this.responseText==="success")
+    {
+      window.location.href="cus_index.php";
+    }
+
+    else if(this.responseText==="rented")
+    {
+      alert("This car has already been rented!");
+    }
+
+    else
+    {
+      alert(this.responseText);
+    }
+    }
+
+  }
+
+  var date = document.getElementById("datepicker").value;
+
+  if(date==="")
+  {
+    alert("Select a start date!");
+  }
+
+  else
+  {
+    var param = "carid="+carid+"&date="+date;
+    xhttp.open("POST","rentcar.php",true);
+    xhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xhttp.send(param);
+  }
+
+}
+
+</script>
 
 <body>
 
@@ -334,8 +432,16 @@ else{
     </p>
 
     <p class="card-text"><b>Rent amount - </b><?php echo "Rs ".$firstquery["rentamount"]. " per hour" ?></p>
-    <button type="button" class="btn btn-primary">Rent this car</button>
+    <button type="button" class="btn btn-primary" onclick="openrent()">Rent this car</button>
     <button type="button" class="btn btn-outline-info">Add to wishlist</button>
+
+    <div id="rentholder">
+      Start date
+      <input type="text" id="datepicker" style="padding:0 5px" placeholder="Select start date of rent">
+
+      <button type="button" id="rentbutton" class="btn btn-info" style="margin-top:10px" onclick="rentcar(<?php echo $carid.',event' ?>)">Rent now</button>
+      </div>
+
 
   </div>
   </div>
@@ -492,7 +598,6 @@ function closeimage()
   $('#close').remove();
   }
 }
-
 
 </script>
 <script type="text/javascript" src="JS/list.js"></script>

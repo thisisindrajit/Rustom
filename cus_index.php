@@ -276,6 +276,18 @@ li
 unset($_SESSION['boughtnewcar']);
 } ?>
 
+<?php if(isset($_SESSION['rentedcar'])&&$_SESSION['rentedcar']===true)
+{
+?>
+
+<div class="alert alert-primary" role="alert">
+  Hooray! You just rented a new car! Go to <a href="cus_rented.php">My Rents</a>!
+</div>
+
+<?php 
+unset($_SESSION['rentedcar']);
+} ?>
+
 <h3 id="explore" style="font-weight:lighter">Explore</h3>
 
 <div class="row">
