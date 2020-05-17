@@ -2,16 +2,15 @@
 
 session_start();
 
-if(!isset($_SESSION['logged_in'])||(isset($_SESSION['logged_in'])&&$_SESSION['usertype']==="customer")) //user not logged in or user logged in is a customer
+if(!isset($_SESSION['logged_in'])||(isset($_SESSION['logged_in'])&&$_SESSION['usertype']==="dealer")) //user not logged in or user logged in is a dealer
 {
     header('location:index.php');
 }
 
 include("dbconnect.php");
 
-$dealerid = $_SESSION['userid']; //getting the dealer id
-$dealername = $_SESSION['username'];
-
+$cusid = $_SESSION['userid']; //getting the customer id
+$cusname = $_SESSION['username'];
 
 ?>
 
@@ -20,7 +19,7 @@ $dealername = $_SESSION['username'];
 
 
 <head>
-  <title><?php echo $dealername."'s " ?> Profile - Rustom</title>
+  <title><?php echo $cusname."'s " ?> Profile - Rustom</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="icon.ico">
@@ -140,10 +139,10 @@ if ( window.history.replaceState ) {
     </svg>
     </div>
     
-    <a href="dealer_index.php">Home</a>
+    <a href="cus_index.php">Home</a>
     <a id="active">Profile</a>
-    <a href="dealer_sold.php">Cars Sold</a>
-    <a href="dealer_rented.php">Cars Rented</a>
+    <a href="cus_purchased.php">My Purchases</a>
+    <a href="cus_rented.php">Rented cars</a>
     
     </div>
     
@@ -198,6 +197,13 @@ if ( window.history.replaceState ) {
                               <input type="text" class="form-control" name="name" id="name" placeholder="Name" title="enter your name">
                           </div>
                       </div>
+
+                      <div class="form-group">
+                          <div class="col-xs-6">
+                             <label for="dob"><h4>Date of Birth</h4></label>
+                              <input type="date" class="form-control" name="dob" id="dob" placeholder="Date of Birth" title="enter your DOB">
+                          </div>
+                      </div>
                     
                       <div class="form-group">
                           
@@ -209,10 +215,19 @@ if ( window.history.replaceState ) {
           
                       <div class="form-group">
                           <div class="col-xs-6">
-                             <label for="website"><h4>Website</h4></label>
-                              <input type="text" class="form-control" name="website" id="website" placeholder="Website" title="enter your website if any">
+                             <label for="add"><h4>Address</h4></label>
+                              <input type="text" class="form-control" name="add" id="add" placeholder="Address" title="enter your address">
                           </div>
                       </div>
+
+                      <div class="form-group">
+                          
+                          <div class="col-xs-6">
+                              <label for="dlno"><h4>Driving License Number</h4></label>
+                              <input type="text" class="form-control" name="dlno" id="dlno" placeholder="Driving License Number" title="enter your driving license number">
+                          </div>
+                      </div>
+
                       <div class="form-group">
                           
                           <div class="col-xs-6">

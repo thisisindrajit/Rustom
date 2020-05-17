@@ -1,23 +1,23 @@
 <?php
 
-//this is the session check for this page
 session_start();
 
-if(!isset($_SESSION['logged_in'])||(isset($_SESSION['logged_in'])&&$_SESSION['usertype']==="dealer")) //user not logged in or user logged in is a dealer
+if(!isset($_SESSION['logged_in'])||(isset($_SESSION['logged_in'])&&$_SESSION['usertype']==="customer")) //user not logged in or user logged in is a customer
 {
     header('location:index.php');
 }
 
 include("dbconnect.php");
 
-$cusid = $_SESSION['userid']; //getting the customer id
-$cusname = $_SESSION['username'];
+$dealerid = $_SESSION['userid']; //getting the dealer id
+$dealername = $_SESSION['username'];
+
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?php echo $cusname."'s " ?> Purchases - Rustom</title>
+    <title><?php echo $dealername."'s " ?> rented cars - Rustom</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <link rel="icon" href="icon.ico">
@@ -187,6 +187,49 @@ li
 
 </style>
 
+<script>
+
+function endrent(carid,customerid,startdate)
+{
+  var xhttp;
+    if (window.XMLHttpRequest) {
+      // code for modern browsers
+      xhttp = new XMLHttpRequest();
+      } else {
+      // code for IE6, IE5
+      xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+
+  //xhttp is the ajax req obj
+
+  xhttp.onreadystatechange = function() {
+    
+    if(this.readyState===4 && this.status===200)
+    {
+    if(this.responseText==="success")
+    {
+      location.reload();
+    }
+
+    else
+    {
+      alert(this.responseText);
+    }
+
+    }
+
+  }
+
+    var param = "carid="+carid+"&customerid="+customerid+"&startdate="+startdate+"&type=end";
+    xhttp.open("POST","rentcar.php",true);
+    xhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xhttp.send(param);
+
+}
+
+
+</script>
+
 <body>
 
 <div id="list">
@@ -196,10 +239,10 @@ li
 </svg>
 </div>
 
-<a href="cus_index.php">Home</a>
-<a href="cus_profile.php">Profile</a>
-<a id="active">My Purchases</a>
-<a href="cus_rented.php">Rented cars</a>
+<a href="dealer_index.php">Home</a>
+<a href="dealer_profile.php">Profile</a>
+<a href="dealer_sold.php">Cars Sold</a>
+<a id="active">Cars Rented</a>
 
 </div>
 
@@ -226,27 +269,42 @@ li
 </div>
 
 <div class="container" style="width:80%;margin:auto;margin-top:135px">
-<h2 id="carname" class="display-4 text-center">Purchased Cars</h2>
+<h2 id="carname" class="display-4 text-center">Cars you have rented</h2>
 
 </div>
 
 <div class="container-fluid py-3" style="width:80%">
 
-<h3 id="explore" style="font-weight:lighter">New Cars</h3>
+
+<?php if(isset($_SESSION['finishedrent'])&&$_SESSION['finishedrent']===true)
+{
+?>
+
+<div class="alert alert-info" role="alert">
+  Ended rent for rental car!
+</div>
+
+<?php 
+unset($_SESSION['finishedrent']);
+} ?>
+
+<h3 id="explore" style="font-weight:lighter">Ongoing</h3>
 
 <div class="row">
 
 <?php 
 
-$purchasedcarsquery = "select car.carid as carid,name,DATE_FORMAT(paymentdate,'%d %M %Y') as paymentdate from car inner join newcar where customerid = $cusid
-and paymentstatus = 'verified' and car.carid = newcarid";
-$ex = mysqli_query($conn,$purchasedcarsquery);
+$rentedcarsquery1 = "
+select rentalcarid,rent.customerid,customername,name,DATE_FORMAT(rentdate,'%d %M %Y') as rentdate,DATE_FORMAT(startdate,'%d %M %Y') as startdate,startdate as orgstartdate 
+from rent inner join owns inner join customer inner join car where rentalcarid=car.carid and rent.customerid=customer.customerid and 
+rentalcarid=owns.carid and enddate is null and owns.dealerid=$dealerid";
+$ex = mysqli_query($conn,$rentedcarsquery1);
 
 if(mysqli_num_rows($ex)===0)
 {
 ?>
 
-<div style="width:100%;border:1px solid #C39BD3;margin-top:15px;padding:10px 0;text-align:center;font-size:1.2rem;font-weight:lighter;color:black">No new cars bought yet! <a href="cus_index.php">Explore</a> now!</div>
+<div style="width:100%;border:1px solid #C39BD3;margin-top:15px;padding:10px 0;text-align:center;font-size:1.2rem;font-weight:lighter;color:black">No ongoing rents!</div>
 
 <?php
 }
@@ -258,13 +316,37 @@ while($row=mysqli_fetch_assoc($ex))
 
 <div class="col-sm-3">
     
-<div class="card">
+<div class="card" style="overflow:hidden">
 <div class="card-body">
 <h5 class="card-title"><?php echo $row["name"] ?></h5>
-<h6 class="card-subtitle mb-2">Purchased on <?php echo $row["paymentdate"]?></h6>
+<h6 class="card-subtitle mb-2">Rented on <?php echo $row["rentdate"]." by ".$row["customername"]?></h6>
 <hr>
-<a href="<?php echo "newcar.php?carid=".$row["carid"]?>" class="card-link">Car Details</a>
+<h6 class="card-subtitle mb-2" style="color:black">Start date - <?php echo $row["startdate"]?></h6>
+<a href="<?php echo "rentalcar.php?carid=".$row["rentalcarid"]?>" class="card-link">Car Details</a>
 </div>
+
+<?php
+
+$today = date("Y-m-d");
+
+$dateTimestamp1 = strtotime($row["startdate"]); 
+$dateTimestamp2 = strtotime($today);
+
+if($dateTimestamp1<=$dateTimestamp2) //start date is greater than today
+{
+  
+?>
+
+<button type="button" class="btn btn-danger" style="border-radius:0" onclick="endrent(<?php echo $row['rentalcarid'].','.$row['customerid'].',\''.$row['orgstartdate'].'\'' ?>)">End Rent</button>
+
+<?php } 
+
+else
+{?>
+
+<button type="button" class="btn btn-light" style="border-radius:0" onclick="alert('You can end the rent of a car only once it has started!')">End Rent</button>
+
+<?php } ?>
 </div>
 </div>
 
@@ -275,22 +357,26 @@ while($row=mysqli_fetch_assoc($ex))
 
 </div>
 
-<h3 id="explore" style="font-weight:lighter;margin-top:50px">Resale Cars</h3>
+<h3 id="explore" style="font-weight:lighter;margin-top:50px">Finished</h3>
 
 <div class="row">
 
 
 <?php
-$purchasedresalecarsquery = "select car.carid as carid,name,DATE_FORMAT(paymentdate,'%d %M %Y') as paymentdate from car inner join preownedcar 
-where customerid = $cusid and paymentstatus = 'verified' and car.carid = preownedcarid";
-$ex2 = mysqli_query($conn,$purchasedresalecarsquery);
+$rentedcarsquery2 = "
+select rentalcarid,customername,name,DATE_FORMAT(rentdate,'%d %M %Y') as rentdate,DATE_FORMAT(startdate,'%d %M %Y') as startdate,DATE_FORMAT(enddate,'%d %M %Y') as enddate 
+from rent inner join owns inner join customer
+ inner join car where rentalcarid=car.carid and rent.customerid=customer.customerid and 
+ rentalcarid=owns.carid and enddate is not null and owns.dealerid=$dealerid";
+
+$ex2 = mysqli_query($conn,$rentedcarsquery2);
 
 if(mysqli_num_rows($ex2)===0)
 {
 ?>
 
 
-<div style="width:100%;border:1px solid #C39BD3;margin-top:15px;padding:10px 0;text-align:center;font-size:1.2rem;font-weight:300;color:black">No resale cars bought yet! <a href="cus_index.php">Explore</a> now!</div>
+<div style="width:100%;border:1px solid #C39BD3;margin-top:15px;padding:10px 0;text-align:center;font-size:1.2rem;font-weight:300;color:black">No finished rents!</div>
 
 <?php    
 }
@@ -305,9 +391,11 @@ while($row=mysqli_fetch_assoc($ex2))
 <div class="card">
 <div class="card-body">
 <h5 class="card-title"><?php echo $row["name"] ?></h5>
-<h6 class="card-subtitle mb-2">Purchased on <?php echo $row["paymentdate"]?></h6>
+<h6 class="card-subtitle mb-2">Rented on <?php echo $row["rentdate"]." by ".$row["customername"]?></h6>
 <hr>
-<a href="<?php echo "resalecar.php?carid=".$row["carid"]?>" class="card-link">Car Details</a>
+<h6 class="card-subtitle mb-2" style="color:black">Started on <?php echo $row["startdate"]?></h6>
+<h6 class="card-subtitle mb-2" style="color:black">Ended on <?php echo $row["enddate"]?></h6>
+<a href="<?php echo "rentalcar.php?carid=".$row["rentalcarid"]?>" class="card-link">Car Details</a>
 </div>
 </div>
 </div>

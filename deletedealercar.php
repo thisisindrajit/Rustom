@@ -6,6 +6,16 @@ include("dbconnect.php");
 $carid = $_REQUEST["carid"];
 $cartype = $_REQUEST["cartype"];
 $dealerid = $_SESSION['userid'];
+$status = $_REQUEST['status'];
+
+if($status==="sold out")
+{
+    $_SESSION["deletesoldoutcar"]=true;
+    header("location: dealer_index.php");
+}
+
+else
+{
 
 $query2 = "delete from features where carid = $carid";
 
@@ -14,6 +24,12 @@ if(!mysqli_query($conn, $query2))
     echo "Error occured while deleting features!";
 }
 
+$query5 = "delete from images where carid = $carid";
+
+if(!mysqli_query($conn, $query5))
+{
+    echo "Error occured while deleting images!";
+}
 
 
 
@@ -68,9 +84,7 @@ else
     header("Location:dealer_index.php");
 }
 
-
-
-
+}
 
 
 ?>

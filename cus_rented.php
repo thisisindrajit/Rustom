@@ -17,7 +17,7 @@ $cusname = $_SESSION['username'];
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?php echo $cusname."'s " ?> Dashboard - Rustom</title>
+    <title><?php echo $cusname."'s " ?> Rents - Rustom</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <link rel="icon" href="icon.ico">
@@ -29,17 +29,6 @@ $cusname = $_SESSION['username'];
 </head>
 
 <style>
-
-.searchbox
-{
-    display:block;
-    width:80%;
-    margin-top:50px;
-    /*height:0;*/
-    transform: scaleY(0);  
-    transform-origin: top;
-    transition:transform 0.15s linear;
-}
 
 .card{
     margin-bottom:10px;
@@ -198,7 +187,7 @@ li
 
 </style>
 
-<body onload="getcardetails(<?php echo $cusid ?>)">
+<body>
 
 <div id="list">
 <div id="closelist" onclick="openlist()">
@@ -207,10 +196,10 @@ li
 </svg>
 </div>
 
-<a id="active">Home</a>
+<a href="cus_index.php">Home</a>
 <a href="cus_profile.php">Profile</a>
 <a href="cus_purchased.php">My Purchases</a>
-<a href="cus_rented.php">Rented cars</a>
+<a id="active">Rented cars</a>
 
 </div>
 
@@ -237,66 +226,105 @@ li
 </div>
 
 <div class="container" style="width:80%;margin:auto;margin-top:135px">
-<h2 id="carname" class="display-4 text-center"><?php echo "Welcome ".$cusname."!" ?></h2>
-
-</div>
-
-
-<div class="input-group mb-3" style="width:80%;margin:auto;margin-top:65px">
-
-<span class="input-group-text" id="basic-addon1" style="position:relative;margin-right:0;background-color:#C39BD3;border:none;border-radius:0">
-  
-  <svg class="bi bi-search" width="1em" height="1em" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 011.415 0l3.85 3.85a1 1 0 01-1.414 1.415l-3.85-3.85a1 1 0 010-1.415z" clip-rule="evenodd"/>
-  <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM13 6.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" clip-rule="evenodd"/>
-  </svg>
-    
-  </span>
-  <input type="text" id="query" class="form-control shadow-none" placeholder="Search for cars and car types..." onkeyup="searchcars()" onclick="searchcars()" style="border-color:#C39BD3;border-radius:0;border-left:none">
-</div>
-
-
-<div class="searchbox container-fluid py-3">
-
-</div>
+<h2 id="carname" class="display-4 text-center">Rented Cars</h2>
 
 </div>
 
 <div class="container-fluid py-3" style="width:80%">
 
-<?php if(isset($_SESSION['boughtnewcar'])&&$_SESSION['boughtnewcar']===true)
-{
-?>
-
-<div class="alert alert-primary" role="alert">
-  Hooray! You just bought a new car! Go to <a href="cus_purchased.php">My Purchases</a>!
-</div>
-
-<?php 
-unset($_SESSION['boughtnewcar']);
-} ?>
-
-<?php if(isset($_SESSION['rentedcar'])&&$_SESSION['rentedcar']===true)
-{
-?>
-
-<div class="alert alert-primary" role="alert">
-  Hooray! You just rented a new car! Go to <a href="cus_rented.php">My Rents</a>!
-</div>
-
-<?php 
-unset($_SESSION['rentedcar']);
-} ?>
-
-<h3 id="explore" style="font-weight:lighter">Explore</h3>
+<h3 id="explore" style="font-weight:lighter">Ongoing</h3>
 
 <div class="row">
 
+<?php 
+
+$rentedcarsquery1 = "select rentalcarid,name,DATE_FORMAT(rentdate,'%d %M %Y') as rentdate,DATE_FORMAT(startdate,'%d %M %Y') as startdate from rent inner join car inner 
+join customer where rentalcarid=carid and customer.customerid=rent.customerid and enddate is null and rent.customerid=$cusid";
+$ex = mysqli_query($conn,$rentedcarsquery1);
+
+if(mysqli_num_rows($ex)===0)
+{
+?>
+
+<div style="width:100%;border:1px solid #C39BD3;margin-top:15px;padding:10px 0;text-align:center;font-size:1.2rem;font-weight:lighter;color:black">No ongoing rents!</div>
+
+<?php
+}
+
+while($row=mysqli_fetch_assoc($ex))
+{
+
+?>
+
+<div class="col-sm-3">
+    
+<div class="card">
+<div class="card-body">
+<h5 class="card-title"><?php echo $row["name"] ?></h5>
+<h6 class="card-subtitle mb-2">Rented on <?php echo $row["rentdate"]?></h6>
+<hr>
+<h6 class="card-subtitle mb-2" style="color:black">Start date - <?php echo $row["startdate"]?></h6>
+<a href="<?php echo "rentalcar.php?carid=".$row["rentalcarid"]?>" class="card-link">Car Details</a>
 </div>
+</div>
+</div>
+
+<?php 
+
+}
+?>
+
+</div>
+
+<h3 id="explore" style="font-weight:lighter;margin-top:50px">Finished</h3>
+
+<div class="row">
+
+
+<?php
+$rentedcarsquery2 = "select rentalcarid,name,DATE_FORMAT(rentdate,'%d %M %Y') as rentdate,DATE_FORMAT(startdate,'%d %M %Y') as startdate,
+DATE_FORMAT(enddate,'%d %M %Y') as enddate from rent inner join car inner 
+join customer where rentalcarid=carid and customer.customerid=rent.customerid and enddate is not null and rent.customerid=$cusid";
+$ex2 = mysqli_query($conn,$rentedcarsquery2);
+
+if(mysqli_num_rows($ex2)===0)
+{
+?>
+
+
+<div style="width:100%;border:1px solid #C39BD3;margin-top:15px;padding:10px 0;text-align:center;font-size:1.2rem;font-weight:300;color:black">No finished rents!</div>
+
+<?php    
+}
+
+while($row=mysqli_fetch_assoc($ex2))
+{
+
+?>
+
+<div class="col-sm-3">
+    
+<div class="card">
+<div class="card-body">
+<h5 class="card-title"><?php echo $row["name"] ?></h5>
+<h6 class="card-subtitle mb-2">Rented on <?php echo $row["rentdate"]?></h6>
+<hr>
+<h6 class="card-subtitle mb-2" style="color:black">Started on <?php echo $row["startdate"]?></h6>
+<h6 class="card-subtitle mb-2" style="color:black">Ended on <?php echo $row["enddate"]?></h6>
+<a href="<?php echo "rentalcar.php?carid=".$row["rentalcarid"]?>" class="card-link">Car Details</a>
+</div>
+</div>
+</div>
+
+<?php } ?>
+
+</div>
+
+
+
 
 </body>
 
-<script type="text/javascript" src="JS/home.js"></script>
 <script type="text/javascript" src="JS/list.js"></script>
 
 </html>

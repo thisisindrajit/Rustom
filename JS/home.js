@@ -22,15 +22,28 @@ function getcardetails(cusid)
             document.getElementsByClassName("row")[0].innerHTML='';   
             result = JSON.parse(this.responseText);
 
+            var statuscolor;
+
             for(x=0;x<result.length;x++)
             {
+
+                if(result[x].status==="rented"||result[x].status==="sold out")
+                {
+                    statuscolor="#E74C3C";
+                }
+
+                else
+                {
+                    statuscolor="#2ECC71";
+                }
+
                 var card = "<div class='col-sm-3'>"+
       
                 "<div class='card'>"+
                 "<img src='"+result[x].images+"' class='card-img-top' alt='Car image'>"+
                 "<div class='card-body'>"+
                 "<h5 class='card-title'>"+result[x].name+"</h5>"+
-                "<h6 class='card-subtitle mb-2'>"+result[x].status+" | TYPE : "+result[x].cartype+"</h6>";
+                "<h6 class='card-subtitle mb-2'><span style='color:"+statuscolor+"'>"+result[x].status+"</span> | TYPE : "+result[x].cartype+"</h6>";
 
                 for(i=0;i<result[x].features.length;i++)
                 {
@@ -56,7 +69,7 @@ function getcardetails(cusid)
     cardetails.send();
 }
 
-function searchcars(cusid)
+function searchcars()
 {
     var searchbox=document.getElementsByClassName("searchbox")[0];
     var query=document.getElementById("query").value;
@@ -80,7 +93,7 @@ function searchcars(cusid)
             }
         };
 
-        var param='query='+query+'&cusid='+cusid;
+        var param='query='+query;
 
         searchresults.open("POST","searchresults.php",true);
         searchresults.setRequestHeader("Content-type","application/x-www-form-urlencoded");

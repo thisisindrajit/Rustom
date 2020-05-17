@@ -32,7 +32,7 @@ body{
 
 .container{    
     height: auto;
-    width: 70%;
+    width: 80%;
     text-align: center;
     display:flex;
     flex-direction:column;
@@ -88,6 +88,38 @@ body{
 #dealer_register{
     width: 75%;
     display:none;
+}
+
+@media only screen and (max-width:768px)
+{
+    .container{    
+    height: 100%;
+    min-width: 100%;
+    }
+
+    #select
+    {
+        grid-column-gap:25px;
+    }
+
+    #select h3
+    {
+        font-size:20px;
+    }
+
+    .text
+    {
+        font-size:28px;
+        width:90%;
+    }
+
+    #customer,#dealer
+    {
+        width:125px;
+        height:125px;
+    }
+
+
 }
 </style>
 <body>

@@ -106,7 +106,7 @@ body{
 {
     border-radius:5px;
     height: fit-content;
-    width: 25%;
+    width: 35%;
     z-index:1;
     top: 50%;
     left:50%;
@@ -157,19 +157,14 @@ body{
 @media only screen and (max-width: 800px) {
     .container
     {
-        width: 75%;
+        min-width: 90%;
     }
 }
-@media only screen and (max-width: 1000px) {
-    .container
-    {
-        width: 50%;
-    }
-}
+
 @media only screen and (max-width: 1200px) {
     .container
     {
-        width: 40%;
+        width: 50%;
     }
 }
 </style>

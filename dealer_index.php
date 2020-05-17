@@ -24,6 +24,15 @@ $res = mysqli_fetch_assoc($exec);
 $soldoutcount = $res["soldoutcount"]; //no of cars sold out
 
 
+//third query to get whether any cars have been rented
+$statusquery2 = "select count(status) as rentedcount from car inner join rent inner join owns where rentalcarid=car.carid and 
+car.carid=owns.carid and enddate is null and dealerid = $dealerid and status='rented'";
+$exec2 = mysqli_query($conn,$statusquery2);
+$res2 = mysqli_fetch_assoc($exec2);
+
+$rentedcount = $res2["rentedcount"]; //no of cars sold out
+
+
 ?>
 
 <!DOCTYPE html>
@@ -289,10 +298,9 @@ form.example::after {
 
 <a id="active">Home</a>
 <a href="dealer_profile.php">Profile</a>
-<a href="#">Cars Sold</a>
-<a href="#">Cars Rented</a>
-<!--<a href="#">My Purchases</a>
-<a href="#">Rented cars</a>-->
+<a href="dealer_sold.php">Cars Sold</a>
+<a href="dealer_rented.php">Cars Rented</a>
+
 
 </div>
 
@@ -378,6 +386,18 @@ form.example::after {
 
 <?php 
 
+if(isset($_SESSION['deletesoldoutcar'])&&$_SESSION['deletesoldoutcar']===true)
+{
+?>
+
+<div class="alert alert-danger" role="alert">
+<b>Sorry! You can't delete a sold out car!</b>
+</div>
+
+<?php
+unset($_SESSION['deletesoldoutcar']);
+}
+
 if(isset($_SESSION['newcaradded'])&&$_SESSION['newcaradded']===true)
 {
 
@@ -408,11 +428,9 @@ if($soldoutcount>0)
 {
 ?>
 
-<div class="alert alert-primary alert-dismissible fade show" role="alert">
-<b>QUICK INFO : </b>Number of cars you have sold - <?php echo $soldoutcount ?> | <a href="dealer_sold.php">All details here</a>
-<!--<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="padding:0;transform: rotate(0deg);height:0px;margin-right:5px">
-<span aria-hidden="true">&times;</span>
-</button>-->
+<div class="alert alert-primary alert-dismissible fade show" role="alert" style="display:flex;flex-direction:column">
+<b>QUICK INFO : </b>Number of cars you have sold - <?php echo $soldoutcount ?><a href="dealer_sold.php">All sales details here</a>
+Number of cars you have rented - <?php echo $rentedcount ?><a href="dealer_rented.php">All rental details here</a>
 </div>
 
 <?php } ?>
@@ -424,6 +442,19 @@ if($soldoutcount>0)
 
 <div class="container" style="display:flex;flex-direction:column;align-items:center">
   <?php 
+
+  if(mysqli_num_rows($result1)===0)
+  {
+  ?>
+
+<div style="width:100%;margin-top:15px;padding:10px 0;text-align:center;font-size:1.2rem;font-weight:350;color:black">
+No cars have been added yet! Add a car by clicking on the <i>Add entry</i> button!
+  </div>
+
+
+
+  <?php
+  }
   
   
   while($row= mysqli_fetch_assoc($result1))
@@ -498,7 +529,7 @@ if($soldoutcount>0)
                                 <a href="#">Edit</a> 
                             </li> -->
                             <li> 
-                                <a href="<?php echo "deletedealercar.php?carid=".$cardet["carid"]."&cartype=".$cardet["cartype"] ?>">Delete</a> 
+                                <a href="<?php echo "deletedealercar.php?carid=".$cardet["carid"]."&cartype=".$cardet["cartype"]."&status=".$cardet["status"] ?>">Delete</a> 
                             </li> 
                         </ul> 
                 </div> 

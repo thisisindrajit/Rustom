@@ -3,7 +3,6 @@
 include("dbconnect.php");
 
 $query = '%'.$_POST["query"].'%';
-$cusid = $_POST["cusid"];
  
 $stmt = $conn->prepare("select car.carid,name,cartype,status,images from car left join images on car.carid=images.carid and images=(select images from images where carid=car.carid limit 1) having name like ? or car.cartype like ?");
 $stmt->bind_param("ss",$query,$query);
@@ -46,6 +45,18 @@ else
     $link="rentalcar.php?carid=".$row["carid"];
 }
 
+//setting color
+if($row["status"]==="rented" || $row["status"]==="sold out")
+{
+    $statuscolor="#E74C3C";
+}
+
+else
+{
+    $statuscolor="#2ECC71";
+}
+
+
 $output .= '
 
 <div class="col-sm-3">
@@ -55,7 +66,7 @@ $output .= '
 <img src="'.$row["images"].'" class="card-img-top" alt="Car image">
 <div class="card-body">
 <h5 class="card-title">'.$row["name"].'</h5>
-<h6 class="card-subtitle mb-2">'.$row["status"].' | TYPE : '.$row["cartype"].'</h6><hr><a href="'.$link.'" class="card-link">More Details</a>
+<h6 class="card-subtitle mb-2"><span style="color:'.$statuscolor.'">'.$row["status"].'</span> | TYPE : '.$row["cartype"].'</h6><hr><a href="'.$link.'" class="card-link">More Details</a>
 </div>
 </div>
 </div>';
