@@ -366,7 +366,7 @@ else{
 <a href="dealer_index.php">Home</a>
 <a href="dealer_profile.php">Profile</a>
 <a href="dealer_sold.php">Cars Sold</a>
-<a href="#">Cars Rented</a>
+<a href="dealer_rented.php">Cars Rented</a>
 
 <?php } ?>
 
@@ -433,7 +433,12 @@ else{
 
     <p class="card-text"><b>Rent amount - </b><?php echo "Rs ".$firstquery["rentamount"]. " per hour" ?></p>
 
-    <?php if($firstquery["status"]==="available") {?> 
+    <?php 
+    
+    if($usertype!=="dealer") //user type is not a dealer
+    {
+    if($firstquery["status"]==="available") //user has not rented the car yet
+    {?> 
 
     <button type="button" class="btn btn-primary" onclick="openrent()">Rent this car</button>
     <button type="button" class="btn btn-outline-info">Add to wishlist</button>
@@ -448,7 +453,8 @@ else{
     Sorry but this car is rented!
     </div>
 
-    <?php } ?>
+    <?php } 
+    }?>
 
     <div id="rentholder">
       Start date

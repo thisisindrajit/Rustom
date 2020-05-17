@@ -268,7 +268,7 @@ else{
 <a href="dealer_index.php">Home</a>
 <a href="dealer_profile.php">Profile</a>
 <a href="dealer_sold.php">Cars Sold</a>
-<a href="#">Cars Rented</a>
+<a href="dealer_rented.php">Cars Rented</a>
 
 <?php } ?>
 
@@ -337,7 +337,8 @@ else{
     <p class="card-text"><b>Resale Price - </b><?php echo "Rs ".$firstquery["resaleprice"]?></p>
 
 <?php
-
+if($usertype!=="dealer") //user type is not a dealer
+{
 if($firstquery["status"]==="available") //no user has bought the car yet
 {
 ?>
@@ -356,7 +357,8 @@ Sorry but this car is sold out!
 </div>
 
 
-<?php } ?>
+<?php }
+} ?>
 
   </div>
   </div>

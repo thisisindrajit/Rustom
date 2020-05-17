@@ -271,7 +271,7 @@ else{
 <a href="dealer_index.php">Home</a>
 <a href="dealer_profile.php">Profile</a>
 <a href="dealer_sold.php">Cars Sold</a>
-<a href="#">Cars Rented</a>
+<a href="dealer_rented.php">Cars Rented</a>
 
 <?php } ?>
 
@@ -333,7 +333,9 @@ else{
 
     <?php
 
-    if($firstquery["status"]==="available") //no user has bought the car yet //no user has bought the car yet
+    if($usertype!=="dealer") //user type is not a dealer
+    {
+    if($firstquery["status"]==="available") //no user has bought the car yet
     {
     ?>
 
@@ -351,7 +353,8 @@ else{
     </div>
 
 
-    <?php } ?>
+    <?php }
+    } ?>
 
   </div>
   </div>
