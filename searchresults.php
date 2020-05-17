@@ -3,7 +3,6 @@
 include("dbconnect.php");
 
 $query = '%'.$_POST["query"].'%';
-$cusid = $_POST["cusid"];
  
 $stmt = $conn->prepare("select car.carid,name,cartype,status,images from car left join images on car.carid=images.carid and images=(select images from images where carid=car.carid limit 1) having name like ? or car.cartype like ?");
 $stmt->bind_param("ss",$query,$query);

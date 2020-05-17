@@ -69,7 +69,7 @@ function getcardetails(cusid)
     cardetails.send();
 }
 
-function searchcars(cusid)
+function searchcars()
 {
     var searchbox=document.getElementsByClassName("searchbox")[0];
     var query=document.getElementById("query").value;
@@ -93,7 +93,7 @@ function searchcars(cusid)
             }
         };
 
-        var param='query='+query+'&cusid='+cusid;
+        var param='query='+query;
 
         searchresults.open("POST","searchresults.php",true);
         searchresults.setRequestHeader("Content-type","application/x-www-form-urlencoded");
