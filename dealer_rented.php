@@ -187,6 +187,49 @@ li
 
 </style>
 
+<script>
+
+function endrent(carid,customerid,startdate)
+{
+  var xhttp;
+    if (window.XMLHttpRequest) {
+      // code for modern browsers
+      xhttp = new XMLHttpRequest();
+      } else {
+      // code for IE6, IE5
+      xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+
+  //xhttp is the ajax req obj
+
+  xhttp.onreadystatechange = function() {
+    
+    if(this.readyState===4 && this.status===200)
+    {
+    if(this.responseText==="success")
+    {
+      location.reload();
+    }
+
+    else
+    {
+      alert(this.responseText);
+    }
+
+    }
+
+  }
+
+    var param = "carid="+carid+"&customerid="+customerid+"&startdate="+startdate+"&type=end";
+    xhttp.open("POST","rentcar.php",true);
+    xhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xhttp.send(param);
+
+}
+
+
+</script>
+
 <body>
 
 <div id="list">
@@ -232,6 +275,19 @@ li
 
 <div class="container-fluid py-3" style="width:80%">
 
+
+<?php if(isset($_SESSION['finishedrent'])&&$_SESSION['finishedrent']===true)
+{
+?>
+
+<div class="alert alert-info" role="alert">
+  Ended rent for rental car!
+</div>
+
+<?php 
+unset($_SESSION['finishedrent']);
+} ?>
+
 <h3 id="explore" style="font-weight:lighter">Ongoing</h3>
 
 <div class="row">
@@ -239,10 +295,9 @@ li
 <?php 
 
 $rentedcarsquery1 = "
-select rentalcarid,customername,name,DATE_FORMAT(rentdate,'%d %M %Y') as rentdate,DATE_FORMAT(startdate,'%d %M %Y') as startdate 
-from rent inner join owns inner join customer
- inner join car where rentalcarid=car.carid and rent.customerid=customer.customerid and 
- rentalcarid=owns.carid and enddate is null and owns.dealerid=$dealerid";
+select rentalcarid,rent.customerid,customername,name,DATE_FORMAT(rentdate,'%d %M %Y') as rentdate,DATE_FORMAT(startdate,'%d %M %Y') as startdate,startdate as orgstartdate 
+from rent inner join owns inner join customer inner join car where rentalcarid=car.carid and rent.customerid=customer.customerid and 
+rentalcarid=owns.carid and enddate is null and owns.dealerid=$dealerid";
 $ex = mysqli_query($conn,$rentedcarsquery1);
 
 if(mysqli_num_rows($ex)===0)
@@ -270,10 +325,28 @@ while($row=mysqli_fetch_assoc($ex))
 <a href="<?php echo "rentalcar.php?carid=".$row["rentalcarid"]?>" class="card-link">Car Details</a>
 </div>
 
+<?php
 
-<button type="button" class="btn btn-danger" style="border-radius:0">End Rent</button>
+$today = date("Y-m-d");
 
+$dateTimestamp1 = strtotime($row["startdate"]); 
+$dateTimestamp2 = strtotime($today);
 
+if($dateTimestamp1<=$dateTimestamp2) //start date is greater than today
+{
+  
+?>
+
+<button type="button" class="btn btn-danger" style="border-radius:0" onclick="endrent(<?php echo $row['rentalcarid'].','.$row['customerid'].',\''.$row['orgstartdate'].'\'' ?>)">End Rent</button>
+
+<?php } 
+
+else
+{?>
+
+<button type="button" class="btn btn-light" style="border-radius:0" onclick="alert('You can end the rent of a car only once it has started!')">End Rent</button>
+
+<?php } ?>
 </div>
 </div>
 

@@ -332,7 +332,7 @@ function rentcar(carid,event)
 
   else
   {
-    var param = "carid="+carid+"&date="+date;
+    var param = "carid="+carid+"&date="+date+"&type=start";
     xhttp.open("POST","rentcar.php",true);
     xhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     xhttp.send(param);

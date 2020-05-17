@@ -2,17 +2,21 @@
 
 session_start();
 
-if(!isset($_SESSION['logged_in'])||(isset($_SESSION['logged_in'])&&$_SESSION['usertype']==="dealer")) //user not logged in or user logged in is a dealer
+if(!isset($_SESSION['logged_in'])) //user not logged in
 {
     header('location:index.php');
 }
 
 include("dbconnect.php");
 
+$type=$_POST["type"];
+
+
+if($type==="start")
+{
 $cusid = $_SESSION['userid']; //getting the customer id
 $carid=$_POST["carid"];
 $date=$_POST["date"];
-
 
 $checkifalreadyrented = "select * from rent where rentalcarid=$carid and enddate is null";
 $checkex = mysqli_query($conn, $checkifalreadyrented);
@@ -50,5 +54,38 @@ else
 {
     echo "rented";
 }
+}
 
+
+else
+{
+    $carid=$_POST["carid"];
+    $cusid=$_POST["customerid"];
+    $startdate=$_POST["startdate"];
+
+    $endrent = "update rent set enddate=CURRENT_TIMESTAMP() where rentalcarid=$carid and customerid=$cusid and startdate='$startdate'";
+    $ex = mysqli_query($conn, $endrent);
+
+    if($ex)
+    {
+        $statusquery = "update car set status = 'available' where carid = $carid";
+
+        if(mysqli_query($conn,$statusquery))
+        {
+        $_SESSION["finishedrent"]=true; //indicating user has bought a new car
+        echo "success";
+        }
+    
+        else
+        {
+            echo "Some error occured while trying to update the car's status!";
+        }
+    }
+
+    else
+    {
+        echo "Error occured while ending the rent!";
+    }
+
+}
 ?>
