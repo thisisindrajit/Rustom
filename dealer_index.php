@@ -24,6 +24,15 @@ $res = mysqli_fetch_assoc($exec);
 $soldoutcount = $res["soldoutcount"]; //no of cars sold out
 
 
+//third query to get whether any cars have been rented
+$statusquery2 = "select count(status) as rentedcount from car inner join rent inner join owns where rentalcarid=car.carid and 
+car.carid=owns.carid and enddate is null and dealerid = $dealerid and status='rented'";
+$exec2 = mysqli_query($conn,$statusquery2);
+$res2 = mysqli_fetch_assoc($exec2);
+
+$rentedcount = $res2["rentedcount"]; //no of cars sold out
+
+
 ?>
 
 <!DOCTYPE html>
@@ -419,11 +428,9 @@ if($soldoutcount>0)
 {
 ?>
 
-<div class="alert alert-primary alert-dismissible fade show" role="alert">
-<b>QUICK INFO : </b>Number of cars you have sold - <?php echo $soldoutcount ?> | <a href="dealer_sold.php">All details here</a>
-<!--<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="padding:0;transform: rotate(0deg);height:0px;margin-right:5px">
-<span aria-hidden="true">&times;</span>
-</button>-->
+<div class="alert alert-primary alert-dismissible fade show" role="alert" style="display:flex;flex-direction:column">
+<b>QUICK INFO : </b>Number of cars you have sold - <?php echo $soldoutcount ?><a href="dealer_sold.php">All sales details here</a>
+Number of cars you have rented - <?php echo $rentedcount ?><a href="dealer_rented.php">All rental details here</a>
 </div>
 
 <?php } ?>

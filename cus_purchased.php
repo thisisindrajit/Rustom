@@ -197,7 +197,7 @@ li
 </div>
 
 <a href="cus_index.php">Home</a>
-<a href="#">Profile</a>
+<a href="cus_profile.php">Profile</a>
 <a id="active">My Purchases</a>
 <a href="cus_rented.php">Rented cars</a>
 
