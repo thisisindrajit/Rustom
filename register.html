@@ -12,18 +12,18 @@
 </head>
 <style>
 
-body,html
+html
 {
     height: 100%;
     width:100%;
-    font-family: 'Titillium Web', sans-serif;
-    font-size:1rem;
 }
 
 body{
     background-image: url('mclaren.jpg') ;
     height: 100%;
     width:100%;
+    font-family: 'Titillium Web', sans-serif;
+    font-size:1rem;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -31,7 +31,7 @@ body{
 }
 
 .container{    
-    height: auto;
+    height: 100%;
     width: 80%;
     text-align: center;
     display:flex;
@@ -39,7 +39,7 @@ body{
     align-items:center;
     justify-content:center;
     padding:20px 0;
-    margin: 20px auto;
+    margin: 0 auto 0 auto;
     background-color: black;
     opacity: 0.8;
     color: white;
@@ -57,7 +57,7 @@ body{
 {
     font-size: 20px;
     font-weight: 600;
-    margin:20px auto;
+    margin:20px 0;
     padding: 10px;
     text-align: center;
 }
@@ -97,9 +97,18 @@ body{
     min-width: 100%;
     }
 
+    #register_option
+    {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    }
+
     #select
     {
         grid-column-gap:25px;
+        grid-template-rows:1fr;
     }
 
     #select h3
@@ -117,6 +126,12 @@ body{
     {
         width:125px;
         height:125px;
+    }
+
+    #redirect
+    {
+    margin-top:100px;
+    font-size: 16px;
     }
 
 
