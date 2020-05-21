@@ -11,14 +11,14 @@ include("dbconnect.php");
 
 $dealerid = $_SESSION['userid']; //getting the dealer id
 $dealername = $_SESSION['username'];
-
+$query = "SELECT * FROM dealer WHERE dealerid = $dealerid";
+$result = mysqli_query($conn, $query);
+$row = mysqli_fetch_assoc($result);
 
 ?>
 
 <!DOCTYPE html>
 <html>
-
-
 <head>
   <title><?php echo $dealername."'s " ?> Profile - Rustom</title>
   <meta charset="utf-8">
@@ -190,12 +190,12 @@ if ( window.history.replaceState ) {
               
           <div class="tab-content">
             <div class="tab-pane active" id="home">
-                  <form class="form" action="##" method="post" id="registrationForm">
+                  <form class="form"  method="post" id="update">
                       <div class="form-group">
                           <Br>
                           <div class="col-xs-6">
                               <label for="name"><h4>Name</h4></label>
-                              <input type="text" class="form-control" name="name" id="name" placeholder="Name" title="enter your name">
+                              <input type="text" class="form-control" name="name" id="name" placeholder="Name" value="<?php echo $row['DName'] ?>" title="enter your name">
                           </div>
                       </div>
                     
@@ -203,32 +203,32 @@ if ( window.history.replaceState ) {
                           
                           <div class="col-xs-6">
                               <label for="phone"><h4>Phone</h4></label>
-                              <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" title="enter your phone number if any">
+                              <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" value="<?php echo $row['PhoneNo'] ?>" title="enter your phone number if any">
                           </div>
                       </div>
           
                       <div class="form-group">
                           <div class="col-xs-6">
                              <label for="website"><h4>Website</h4></label>
-                              <input type="text" class="form-control" name="website" id="website" placeholder="Website" title="enter your website if any">
+                              <input type="text" class="form-control" name="website" id="website" placeholder="Website" value="<?php echo $row['Website'] ?>" title="enter your website if any">
                           </div>
                       </div>
                       <div class="form-group">
                           
                           <div class="col-xs-6">
                               <label for="email"><h4>Email</h4></label>
-                              <input type="email" class="form-control" name="email" id="email" placeholder="example@example.com" title="enter your email">
+                              <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" value="<?php echo $row['D_Email'] ?>" title="enter your email" readonly>
                           </div>
                       </div>
                     
-                      <div class="form-group">
+                      <!-- <div class="form-group">
                           
                           <div class="col-xs-6">
                               <label for="password"><h4>Password</h4></label>
                               <input type="password" class="form-control" name="password" id="password" placeholder="Password" title="enter your password">
                           </div>
                       </div>
-                      <!--<div class="form-group">
+                      <div class="form-group">
                           
                           <div class="col-xs-6">
                             <label for="password2"><h4>Verify Password</h4></label>
@@ -238,7 +238,7 @@ if ( window.history.replaceState ) {
                       <div class="form-group">
                            <div class="col-xs-12">
                                 <br>
-                              	<button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
+                              	<button class="btn btn-lg btn-success" type="submit" name="submit" id="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
                                	<button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat" color = "513450"></i> Reset</button>
                             </div>
                       </div>
@@ -252,10 +252,8 @@ if ( window.history.replaceState ) {
 
     </body>
         
-       <script>
-        $(document).ready(function() {
-
-
+<script>
+$(document).ready(function() {
 var readURL = function(input) {
   if (input.files && input.files[0]) {
       var reader = new FileReader();
@@ -267,14 +265,32 @@ var readURL = function(input) {
       reader.readAsDataURL(input.files[0]);
   }
 }
-
-
 $(".file-upload").on('change', function(){
   readURL(this);
 });
 });
-        </script>
 
-        <script type="text/javascript" src="JS/list.js"></script>
+$("#update").submit(function(event){
+        //event.preventDefault(); // avoid to execute the actual submit of the form.
+
+        var formdata = {
+            'name' : $('#name').val(),
+            'phone' : $('#phone').val(),
+            'website' : $('#website').val(),
+        };
+        var url = "dealer_update.php";
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formdata, 
+            success: function(data)
+            {
+                alert(data); // show response from the php script.
+            }
+            });
+    });
+</script>
+
+<script type="text/javascript" src="JS/list.js"></script>
 
 </html>
