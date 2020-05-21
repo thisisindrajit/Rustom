@@ -11,7 +11,9 @@ include("dbconnect.php");
 
 $cusid = $_SESSION['userid']; //getting the customer id
 $cusname = $_SESSION['username'];
-
+$query = "SELECT * FROM customer WHERE customerid = $cusid";
+$result = mysqli_query($conn, $query);
+$row = mysqli_fetch_assoc($result);
 ?>
 
 <!DOCTYPE html>
@@ -189,19 +191,19 @@ if ( window.history.replaceState ) {
               
           <div class="tab-content">
             <div class="tab-pane active" id="home">
-                  <form class="form" action="##" method="post" id="registrationForm">
+                  <form class="form" method="post" id="update">
                       <div class="form-group">
                           <Br>
                           <div class="col-xs-6">
                               <label for="name"><h4>Name</h4></label>
-                              <input type="text" class="form-control" name="name" id="name" placeholder="Name" title="enter your name">
+                              <input type="text" class="form-control" name="name" id="name" placeholder="Name" value="<?php echo $cusname ?>" title="enter your name">
                           </div>
                       </div>
 
                       <div class="form-group">
                           <div class="col-xs-6">
                              <label for="dob"><h4>Date of Birth</h4></label>
-                              <input type="date" class="form-control" name="dob" id="dob" placeholder="Date of Birth" title="enter your DOB">
+                              <input type="date" class="form-control" name="dob" id="dob" placeholder="Date of Birth" value="<?php echo $row['DOB'] ?>"  title="enter your DOB">
                           </div>
                       </div>
                     
@@ -209,14 +211,14 @@ if ( window.history.replaceState ) {
                           
                           <div class="col-xs-6">
                               <label for="phone"><h4>Phone</h4></label>
-                              <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" title="enter your phone number if any">
+                              <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" value="<?php echo $row['PhoneNo'] ?>" title="enter your phone number if any">
                           </div>
                       </div>
           
                       <div class="form-group">
                           <div class="col-xs-6">
-                             <label for="add"><h4>Address</h4></label>
-                              <input type="text" class="form-control" name="add" id="add" placeholder="Address" title="enter your address">
+                             <label for="address"><h4>Address</h4></label>
+                              <input type="text" class="form-control" name="address" id="address" placeholder="Address" value="<?php echo $row['Address'] ?>" title="enter your address">
                           </div>
                       </div>
 
@@ -224,7 +226,7 @@ if ( window.history.replaceState ) {
                           
                           <div class="col-xs-6">
                               <label for="dlno"><h4>Driving License Number</h4></label>
-                              <input type="text" class="form-control" name="dlno" id="dlno" placeholder="Driving License Number" title="enter your driving license number">
+                              <input type="text" class="form-control" name="dlno" id="dlno" placeholder="Driving License Number" value="<?php echo $row['DrivingLicense'] ?>" title="enter your driving license number">
                           </div>
                       </div>
 
@@ -232,18 +234,18 @@ if ( window.history.replaceState ) {
                           
                           <div class="col-xs-6">
                               <label for="email"><h4>Email</h4></label>
-                              <input type="email" class="form-control" name="email" id="email" placeholder="example@example.com" title="enter your email">
+                              <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" value="<?php echo $row['C_Email'] ?>" title="enter your email" readonly>
                           </div>
                       </div>
                     
-                      <div class="form-group">
+                      <!--<div class="form-group">
                           
                           <div class="col-xs-6">
                               <label for="password"><h4>Password</h4></label>
                               <input type="password" class="form-control" name="password" id="password" placeholder="Password" title="enter your password">
                           </div>
                       </div>
-                      <!--<div class="form-group">
+                      <div class="form-group">
                           
                           <div class="col-xs-6">
                             <label for="password2"><h4>Verify Password</h4></label>
@@ -253,7 +255,7 @@ if ( window.history.replaceState ) {
                       <div class="form-group">
                            <div class="col-xs-12">
                                 <br>
-                              	<button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
+                              	<button class="btn btn-lg btn-success" type="submit" id="submit" name="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
                                	<button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat" color = "513450"></i> Reset</button>
                             </div>
                       </div>
@@ -266,30 +268,54 @@ if ( window.history.replaceState ) {
         </div><!--/col-9-->
 
     </body>
-        
-       <script>
-        $(document).ready(function() {
+
+<script>
+    $(document).ready(function() {
+    var readURL = function(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('.avatar').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+    }
+    $(".file-upload").on('change', function(){
+    readURL(this);
+    });
+    });
+    
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+
+    $("#update").submit(function(event){
+        //event.preventDefault(); // avoid to execute the actual submit of the form.
+
+        var formdata = {
+            'name' : $('#name').val(),
+            'dob' : $('#dob').val(),
+            'phone' : $('#phone').val(),
+            'address' : $('#address').val(),
+            'dlno' : $('#dlno').val()
+        };
+        var url = "cus_update.php";
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formdata, 
+            success: function(data)
+            {
+                alert(data); // show response from the php script.
+            }
+            });
+    });
 
 
-var readURL = function(input) {
-  if (input.files && input.files[0]) {
-      var reader = new FileReader();
+</script>
 
-      reader.onload = function (e) {
-          $('.avatar').attr('src', e.target.result);
-      }
-
-      reader.readAsDataURL(input.files[0]);
-  }
-}
-
-
-$(".file-upload").on('change', function(){
-  readURL(this);
-});
-});
-        </script>
-
-        <script type="text/javascript" src="JS/list.js"></script>
+<script type="text/javascript" src="JS/list.js"></script>
 
 </html>
