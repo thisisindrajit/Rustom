@@ -281,10 +281,44 @@ form.example::after {
     }
 }
 
+#discount-modal
+{
+  display:none;
+  position:fixed;
+  height:100%;
+  width:100%;
+  background-color: rgba(0,0,0, 0.8);
+  top:0;
+  left:0;
+  z-index:10;
+  align-items:center;
+  justify-content:center;
+}
+
+.contentbox
+{
+  font-size:1.3rem;
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background-color:white;
+  width:500px;
+  height:25%;
+  padding:15px;
+  text-align:center;
+}
+
 </style>
 
 
+<script>
 
+if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+
+</script>
 
 <body>
 
@@ -365,6 +399,8 @@ form.example::after {
     </div>
 </div>
 
+<div id="discount-modal">
+</div>
 
 
 <div class="container py-3">
@@ -398,6 +434,18 @@ if(isset($_SESSION['deletesoldoutcar'])&&$_SESSION['deletesoldoutcar']===true)
 unset($_SESSION['deletesoldoutcar']);
 }
 
+if(isset($_SESSION['discountset'])&&$_SESSION['discountset']===true)
+{
+?>
+
+<div class="alert alert-info alert-dismissible fade show" role="alert">
+Discount of car has been updated!
+</div>
+
+<?php
+unset($_SESSION['discountset']);
+}
+
 if(isset($_SESSION['newcaradded'])&&$_SESSION['newcaradded']===true)
 {
 
@@ -429,8 +477,8 @@ if($soldoutcount>0)
 ?>
 
 <div class="alert alert-primary alert-dismissible fade show" role="alert" style="display:flex;flex-direction:column">
-<b>QUICK INFO : </b>Number of cars you have sold - <?php echo $soldoutcount ?><a href="dealer_sold.php">All sales details here</a>
-Number of cars you have rented - <?php echo $rentedcount ?><a href="dealer_rented.php">All rental details here</a>
+<b>QUICK INFO : </b>Number of cars you have sold - <?php echo $soldoutcount ?><a href="dealer_sold.php" style="width:fit-content">All sales details here</a>
+Number of cars you have rented - <?php echo $rentedcount ?><a href="dealer_rented.php" style="width:fit-content">All rental details here</a>
 </div>
 
 <?php } ?>
@@ -456,7 +504,8 @@ No cars have been added yet! Add a car by clicking on the <i>Add entry</i> butto
   <?php
   }
   
-  
+  $temp=0;
+
   while($row= mysqli_fetch_assoc($result1))
   {
 
@@ -529,6 +578,29 @@ No cars have been added yet! Add a car by clicking on the <i>Add entry</i> butto
                                 <a href="#">Edit</a> 
                             </li> -->
                             <li> 
+                                <?php if($cardet["status"]!=="sold out"&&$cardet["cartype"]!=="rental"){?>
+                                <a href="javascript:void(0)" onclick="discount(<?php echo $temp ?>)">Set Discount</a>
+
+                                <div class="contentbox"> <!--content of discount box-->
+                                
+                                
+                                Set discount for <?php echo $cardet["name"]?>
+
+                                <form action="setdiscount.php?carid=<?php echo $cardet['carid']?>&cartype=<?php echo $cardet['cartype']?>" method="POST">
+                                <input type="number" name="discount" style="margin-top:20px;width:150px;font-size:1rem;padding:5px" placeholder="Discount" min="5" max="90" required>
+
+                                <div style="margin-top:20px">
+                                <button type="submit" class="btn btn-primary">Set</button>
+                                <button type="button" class="btn btn-danger" onclick="closediscount()">Close</button>
+                                </form>
+
+                                </div>
+
+
+                                </div>
+
+                                <?php } ?>
+
                                 <a href="<?php echo "deletedealercar.php?carid=".$cardet["carid"]."&cartype=".$cardet["cartype"]."&status=".$cardet["status"] ?>">Delete</a> 
                             </li> 
                         </ul> 
@@ -593,6 +665,7 @@ No cars have been added yet! Add a car by clicking on the <i>Add entry</i> butto
   </div>
 
   <?php
+  $temp++;
   }
   ?>
 
@@ -616,6 +689,26 @@ document.getElementById('button').addEventListener("click", function() {
 document.querySelector('.close').addEventListener("click", function() {
     document.querySelector('.bg-modal').style.display = "none";
 });
+
+function discount(count)
+{
+  var contentbox=document.getElementsByClassName('contentbox')[count];
+  var cbclone = contentbox.cloneNode(true);
+
+  document.getElementById('discount-modal').appendChild(cbclone);
+
+  document.getElementById('discount-modal').style.display="flex";
+  cbclone.style.display="flex";
+}
+
+function closediscount()
+{
+  var modal = document.getElementById('discount-modal');
+  
+  while (modal.firstChild) modal.removeChild(modal.firstChild)
+
+  document.getElementById('discount-modal').style.display="none";
+}
 
 </script>
 
