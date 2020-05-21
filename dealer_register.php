@@ -33,6 +33,61 @@ else
     echo "Error: Could not prepare the query: " . mysqli_error($conn);
 }
 
+//fetching userid
+$info_query = "SELECT dealerID FROM dealer where d_email = '$d_email'";
+$info_result = mysqli_query($conn, $info_query);
+$info = mysqli_fetch_array($info_result, MYSQLI_ASSOC);
+$dealerid = $info['dealerID'];
+
+//inserting into branch
+$branch_count = 1;
+$branch = "";
+$location = "";
+if(isset($_POST['branch'.$branch_count.'']))
+{
+    $branch = mysqli_real_escape_string($conn,$_POST['branch'.$branch_count.'']);
+}
+if(isset($_POST['location'.$branch_count.'']))
+{
+    $location = mysqli_real_escape_string($conn,$_POST['location'.$branch_count.'']);
+}
+$branch_insert = "INSERT INTO branch VALUES (?,?,?)";
+if($stmt = mysqli_prepare($conn, $branch_insert))
+{
+    while($branch !== '' && $location !== '')
+    {
+        mysqli_stmt_bind_param($stmt, "iss", $dealerid, $branch, $location);
+        if(mysqli_stmt_execute($stmt))
+        {
+            echo "Branch $branch_count Inserted successfully";
+            $branch_count++;
+            $branch = "";
+            $location = "";
+            if(isset($_POST['branch'.$branch_count.'']))
+            {
+                $branch = mysqli_real_escape_string($conn,$_POST['branch'.$branch_count.'']);
+            }
+            if(isset($_POST['location'.$branch_count.'']))
+            {
+                $location = mysqli_real_escape_string($conn,$_POST['location'.$branch_count.'']);
+            }
+            if($branch === '' || $location === '')
+            {
+                $branch_count--;
+            }
+        }
+        else
+        {
+            echo "Error: Could not execute the query: " . mysqli_error($conn);
+        }
+    }
+}
+else
+{
+    echo "Error: Could not prepare the query: " . mysqli_error($conn);
+}
+
+//Inserting into dealer login
 $dealer_login = "INSERT INTO DEALER_LOGIN (D_Email, Password) VALUES (?, ?)";
 
 if($stmt = mysqli_prepare($conn, $dealer_login))
@@ -50,13 +105,9 @@ if($stmt = mysqli_prepare($conn, $dealer_login))
         {
             //echo "Updated Successfully";
             session_start();
-            
-            $info_query = "SELECT dealerID FROM dealer where d_email = '$d_email'";
-            $info_result = mysqli_query($conn, $info_query);
-            $info = mysqli_fetch_array($info_result, MYSQLI_ASSOC);
-        
+                   
             //storing the necessary information in session
-            $_SESSION['userid'] = $info['dealerID'];
+            $_SESSION['userid'] = $dealerid;
             $_SESSION['username'] = $d_name;       
             $_SESSION['email'] = $email;
             $_SESSION['usertype'] = 'dealer';
