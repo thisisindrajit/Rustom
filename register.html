@@ -32,7 +32,7 @@ body{
 
 .container{    
     height: auto;
-    width: 80%;
+    width: 60%;
     text-align: center;
     display:flex;
     flex-direction:column;
@@ -90,10 +90,10 @@ body{
     display:none;
 }
 
-@media only screen and (max-width:768px)
+@media only screen and (max-width:870px)
 {
     .container{    
-    height: 100%;
+    height: auto;
     min-width: 100%;
     }
 
@@ -217,7 +217,20 @@ body{
                 <label for="password">Password</label>
                 <input type="password" class="form-control" name="D_password" placeholder="Password" required>
             </div>
-            <div class="form-group"><button type="submit" name="dealerRegister" class="btn btn-primary">Register</button></div>
+            <div id="branch_details">
+                <h4 >Branch Details</h4>
+                <hr width="90%" style="background-color:white;border:none;height:2px">
+                <div class="form-group">
+                    <label for="branch1">Branch 1 Name</label>
+                    <input type="text" class="form-control" name="branch1" placeholder="Branch 1 name" required>
+                </div>
+                <div class="form-group">
+                    <label for="location1">Branch 1 Location</label>
+                    <input type="text" class="form-control" name="location1" placeholder="Branch 1 Location/Address" required>
+                </div>
+            </div>
+            <div style="text-align:center;"><a href="javascript:void(0);" onclick="addBranch();">+Add Branch</a></div>
+            <div class="form-group" style="padding: 20px;"><button type="submit" name="dealerRegister" class="btn btn-primary">Register</button></div>
         </form>
         </div>
 </div>

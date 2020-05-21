@@ -15,6 +15,8 @@ $query = "SELECT * FROM dealer WHERE dealerid = $dealerid";
 $result = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($result);
 
+$branch_query = "SELECT * FROM branch WHERE dealerid = $dealerid";
+$branch_result = mysqli_query($conn, $branch_query);
 ?>
 
 <!DOCTYPE html>
@@ -191,35 +193,57 @@ if ( window.history.replaceState ) {
           <div class="tab-content">
             <div class="tab-pane active" id="home">
                   <form class="form"  method="post" id="update">
-                      <div class="form-group">
-                          <Br>
-                          <div class="col-xs-6">
-                              <label for="name"><h4>Name</h4></label>
-                              <input type="text" class="form-control" name="name" id="name" placeholder="Name" value="<?php echo $row['DName'] ?>" title="enter your name">
-                          </div>
-                      </div>
+                    <div class="form-group">
+                        <Br>
+                        <div class="col-xs-6">
+                            <label for="name"><h4>Name</h4></label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Name" value="<?php echo $row['DName'] ?>" title="enter your name">
+                        </div>
+                    </div>
+                
+                    <div class="form-group">
+                        <div class="col-xs-6">
+                            <label for="phone"><h4>Phone</h4></label>
+                            <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" value="<?php echo $row['PhoneNo'] ?>" title="enter your phone number if any">
+                        </div>
+                    </div>
+        
+                    <div class="form-group">
+                        <div class="col-xs-6">
+                            <label for="website"><h4>Website</h4></label>
+                            <input type="text" class="form-control" name="website" id="website" placeholder="Website" value="<?php echo $row['Website'] ?>" title="enter your website if any">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-6">
+                            <label for="email"><h4>Email</h4></label>
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" value="<?php echo $row['D_Email'] ?>" title="enter your email" readonly>
+                        </div>
+                    </div>
+                    <h3>Branch Details</h3>
                     
-                      <div class="form-group">
-                          
-                          <div class="col-xs-6">
-                              <label for="phone"><h4>Phone</h4></label>
-                              <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" value="<?php echo $row['PhoneNo'] ?>" title="enter your phone number if any">
-                          </div>
-                      </div>
-          
-                      <div class="form-group">
-                          <div class="col-xs-6">
-                             <label for="website"><h4>Website</h4></label>
-                              <input type="text" class="form-control" name="website" id="website" placeholder="Website" value="<?php echo $row['Website'] ?>" title="enter your website if any">
-                          </div>
-                      </div>
-                      <div class="form-group">
-                          
-                          <div class="col-xs-6">
-                              <label for="email"><h4>Email</h4></label>
-                              <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" value="<?php echo $row['D_Email'] ?>" title="enter your email" readonly>
-                          </div>
-                      </div>
+                    <?php
+                    $branch_count = 1;
+                    while($branch_row = mysqli_fetch_assoc($branch_result))
+                    {?>
+                    <hr width="100%" style="background-color:#C39BD3;border:none;height:1px">
+                    <div class="form-group">
+                        <div class="col-xs-6">
+                            <label for="branch<?php echo $branch_count?>"><h4>Branch <?php echo $branch_count?> Name </h4></label>
+                            <input type="text" class="form-control" name="branch<?php echo $branch_count?>" id="branch<?php echo $branch_count?>" placeholder="Branch <?php echo $branch_count?> Name" value="<?php echo $branch_row['BranchName'] ?>" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-6">
+                            <label for="location<?php echo $branch_count?>"><h4>Branch <?php echo $branch_count?> Location </h4></label>
+                            <input type="text" class="form-control" name="location<?php echo $branch_count?>" id="location<?php echo $branch_count?>" placeholder="Branch <?php echo $branch_count?> Location" value="<?php echo $branch_row['BranchLocation'] ?>">
+                        </div>
+                    </div>
+
+                    <?php
+                    $branch_count++;
+                    }
+                    ?>
                     
                       <!-- <div class="form-group">
                           
@@ -271,18 +295,13 @@ $(".file-upload").on('change', function(){
 });
 
 $("#update").submit(function(event){
-        //event.preventDefault(); // avoid to execute the actual submit of the form.
-
-        var formdata = {
-            'name' : $('#name').val(),
-            'phone' : $('#phone').val(),
-            'website' : $('#website').val(),
-        };
+        event.preventDefault(); // avoid to execute the actual submit of the form.
+        var form = $(this);
         var url = "dealer_update.php";
         $.ajax({
             type: "POST",
             url: url,
-            data: formdata, 
+            data:{formdata : form.serialize()} , 
             success: function(data)
             {
                 alert(data); // show response from the php script.
