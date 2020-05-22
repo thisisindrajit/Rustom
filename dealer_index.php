@@ -265,7 +265,7 @@ form.example::after {
 
 }
 
-@media screen and (max-width:769px)
+@media screen and (max-width:767px)
 {
     #explore
     {
@@ -385,7 +385,7 @@ if ( window.history.replaceState ) {
           <div class="column">
             <a href="resale_form.php" id="entry">
             <img src="car1.jpg" style="width:100%;height: 85%;margin-bottom:5px">
-            <h4 style="font-weight:300;color:black">Resale Car</h4>
+            <h4 style="font-weight:300;color:black">Pre-owned Car</h4>
             </a>
           </div>
           
@@ -431,7 +431,7 @@ if(isset($_SESSION['deletesoldoutcar'])&&$_SESSION['deletesoldoutcar']===true)
 ?>
 
 <div class="alert alert-danger" role="alert">
-<b>Sorry! You can't delete a sold out car!</b>
+<b>Sorry! You can't delete a sold out or rented car!</b>
 </div>
 
 <?php

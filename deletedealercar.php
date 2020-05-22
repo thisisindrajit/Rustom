@@ -8,7 +8,7 @@ $cartype = $_REQUEST["cartype"];
 $dealerid = $_SESSION['userid'];
 $status = $_REQUEST['status'];
 
-if($status==="sold out")
+if($status==="sold out"||$status==="rented")
 {
     $_SESSION["deletesoldoutcar"]=true;
     header("location: dealer_index.php");
