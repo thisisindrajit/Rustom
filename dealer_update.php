@@ -41,6 +41,10 @@ if($row['DName'] != $d_name || $row['PhoneNo'] != $d_phoneno || $row['Website'] 
             echo "Error: Could not execute the query: " . mysqli_error($conn);
         }        
     }
+    else
+    {
+        echo "Error: Could not prepare the query: " . mysqli_error($conn);
+    } 
 }
 
 $branch_count = 1;
@@ -68,6 +72,10 @@ if($stmt = mysqli_prepare($conn, $branch_update))
         $branch_count++;
     }   
 }
+else
+{
+    echo "Error: Could not prepare the query: " . mysqli_error($conn);
+} 
 
 if($changeflag)
 {

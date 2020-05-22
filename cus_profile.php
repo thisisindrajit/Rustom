@@ -172,6 +172,11 @@ h4
 {
     display: none;
 }
+
+#password_successful
+{
+    display: none;
+}
 </style>
 <script>
 
@@ -325,11 +330,11 @@ if ( window.history.replaceState ) {
             <span class="close">&times;</span>
             <h3>Change Password</h3>
             <hr width="100%" style="background-color:#C39BD3;border:none;height:1px">
-            <form method="post">
+            <form id="password_form" method="post">
             <div class="form-group">
                 <div class="col-xs-6">
                     <label for="currentpassword"><h4>Current Password</h4></label>
-                    <input type="text" class="form-control" name="currentpassword" id="currentpassword" placeholder="Current Password" required>
+                    <input type="password" class="form-control" name="currentpassword" id="currentpassword" placeholder="Current Password" required>
                 </div>
             </div>
             <div id="wrongpass" class="alert alert-info" role="alert">  
@@ -338,13 +343,13 @@ if ( window.history.replaceState ) {
             <div class="form-group">
                 <div class="col-xs-6">
                     <label for="newpassword"><h4>New Password</h4></label>
-                    <input type="text" class="form-control" name="newpassword" id="newpassword" placeholder="New Password" onchange="confirmPassword();" required>
+                    <input type="password" class="form-control" name="newpassword" id="newpassword" placeholder="New Password" onchange="confirmPassword();" required>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-xs-6">
                     <label for="confirmpassword"><h4>Confirm Password</h4></label>
-                    <input type="text" class="form-control" name="confirmpassword" id="confirmpassword" placeholder="Confirm Password" onchange="confirmPassword();" required>
+                    <input type="password" class="form-control" name="confirmpassword" id="confirmpassword" placeholder="Confirm Password" onchange="confirmPassword();" required>
                 </div>
             </div>
             <div id="password_match" class="alert alert-info" role="alert">  
@@ -357,6 +362,9 @@ if ( window.history.replaceState ) {
                 </div>
             </div>
             </form>
+            <div id="password_successful" class="alert alert-info" role="alert">  
+                    <!--Displays the alert message if password doesn't match-->               
+            </div>
         </div>
     </div>
     </body>
@@ -399,7 +407,16 @@ if ( window.history.replaceState ) {
                 $("#alert").empty();
                 $("#alert").append('<p class=card-text>' +data+ '</p>');
                 $("#alert").css("display","block");               
-                 // show response from the php script.
+                if(data == "No changes made!")
+                {
+                    $("#alert").css("background-color","rgba(255, 0, 0, 0.1)"); 
+                    $("#alert").css("color","#ff0000"); 
+                }
+                else
+                {
+                    $("#alert").css("background-color","rgba(0, 255, 0, 0.1)"); 
+                    $("#alert").css("color","#00cc00");
+                }
             }
             });
     });
@@ -432,14 +449,16 @@ if ( window.history.replaceState ) {
         $.ajax({
             type: "POST",
             url: "update_password.php",
-            data: formdata, 
+            data: {password : $("#confirmpassword").val()}, 
             success: function(data)
             {
-                $("#change_password").css("display","none");
-                $("#alert").empty();
-                $("#alert").append('<p class=card-text>' +data+ '</p>');
-                $("#alert").css("display","block");               
-                 // show response from the php script.
+                $("#password_form").css("display","none");
+                $("#password_successful").empty();
+                $("#password_successful").append('<p class=card-text>' +data+ '</p>');
+                $("#password_successful").css("display","block");
+                $("#password_successful").css("background-color","rgba(0, 255, 0, 0.1)"); 
+                $("#password_successful").css("color","#00cc00");               
+                // show response from the php script.
             }
             });
     }
@@ -478,8 +497,18 @@ if ( window.history.replaceState ) {
     {
         var newpass = $("#newpassword").val();
         var confirmpass = $("#confirmpassword").val();
+        var currentpass = $("#currentpassword").val();
 
-        if(newpass != confirmpass)
+        if(newpass == currentpass || confirmpass == currentpass)
+        {
+            $("#password_match").empty();
+            $("#password_match").append('<p class=card-text>Old and New passwords are same!</p>');
+            $("#password_match").css("display","block");
+            $("#password_match").css("background-color","rgba(255, 0, 0, 0.1)"); 
+            $("#password_match").css("color","#ff0000");
+            return 0;
+        }
+        else if(newpass != confirmpass)
         {
             $("#password_match").empty();
             $("#password_match").append('<p class=card-text>Passwords do not match!</p>');
@@ -497,7 +526,6 @@ if ( window.history.replaceState ) {
             $("#password_match").css("color","#00cc00");
             return 1;
         }
-
     }
 </script>
 

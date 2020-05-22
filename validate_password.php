@@ -2,7 +2,7 @@
 session_start();
 include("dbconnect.php");
 
-$userid = $_SESSION['userid']; //getting the customer id
+$userid = $_SESSION['userid'];
 $email = $_SESSION['email'];
 $usertype = $_SESSION['usertype'];
 $password = mysqli_real_escape_string($conn, $_POST['password']);
