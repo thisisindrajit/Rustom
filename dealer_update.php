@@ -5,27 +5,25 @@ $changeflag = false;
 $dealerid = $_SESSION['userid']; //getting the dealer id
 $dealername = $_SESSION['username'];
 
-$query = "SELECT * FROM dealer WHERE dealerid = $dealerid";
-$result = mysqli_query($conn, $query);
-$row = mysqli_fetch_assoc($result);
-
-$branch_query = "SELECT * FROM branch WHERE dealerid = $dealerid";
-$branch_result = mysqli_query($conn, $branch_query);
-$branch_row = mysqli_fetch_assoc($branch_result);
-
-$branch_count = 1;
-
 //unserialize data from the ajax request
 $params = array();
 parse_str($_POST['formdata'], $params);
 
-$d_name = mysqli_real_escape_string($conn, $params['name']);
-$d_phoneno =  mysqli_real_escape_string($conn, $params['phone']);
-$d_website =  mysqli_real_escape_string($conn, $params['website']);
+//dealer table query
+$query = "SELECT * FROM dealer WHERE dealerid = $dealerid";
+$result = mysqli_query($conn, $query);
+$row = mysqli_fetch_assoc($result);
+
+//branch table query
+$branch_query = "SELECT * FROM branch WHERE dealerid = $dealerid";
+$branch_result = mysqli_query($conn, $branch_query);
+
+$d_name =  $params['name'];
+$d_phoneno =  $params['phone'];
+$d_website = $params['website'];
         
 if($row['DName'] != $d_name || $row['PhoneNo'] != $d_phoneno || $row['Website'] != $d_website)
 {
-    $changeflag = true;
     $dealer_update= "UPDATE dealer SET DName=?, PhoneNo=?, Website=? WHERE dealerid = $dealerid";
     if($stmt= mysqli_prepare($conn, $dealer_update) )
     {
@@ -36,7 +34,7 @@ if($row['DName'] != $d_name || $row['PhoneNo'] != $d_phoneno || $row['Website'] 
         if(mysqli_stmt_execute($stmt))
         {
             $_SESSION['username'] = $d_name;
-            echo "Updated Successfully!";
+            $changeflag = true;
         }
         else
         {
@@ -44,16 +42,38 @@ if($row['DName'] != $d_name || $row['PhoneNo'] != $d_phoneno || $row['Website'] 
         }        
     }
 }
-while($branch_row = mysqli_fetch_assoc($branch_result))
+
+$branch_count = 1;
+$branch_update = "UPDATE branch SET BranchName = ?, BranchLocation = ? WHERE dealerid = $dealerid AND branchname = ? AND branchlocation =?";
+if($stmt = mysqli_prepare($conn, $branch_update))
 {
-    if(0)
+    while($branch_row = mysqli_fetch_assoc($branch_result)) 
     {
-        //branch updation code
-        $changeflag = true;
-    }
+        $new_branch = $params['branch'.$branch_count.''];
+        $new_location = $params['location'.$branch_count.''];
+        $old_branch = $branch_row['BranchName'];
+        $old_location = $branch_row['BranchLocation'];
+        if($old_branch != $new_branch || $old_location != $new_location)
+        {
+            mysqli_stmt_bind_param($stmt, "ssss", $new_branch, $new_location, $old_branch, $old_location);
+            if(mysqli_stmt_execute($stmt))
+            {
+                $changeflag = true;
+            }
+            else
+            {
+                echo "Error: Could not execute the query: " . mysqli_error($conn);
+            }    
+        }
+        $branch_count++;
+    }   
 }
 
-if($changeflag === false)
+if($changeflag)
+{
+    echo "Updated Successfully!";
+}
+else
 {
     echo "No changes made!";
 }

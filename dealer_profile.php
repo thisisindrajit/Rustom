@@ -122,6 +122,11 @@ h4
     font-size:16px;
 }
 
+#alert
+{
+    display:none;
+}
+
 
 </style>
 
@@ -170,7 +175,7 @@ if ( window.history.replaceState ) {
     <img src="logow.png" height="50px" style="margin:auto">
     
     </div>
-
+    
 <div class="container bootstrap snippet" style="width:80%;margin:auto;margin-top:135px;margin-bottom:60px">
     <div class="row" style="padding:20px 0;border-bottom:1px solid #C39BD3">
   		<h1 class="display-4" style="font-size:40px">My Profile</h1>
@@ -263,10 +268,13 @@ if ( window.history.replaceState ) {
                            <div class="col-xs-12">
                                 <br>
                               	<button class="btn btn-lg btn-success" type="submit" name="submit" id="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
-                               	<button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat" color = "513450"></i> Reset</button>
+                               	<button class="btn btn-lg" onclick = "window.location.reload();"><i class="glyphicon glyphicon-repeat" color = "513450"></i> Reset</button>
                             </div>
                       </div>
               	</form>
+                <div id=alert class="alert alert-info" role="alert">  
+                    <!--Displays the alert message after updation-->               
+                </div>
               </div>
                
               </div><!--/tab-pane-->
@@ -304,7 +312,10 @@ $("#update").submit(function(event){
             data:{formdata : form.serialize()} , 
             success: function(data)
             {
-                alert(data); // show response from the php script.
+                $("#alert").empty();
+                $("#alert").append('<p class=card-text>' +data+ '</p>');
+                $("#alert").css("display","block");                
+                 // show response from the php script.
             }
             });
     });

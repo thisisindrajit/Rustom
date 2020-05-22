@@ -121,9 +121,12 @@ h4
     font-size:16px;
 }
 
+#alert
+{
+    display:none;
+}
 
 </style>
-
 <script>
 
 if ( window.history.replaceState ) {
@@ -131,7 +134,6 @@ if ( window.history.replaceState ) {
     }
 
 </script>
-
 <body>
 
     <div id="list">
@@ -191,75 +193,78 @@ if ( window.history.replaceState ) {
               
           <div class="tab-content">
             <div class="tab-pane active" id="home">
-                  <form class="form" method="post" id="update">
-                      <div class="form-group">
-                          <Br>
-                          <div class="col-xs-6">
-                              <label for="name"><h4>Name</h4></label>
-                              <input type="text" class="form-control" name="name" id="name" placeholder="Name" value="<?php echo $cusname ?>" title="enter your name">
-                          </div>
-                      </div>
+                <form class="form" method="post" id="update">
+                    <div class="form-group">
+                        <Br>
+                        <div class="col-xs-6">
+                            <label for="name"><h4>Name</h4></label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Name" value="<?php echo $cusname ?>" title="enter your name">
+                        </div>
+                    </div>
 
-                      <div class="form-group">
-                          <div class="col-xs-6">
-                             <label for="dob"><h4>Date of Birth</h4></label>
-                              <input type="date" class="form-control" name="dob" id="dob" placeholder="Date of Birth" value="<?php echo $row['DOB'] ?>"  title="enter your DOB">
-                          </div>
-                      </div>
-                    
-                      <div class="form-group">
-                          
-                          <div class="col-xs-6">
-                              <label for="phone"><h4>Phone</h4></label>
-                              <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" value="<?php echo $row['PhoneNo'] ?>" title="enter your phone number if any">
-                          </div>
-                      </div>
-          
-                      <div class="form-group">
-                          <div class="col-xs-6">
-                             <label for="address"><h4>Address</h4></label>
-                              <input type="text" class="form-control" name="address" id="address" placeholder="Address" value="<?php echo $row['Address'] ?>" title="enter your address">
-                          </div>
-                      </div>
+                    <div class="form-group">
+                        <div class="col-xs-6">
+                            <label for="dob"><h4>Date of Birth</h4></label>
+                            <input type="date" class="form-control" name="dob" id="dob" placeholder="Date of Birth" value="<?php echo $row['DOB'] ?>"  title="enter your DOB">
+                        </div>
+                    </div>
+                
+                    <div class="form-group">
+                        
+                        <div class="col-xs-6">
+                            <label for="phone"><h4>Phone</h4></label>
+                            <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" value="<?php echo $row['PhoneNo'] ?>" title="enter your phone number if any">
+                        </div>
+                    </div>
+        
+                    <div class="form-group">
+                        <div class="col-xs-6">
+                            <label for="address"><h4>Address</h4></label>
+                            <input type="text" class="form-control" name="address" id="address" placeholder="Address" value="<?php echo $row['Address'] ?>" title="enter your address">
+                        </div>
+                    </div>
 
-                      <div class="form-group">
-                          
-                          <div class="col-xs-6">
-                              <label for="dlno"><h4>Driving License Number</h4></label>
-                              <input type="text" class="form-control" name="dlno" id="dlno" placeholder="Driving License Number" value="<?php echo $row['DrivingLicense'] ?>" title="enter your driving license number">
-                          </div>
-                      </div>
+                    <div class="form-group">
+                        
+                        <div class="col-xs-6">
+                            <label for="dlno"><h4>Driving License Number</h4></label>
+                            <input type="text" class="form-control" name="dlno" id="dlno" placeholder="Driving License Number" value="<?php echo $row['DrivingLicense'] ?>" title="enter your driving license number">
+                        </div>
+                    </div>
 
-                      <div class="form-group">
-                          
-                          <div class="col-xs-6">
-                              <label for="email"><h4>Email</h4></label>
-                              <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" value="<?php echo $row['C_Email'] ?>" title="enter your email" readonly>
-                          </div>
-                      </div>
-                    
-                      <!--<div class="form-group">
-                          
-                          <div class="col-xs-6">
-                              <label for="password"><h4>Password</h4></label>
-                              <input type="password" class="form-control" name="password" id="password" placeholder="Password" title="enter your password">
-                          </div>
-                      </div>
-                      <div class="form-group">
-                          
-                          <div class="col-xs-6">
-                            <label for="password2"><h4>Verify Password</h4></label>
-                              <input type="password" class="form-control" name="password2" id="password2" placeholder="Verify password" title="re-enter your password">
-                          </div>
-                      </div>-->
-                      <div class="form-group">
-                           <div class="col-xs-12">
-                                <br>
-                              	<button class="btn btn-lg btn-success" type="submit" id="submit" name="submit" onclick="update()"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
-                               	<button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat" color = "513450"></i> Reset</button>
-                            </div>
-                      </div>
-              	</form>
+                    <div class="form-group">
+                        
+                        <div class="col-xs-6">
+                            <label for="email"><h4>Email</h4></label>
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" value="<?php echo $row['C_Email'] ?>" title="enter your email" readonly>
+                        </div>
+                    </div>
+                
+                    <!--<div class="form-group">
+                        
+                        <div class="col-xs-6">
+                            <label for="password"><h4>Password</h4></label>
+                            <input type="password" class="form-control" name="password" id="password" placeholder="Password" title="enter your password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        
+                        <div class="col-xs-6">
+                        <label for="password2"><h4>Verify Password</h4></label>
+                            <input type="password" class="form-control" name="password2" id="password2" placeholder="Verify password" title="re-enter your password">
+                        </div>
+                    </div>-->
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <br>
+                            <button class="btn btn-lg btn-success" type="submit" id="submit" name="submit" onclick="update()"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
+                            <button class="btn btn-lg" onclick = "window.location.reload();"><i class="glyphicon glyphicon-repeat" color = "513450"></i> Reset</button>
+                        </div>
+                    </div>
+                </form>
+                <div id=alert class="alert alert-info" role="alert">  
+                    <!--Displays the alert message after updation-->               
+                </div>
               </div>
                
               </div><!--/tab-pane-->
@@ -287,12 +292,9 @@ if ( window.history.replaceState ) {
     });
     });
     
-    if ( window.history.replaceState ) {
-        window.history.replaceState( null, null, window.location.href );
-    }
 
     $("#update").submit(function(event){
-        //event.preventDefault(); // avoid to execute the actual submit of the form.
+        event.preventDefault(); // avoid to execute the actual submit of the form.
         var formdata = {
             'name' : $('#name').val(),
             'dob' : $('#dob').val(),
@@ -307,7 +309,10 @@ if ( window.history.replaceState ) {
             data: formdata, 
             success: function(data)
             {
-                alert(data); // show response from the php script.
+                $("#alert").empty();
+                $("#alert").append('<p class=card-text>' +data+ '</p>');
+                $("#alert").css("display","block");                
+                 // show response from the php script.
             }
             });
     });
