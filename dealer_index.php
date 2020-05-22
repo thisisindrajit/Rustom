@@ -386,7 +386,7 @@ if ( window.history.replaceState ) {
           </div>
           
           <div class="column">
-            <a href="rental_from.php">
+            <a href="rental_form.php">
             <img src="car3.jpg" style="width:100%;height: 85%;margin-bottom:5px">
             <h4>Rental Car</h4>
             </a>
@@ -729,7 +729,13 @@ No cars have been added yet! Add a car by clicking on the <i>Add entry</i> butto
   </div>
 
   <?php
+
+  if($cardet["cartype"]==="new")
+  {
   $temp++;
+  }
+
+  
   }
   ?>
 

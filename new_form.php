@@ -88,6 +88,54 @@ mysqli_stmt_bind_param($stmt, "ssssss", $name,  $mileage, $color, $fueltype, $m_
                 $i++;
             }
 
+
+            //inserting image into table
+
+            if(isset($_FILES['carimage']))
+            {
+              $target_dir = "Images/";
+              $file_name = $_FILES['carimage']['name']; //original name of file in client's computer
+              $file_tmp = $_FILES['carimage']['tmp_name'];  //temp name stored in server until processing
+
+              $imageFileType = strtolower(pathinfo($file_name,PATHINFO_EXTENSION));
+
+              if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") 
+              {
+              echo "Sorry only JPG, JPEG, PNG files are allowed.";
+              }
+
+              else
+              {
+
+              if(!is_dir($target_dir. $car_id ."/")) { //creating a new directory for that car
+                  mkdir($target_dir. $car_id ."/");
+              }
+
+              $target_dir = $target_dir. $car_id."/"; //changing the target directory
+
+              $newfilename="1.".$imageFileType;
+              move_uploaded_file($file_tmp, $target_dir.$newfilename); //uploading file to the given directory
+
+              $imgpath=$target_dir.$newfilename;
+
+              $imageinsert = "insert into images(carid,images) values ($car_id,'$imgpath')";
+
+              if($imageex= mysqli_query($conn, $imageinsert))
+              {
+                $_SESSION['newcaradded'] = true;
+                header("location:dealer_index.php");
+              }
+
+              else
+              {
+                echo "some error occured while inserting image path in database!";
+              }
+
+              }
+
+            }
+
+
             $_SESSION['newcaradded'] = true;
             header("location:dealer_index.php");
             }
@@ -307,7 +355,7 @@ mysqli_stmt_bind_param($stmt, "ssssss", $name,  $mileage, $color, $fueltype, $m_
   </head>
   <body>
     <div class="testbox">
-      <form action="" method="POST">
+      <form action="" method="POST" enctype="multipart/form-data">
         <div class="banner">
           <h1>New Car Form</h1>
         </div>
@@ -351,8 +399,13 @@ mysqli_stmt_bind_param($stmt, "ssssss", $name,  $mileage, $color, $fueltype, $m_
           <input type="text" name="f4" placeholder="Car feature 4" required>
         </div>
 
+        <div class="item">
+        Choose a car image (optional)
+          <input type="file" name="carimage">
+        </div>
+
         <div class="btn-block">
-          <button type="submit" name="submit">SEND</button>
+          <button type="submit" name="submit">ADD</button>
         </div>
       </form>
     </div>
