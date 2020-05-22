@@ -128,7 +128,7 @@ h4
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  z-index: 10; /* Sit on top */
   padding-top: 100px; /* Location of the box */
   left: 0;
   top: 0;
@@ -234,8 +234,8 @@ if ( window.history.replaceState ) {
 
       <div class="text-center container-fluid">
         <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-thumbnail" alt="avatar" style="margin-bottom:10px">
-      <h6>Upload a different photo</h6>
-        <input type="file" class="center-block file-upload" style="width:95px">
+      <!--<h6>Upload a different photo</h6>
+        <input type="file" class="center-block file-upload" style="width:95px">-->
       </div><br>
 
           
@@ -305,7 +305,7 @@ if ( window.history.replaceState ) {
                             <input type="password" class="form-control" name="password2" id="password2" placeholder="Verify password" title="re-enter your password">
                         </div>
                     </div>-->
-                    <div>
+                    <div style="margin-top:25px">
                         <a href="javascript: void(0)" onclick = "changePassword();">Change Password</a>
                     </div>    
                     <div class="form-group">
@@ -435,13 +435,6 @@ if ( window.history.replaceState ) {
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
     modal.style.display = "none";
-    }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
     }
     
     function updatePassword()

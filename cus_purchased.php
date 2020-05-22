@@ -239,7 +239,7 @@ li
 <?php 
 
 $purchasedcarsquery = "select car.carid as carid,name,DATE_FORMAT(paymentdate,'%d %M %Y') as paymentdate from car inner join newcar where customerid = $cusid
-and paymentstatus = 'verified' and car.carid = newcarid";
+and paymentstatus = 'verified' and car.carid = newcarid order by paymentdate desc";
 $ex = mysqli_query($conn,$purchasedcarsquery);
 
 if(mysqli_num_rows($ex)===0)
@@ -282,7 +282,7 @@ while($row=mysqli_fetch_assoc($ex))
 
 <?php
 $purchasedresalecarsquery = "select car.carid as carid,name,DATE_FORMAT(paymentdate,'%d %M %Y') as paymentdate from car inner join preownedcar 
-where customerid = $cusid and paymentstatus = 'verified' and car.carid = preownedcarid";
+where customerid = $cusid and paymentstatus = 'verified' and car.carid = preownedcarid order by paymentdate desc";
 $ex2 = mysqli_query($conn,$purchasedresalecarsquery);
 
 if(mysqli_num_rows($ex2)===0)

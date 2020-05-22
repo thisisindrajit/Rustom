@@ -11,8 +11,13 @@ include("dbconnect.php");
 $carid=$_REQUEST["carid"];
 $cartype=$_REQUEST["cartype"];
 $discount=$_POST["discount"];
+$action=$_REQUEST["action"];
 
 //echo $carid.",".$cartype.",".$discount;
+
+
+if($action==="add")
+{
 
 if($cartype==="new")
 {
@@ -49,6 +54,53 @@ else
         header('location: Login/login.php');
     }
 
+}
+
+}
+
+else if($action==="remove")
+{
+
+    if($cartype==="new")
+    {
+        $query = "update newcar set discount=null where newcarid=$carid";
+        $ex = mysqli_query($conn,$query);
+    
+        if($ex)
+        {
+            $_SESSION['discountset']=true;
+            header('location:dealer_index.php');
+        }   
+    
+        else
+        {
+        echo "Some error occured while removing discount of new car!";
+        }
+    }
+    
+    else
+    {
+        $query = "update preownedcar set discount=null where preownedcarid=$carid";
+        $ex = mysqli_query($conn,$query);
+        
+        if($ex)
+        {
+            $_SESSION['discountset']=true;
+            header('location:dealer_index.php');
+        }
+        
+        else
+        {
+            echo "Some error occured while removing discount of resale car!";
+        }
+    
+    }
+
+}
+
+else
+{
+    header('location:dealer_index.php');
 }
 
 

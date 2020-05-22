@@ -102,7 +102,8 @@ mysqli_stmt_bind_param($stmt, "sssssss", $name,  $mileage, $color, $fueltype, $m
 
               if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") 
               {
-              echo "Sorry only JPG, JPEG, PNG files are allowed.";
+              //echo "Sorry only JPG, JPEG, PNG files are allowed.";
+              header("location:error.php");
               }
 
               else

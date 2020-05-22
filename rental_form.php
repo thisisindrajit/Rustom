@@ -90,17 +90,18 @@ mysqli_stmt_bind_param($stmt, "sssssss", $name,  $mileage, $color, $fueltype, $m
             }
 
 
-            if(isset($_FILES['rentalcarimage']))
+            if(isset($_FILES['carimage']))
             {
               $target_dir = "Images/";
-              $file_name = $_FILES['rentalcarimage']['name']; //original name of file in client's computer
-              $file_tmp = $_FILES['rentalcarimage']['tmp_name'];  //temp name stored in server until processing
+              $file_name = $_FILES['carimage']['name']; //original name of file in client's computer
+              $file_tmp = $_FILES['carimage']['tmp_name'];  //temp name stored in server until processing
 
               $imageFileType = strtolower(pathinfo($file_name,PATHINFO_EXTENSION));
 
               if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") 
               {
-              echo "Sorry only JPG, JPEG, PNG files are allowed.";
+              //echo "Sorry only JPG, JPEG, PNG files are allowed.";
+              header("location:error.php");
               }
 
               else

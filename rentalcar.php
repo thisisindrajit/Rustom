@@ -14,9 +14,9 @@ $userid = $_SESSION['userid'];
 $usertype =  $_SESSION['usertype'];
 
 //first query to select all car and its dealer details
-$query1 = "select Name,Dname,Mname,status,dealer.phoneno as dph,d_email,
-dealer.website as dweb,mileage,color,status,fueltype,licenseplateno,rentamount from car inner join rentalcar inner join manufacturer inner join owns inner join dealer where
-car.manufacturerid=manufacturer.manufacturerid and owns.carid=car.carid and owns.dealerid=dealer.dealerid and car.carid=rentalcar.rentalcarid and car.carid=$carid";   
+$query1 = "select Name,Dname,Mname,status,dealer.phoneno as dph,d_email,rent.customerid as rentcustomerid,
+dealer.website as dweb,mileage,color,status,fueltype,licenseplateno,rentamount from car left join rent on car.carid=rent.rentalcarid inner join rentalcar inner join manufacturer inner join owns inner join dealer where
+car.manufacturerid=manufacturer.manufacturerid and owns.carid=car.carid and owns.dealerid=dealer.dealerid and car.carid=rentalcar.rentalcarid and car.carid=$carid order by startdate desc limit 1";   
 
 $result1 = mysqli_query($conn,$query1);
 $firstquery = mysqli_fetch_assoc($result1);
@@ -391,7 +391,7 @@ else{
 </svg>
 </a>
 
-<img src="logow.png" onclick="gotodash(<?php echo $userid.',\''.$usertype.'\'' ?>)" height="50px" style="margin:auto;cursor:pointer">
+<img src="logow.png" onclick="gotodash(<?php echo '\''.$usertype.'\'' ?>)" height="50px" style="margin:auto;cursor:pointer">
 
 </div>
 
@@ -441,9 +441,20 @@ else{
     {?> 
 
     <button type="button" class="btn btn-primary" onclick="openrent()">Rent this car</button>
-    <button type="button" class="btn btn-outline-info">Add to wishlist</button>
+    <!--<button type="button" class="btn btn-outline-info">Add to wishlist</button>-->
 
     <?php 
+    }
+
+    else if($firstquery["status"]==="rented"&&$firstquery["rentcustomerid"]===$userid&&$usertype==="customer")
+    {
+    ?>
+
+    <div class="alert alert-success" role="alert" style="margin-bottom:0">
+    This car is currently being rented by you!
+    </div>
+
+    <?php  
     }
     else
     {
@@ -548,16 +559,16 @@ if(mysqli_num_rows($result3)===0)
 
 <script type="text/javascript">
 
-function gotodash(userid,usertype)
+function gotodash(usertype)
 {
     if(usertype==="customer")
     {
-      window.location.href="cus_index.php?cusid="+userid;
+      window.location.href="cus_index.php";
     }
 
     else
     {
-      window.location.href="dealer_index.php?cusid="+userid;
+      window.location.href="dealer_index.php";
     }
    
 }

@@ -3,13 +3,24 @@
 //this is the session check for this page
 session_start();
 
+if(!isset($_SESSION['logged_in'])||(isset($_SESSION['logged_in'])&&$_SESSION['usertype']==="dealer")) //user not logged in or user logged in is a dealer
+{
+    header('location:index.php');
+}
+
 include("dbconnect.php");
+
+$cusid = $_SESSION['userid']; //getting the customer id
+$cusname = $_SESSION['username'];
+
+$carid=$_REQUEST["carid"];
+$cartype=$_REQUEST["cartype"];
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Thank you! - Rustom</title>
+    <title><?php echo $cusname."'s " ?> Payments - Rustom</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <link rel="icon" href="icon.ico">
@@ -82,11 +93,12 @@ include("dbconnect.php");
 <body>
 
 <div class="input-group mb-3 paymentbox">
-<span id="title">SWEET!&#127853</span>
+<span id="title">PAYMENTS SECTION&#129297</span>
 
-<span style="text-align:justify">First things first, thank you&#129321 for registering with Rustom!<b> A verification mail has been sent to your e-mail ID.</b> Open it and click on the verification link to activate your account! Happy <i>Rustoming!</i></span>
+<span style="text-align:justify">For now this is a dummy page. <b>In future, this will be redirected to a 3rd party payment gateway site.</b> Till then you can buy any car for free&#128540! Happy <i>Rustoming!</i></span>
 
-<div class="button" onclick="gotohome()">Go to homepage</div>
+<div class="button" onclick="buycar(<?php echo $carid.',\''.$cartype.'\'' ?>)">Buy Car</div>
+<div class="button" style="background-color:#E74C3C;margin-top:10px" onclick="goback()">Go Back</div>
 
 </div>
 
@@ -95,9 +107,15 @@ include("dbconnect.php");
 </body>
 
 <script>
-function gotohome() {
+function buycar(carid,cartype)
+{
+  window.location.href="buycar.php?carid="+carid+"&cartype="+cartype;
+}
 
-    window.location.href="index.php";
+function goback()
+{
+    window.history.back();
 }
 </script>
+
 </html>

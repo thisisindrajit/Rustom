@@ -431,7 +431,7 @@ if(isset($_SESSION['deletesoldoutcar'])&&$_SESSION['deletesoldoutcar']===true)
 ?>
 
 <div class="alert alert-danger" role="alert">
-<b>Sorry! You can't delete a sold out or rented car!</b>
+<b>Sorry! You can't delete a sold out or currently rented car!</b>
 </div>
 
 <?php
@@ -628,11 +628,11 @@ No cars have been added yet! Add a car by clicking on the <i>Add entry</i> butto
                                 data-toggle="dropdown"> 
                             <span class="caret"></span> 
                         </button> 
-                        <ul class="dropdown-menu" style="padding:10px"> 
+                        <ul class="dropdown-menu dropdown-menu-right" style="padding:10px"> 
                             <!--<li> 
                                 <a href="#">Edit</a> 
                             </li> -->
-                            <li> 
+                            <li style="margin:5px"> 
                                 <?php if($cardet["status"]!=="sold out"&&$cardet["cartype"]!=="rental"){?>
                                 <a href="javascript:void(0)" onclick="discount(<?php echo $temp ?>)">Set Discount</a>
 
@@ -641,7 +641,7 @@ No cars have been added yet! Add a car by clicking on the <i>Add entry</i> butto
                                 
                                 Set discount for <?php echo $cardet["name"]?>
 
-                                <form action="setdiscount.php?carid=<?php echo $cardet['carid']?>&cartype=<?php echo $cardet['cartype']?>" method="POST">
+                                <form action="setdiscount.php?carid=<?php echo $cardet['carid']?>&cartype=<?php echo $cardet['cartype']?>&action=add" method="POST">
                                 <input type="number" name="discount" style="margin-top:20px;width:150px;font-size:1rem;padding:5px" placeholder="Discount" min="5" max="90" required>
 
                                 <div style="margin-top:20px">
@@ -654,8 +654,24 @@ No cars have been added yet! Add a car by clicking on the <i>Add entry</i> butto
 
                                 </div>
 
-                                <?php } ?>
+                                <?php 
+                                $temp++;
+                               }
+                               ?>
+                            </li>
 
+                            <?php if($discount!=="0"&&$cardet["status"]!=="sold out"&&$cardet["cartype"]!=="rental")
+                            {
+                            ?>
+
+                            <li style="margin:5px">
+                                <a href="setdiscount.php?carid=<?php echo $cardet['carid']?>&cartype=<?php echo $cardet['cartype']?>&action=remove">Remove Discount</a> 
+                            </li>
+                            <?php
+                            }
+                            ?>
+
+                            <li style="margin:5px">
                                 <a href="<?php echo "deletedealercar.php?carid=".$cardet["carid"]."&cartype=".$cardet["cartype"]."&status=".$cardet["status"] ?>">Delete</a> 
                             </li> 
                         </ul> 
@@ -748,13 +764,6 @@ No cars have been added yet! Add a car by clicking on the <i>Add entry</i> butto
   </div>
 
   <?php
-
-  if($cardet["cartype"]==="new")
-  {
-  $temp++;
-  }
-
-
   }
   ?>
 

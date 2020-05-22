@@ -297,7 +297,7 @@ unset($_SESSION['finishedrent']);
 $rentedcarsquery1 = "
 select rentalcarid,rent.customerid,customername,name,DATE_FORMAT(rentdate,'%d %M %Y') as rentdate,DATE_FORMAT(startdate,'%d %M %Y') as startdate,startdate as orgstartdate 
 from rent inner join owns inner join customer inner join car where rentalcarid=car.carid and rent.customerid=customer.customerid and 
-rentalcarid=owns.carid and enddate is null and owns.dealerid=$dealerid";
+rentalcarid=owns.carid and enddate is null and owns.dealerid=$dealerid order by startdate desc";
 $ex = mysqli_query($conn,$rentedcarsquery1);
 
 if(mysqli_num_rows($ex)===0)
@@ -367,7 +367,7 @@ $rentedcarsquery2 = "
 select rentalcarid,customername,name,DATE_FORMAT(rentdate,'%d %M %Y') as rentdate,DATE_FORMAT(startdate,'%d %M %Y') as startdate,DATE_FORMAT(enddate,'%d %M %Y') as enddate 
 from rent inner join owns inner join customer
  inner join car where rentalcarid=car.carid and rent.customerid=customer.customerid and 
- rentalcarid=owns.carid and enddate is not null and owns.dealerid=$dealerid";
+ rentalcarid=owns.carid and enddate is not null and owns.dealerid=$dealerid order by startdate desc";
 
 $ex2 = mysqli_query($conn,$rentedcarsquery2);
 

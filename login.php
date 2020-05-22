@@ -122,7 +122,6 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment:fixed;
-    opacity: 0.8;
 }
 .container
 {
@@ -134,8 +133,7 @@ body{
     left:50%;
     position: absolute;
     transform: translate(-50%, -50%);
-    background-color: black;
-    opacity: 1;
+    background-color: rgba(0,0,0,0.8);
 }
 .main-logo
 {
@@ -146,8 +144,8 @@ body{
 }
 #logo
 {
-    background-color:black;
-    width:120px;
+    background-color: transparent;
+    width:115px;
     border-radius:50%;
 }
 .main-header
