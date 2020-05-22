@@ -660,7 +660,7 @@ No cars have been added yet! Add a car by clicking on the <i>Add entry</i> butto
                                ?>
                             </li>
 
-                            <?php if($discount!=="0")
+                            <?php if($discount!=="0"&&$cardet["status"]!=="sold out"&&$cardet["cartype"]!=="rental")
                             {
                             ?>
 
