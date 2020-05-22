@@ -121,7 +121,62 @@ h4
 {
     font-size:16px;
 }
+#alert
+{
+    display:none;
+}
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
 
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 40%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  text-align: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#wrongpass
+{
+    display: none;
+}
+
+#password_match
+{
+    display: none;
+}
+
+#password_successful
+{
+    display: none;
+}
 
 </style>
 
@@ -170,7 +225,7 @@ if ( window.history.replaceState ) {
     <img src="logow.png" height="50px" style="margin:auto">
     
     </div>
-
+    
 <div class="container bootstrap snippet" style="width:80%;margin:auto;margin-top:135px;margin-bottom:60px">
     <div class="row" style="padding:20px 0;border-bottom:1px solid #C39BD3">
   		<h1 class="display-4" style="font-size:40px">My Profile</h1>
@@ -266,21 +321,68 @@ if ( window.history.replaceState ) {
                               <input type="password" class="form-control" name="password2" id="password2" placeholder="Verify password" title="re-enter your password">
                           </div>
                       </div>-->
+                      <div>
+                        <a href="javascript: void(0)" onclick = "changePassword();">Change Password</a>
+                    </div>
                       <div class="form-group">
                            <div class="col-xs-12">
                                 <br>
                               	<button class="btn btn-lg btn-success" type="submit" name="submit" id="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
-                               	<button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat" color = "513450"></i> Reset</button>
+                               	<button class="btn btn-lg" onclick = "window.location.reload();"><i class="glyphicon glyphicon-repeat" color = "513450"></i> Reset</button>
                             </div>
                       </div>
               	</form>
+                <div id=alert class="alert alert-info" role="alert">  
+                    <!--Displays the alert message after updation-->               
+                </div>
               </div>
                
               </div><!--/tab-pane-->
           </div><!--/tab-content-->
 
         </div><!--/col-9-->
-
+        <div id="change_password" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Change Password</h3>
+            <hr width="100%" style="background-color:#C39BD3;border:none;height:1px">
+            <form id="password_form" method="post">
+            <div class="form-group">
+                <div class="col-xs-6">
+                    <label for="currentpassword"><h4>Current Password</h4></label>
+                    <input type="password" class="form-control" name="currentpassword" id="currentpassword" placeholder="Current Password" required>
+                </div>
+            </div>
+            <div id="wrongpass" class="alert alert-info" role="alert">  
+                    <!--Displays the alert message if password is wrong-->               
+            </div>
+            <div class="form-group">
+                <div class="col-xs-6">
+                    <label for="newpassword"><h4>New Password</h4></label>
+                    <input type="password" class="form-control" name="newpassword" id="newpassword" placeholder="New Password" onchange="confirmPassword();" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-6">
+                    <label for="confirmpassword"><h4>Confirm Password</h4></label>
+                    <input type="password" class="form-control" name="confirmpassword" id="confirmpassword" placeholder="Confirm Password" onchange="confirmPassword();" required>
+                </div>
+            </div>
+            <div id="password_match" class="alert alert-info" role="alert">  
+                    <!--Displays the alert message if password doesn't match-->               
+            </div>
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <br>
+                    <button class="btn btn-lg btn-success" type="submit" name="changepass"><i class="glyphicon glyphicon-ok-sign">Change Password</i></button>
+                </div>
+            </div>
+            </form>
+            <div id="password_successful" class="alert alert-info" role="alert">  
+                    <!--Displays the alert message if password doesn't match-->               
+            </div>
+        </div>
+    </div>
     </body>
         
 <script>
@@ -311,10 +413,121 @@ $("#update").submit(function(event){
             data:{formdata : form.serialize()} , 
             success: function(data)
             {
-                alert(data); // show response from the php script.
+                $("#alert").empty();
+                $("#alert").append('<p class=card-text>' +data+ '</p>');
+                $("#alert").css("display","block");                
+                 // show response from the php script.
             }
             });
     });
+
+
+    // Get the modal
+    var modal = document.getElementById("change_password");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    function changePassword()
+    {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+    modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+    }
+    
+    function updatePassword()
+    {
+        $.ajax({
+            type: "POST",
+            url: "update_password.php",
+            data: {password : $("#confirmpassword").val()}, 
+            success: function(data)
+            {
+                $("#password_form").css("display","none");
+                $("#password_successful").empty();
+                $("#password_successful").append('<p class=card-text>' +data+ '</p>');
+                $("#password_successful").css("display","block");
+                $("#password_successful").css("background-color","rgba(0, 255, 0, 0.1)"); 
+                $("#password_successful").css("color","#00cc00");               
+                // show response from the php script.
+            }
+            });
+    }
+
+    $("#change_password").submit(function(event){
+        event.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "validate_password.php",
+            data: {password : $("#currentpassword").val()}, 
+            success: function(data)
+            {
+                $("#wrongpass").empty();
+                $("#wrongpass").append('<p class=card-text>' +data+ '</p>');
+                $("#wrongpass").css("display","block");
+                if(data == "Invalid Password!")
+                {
+                    $("#wrongpass").css("background-color","rgba(255, 0, 0, 0.1)"); 
+                    $("#wrongpass").css("color","#ff0000"); 
+                }
+                else
+                {
+                    $("#wrongpass").css("background-color","rgba(0, 255, 0, 0.1)"); 
+                    $("#wrongpass").css("color","#00cc00");
+                    //checking if the passwords match
+                    if(confirmPassword())
+                    {   
+                        updatePassword();       
+                    }
+                }          
+            }
+            });
+        });
+
+    function confirmPassword()
+    {
+        var newpass = $("#newpassword").val();
+        var confirmpass = $("#confirmpassword").val();
+        var currentpass = $("#currentpassword").val();
+
+        if(newpass == currentpass || confirmpass == currentpass)
+        {
+            $("#password_match").empty();
+            $("#password_match").append('<p class=card-text>Old and New passwords are same!</p>');
+            $("#password_match").css("display","block");
+            $("#password_match").css("background-color","rgba(255, 0, 0, 0.1)"); 
+            $("#password_match").css("color","#ff0000");
+            return 0;
+        }
+        else if(newpass != confirmpass)
+        {
+            $("#password_match").empty();
+            $("#password_match").append('<p class=card-text>Passwords do not match!</p>');
+            $("#password_match").css("display","block");
+            $("#password_match").css("background-color","rgba(255, 0, 0, 0.1)"); 
+            $("#password_match").css("color","#ff0000");
+            return 0;
+        }
+        else
+        {
+            $("#password_match").empty();
+            $("#password_match").append('<p class=card-text>Passwords match!</p>');
+            $("#password_match").css("display","block");
+            $("#password_match").css("background-color","rgba(0, 255, 0, 0.1)"); 
+            $("#password_match").css("color","#00cc00");
+            return 1;
+        }
+    }
 </script>
 
 <script type="text/javascript" src="JS/list.js"></script>
