@@ -39,11 +39,13 @@ if($row['DName'] != $d_name || $row['PhoneNo'] != $d_phoneno || $row['Website'] 
         else
         {
             echo "Error: Could not execute the query: " . mysqli_error($conn);
+            header("Location: error.php");
         }        
     }
     else
     {
         echo "Error: Could not prepare the query: " . mysqli_error($conn);
+        header("Location: error.php");
     } 
 }
 
@@ -67,6 +69,7 @@ if($stmt = mysqli_prepare($conn, $branch_update))
             else
             {
                 echo "Error: Could not execute the query: " . mysqli_error($conn);
+                header("Location: error.php");
             }    
         }
         $branch_count++;
@@ -75,6 +78,7 @@ if($stmt = mysqli_prepare($conn, $branch_update))
 else
 {
     echo "Error: Could not prepare the query: " . mysqli_error($conn);
+    header("Location: error.php");
 } 
 
 if($changeflag)

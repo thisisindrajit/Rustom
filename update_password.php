@@ -23,11 +23,13 @@ if($usertype === "customer")
         else
         {
             echo "Error: Could not execute the query: " . mysqli_error($conn);
+            header('location: Login/login.php');
         } 
     }
     else
     {
         echo "Error: Could not prepare the query: " . mysqli_error($conn);
+        header('location: Login/login.php');
     }
 }
 else
@@ -46,11 +48,13 @@ else
         else
         {
             echo "Error: Could not execute the query: " . mysqli_error($conn);
+            header('location: Login/login.php');
         } 
     }
     else
     {
         echo "Error: Could not prepare the query: " . mysqli_error($conn);
+        header('location: Login/login.php');
     }
 }
 ?>

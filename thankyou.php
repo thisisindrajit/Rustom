@@ -100,5 +100,4 @@ function gotohome() {
     window.location.href="index.php";
 }
 </script>
-
 </html>

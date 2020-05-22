@@ -35,6 +35,4 @@ else
         echo "Invalid Password";
     }
 }
-
-
 ?>

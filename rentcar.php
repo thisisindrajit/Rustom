@@ -40,12 +40,14 @@ if($ex)
     else
     {
         echo "Some error occured while trying to update the car's status!";
+        header("Location: error.php");
     }
 }
 
 else
 {
     echo "error while renting car!";
+    header("Location: error.php");
 }
 
 }
@@ -79,12 +81,14 @@ else
         else
         {
             echo "Some error occured while trying to update the car's status!";
+            header("Location: error.php");
         }
     }
 
     else
     {
         echo "Error occured while ending the rent!";
+        header("Location: error.php");
     }
 
 }

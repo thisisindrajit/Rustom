@@ -31,12 +31,14 @@ if($cartype==="new")
         else
         {
             echo "Some error occured while trying to update the car table!";
+            header("Location: error.php");
         }
     }
 
     else
     {
         echo "Some error occured while buying the car! Please try again!";
+        header("Location: error.php");
     }
 }
 
@@ -57,12 +59,14 @@ else //it's going to be a resale car
         else
         {
             echo "Some error occured while trying to update the car table!";
+            header("Location: error.php");
         }
     }
 
     else
     {
         echo "Some error occured while buying the car! Please try again!";
+        header("Location: error.php");
     }
 
 }

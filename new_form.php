@@ -81,8 +81,8 @@ mysqli_stmt_bind_param($stmt, "ssssss", $name,  $mileage, $color, $fueltype, $m_
         
                 if(!mysqli_query($conn, $featurequery))
                 {
-                  //echo "Error while inserting feature into table!";
-                  header("location:error.php");
+                  echo "Error while inserting feature into table!";
+                  header("Location: error.php");
                 }
    
 
@@ -130,8 +130,8 @@ mysqli_stmt_bind_param($stmt, "ssssss", $name,  $mileage, $color, $fueltype, $m_
 
               else
               {
-                //echo "some error occured while inserting image path in database!";
-                header("location:error.php");
+                echo "some error occured while inserting image path in database!";
+                header("Location: error.php");
               }
 
               }
@@ -145,32 +145,28 @@ mysqli_stmt_bind_param($stmt, "ssssss", $name,  $mileage, $color, $fueltype, $m_
 
             else
             {
-            //echo "Some error occurred while inserting data!" . mysqli_error($conn);
-            header("location:error.php");
+            echo "Some error occurred while inserting data!" . mysqli_error($conn);
+            header("Location: error.php");
             }
 
         }
 
         else
         {
-            //echo "Some error occurred while inserting data in owns table!";
-            header("location:error.php");
+            echo "Some error occurred while inserting data in owns table!";
+            header("Location: error.php");
         }
         
     }
     else
     {
-        //echo "Error: Could not execute the query: " . mysqli_error($conn);
-        header("location:error.php");
+        echo "Error: Could not execute the query: " . mysqli_error($conn);
+        header("Location: error.php");
     }
 
 }
 
 }
-
-
-
-
 ?>
 
 

@@ -17,25 +17,35 @@ if(isset($_POST["submit"]))
 
     if(mysqli_num_rows($customer_result) == 1)
     {
-        $info_query = "SELECT customerID, customerName FROM customer where c_email = '$email'";
-        $info_result = mysqli_query($conn, $info_query);
-        $info = mysqli_fetch_array($info_result, MYSQLI_ASSOC);
-        
-        //storing the necessary information in session
-        $_SESSION['userid'] = $info['customerID'];
-        $_SESSION['username'] = $info['customerName'];       
-        $_SESSION['email'] = $email;
-        $_SESSION['usertype'] = 'customer';
-        $_SESSION['logged_in'] = true;
-
-        $update = "UPDATE customer_login SET lastloggedintime = CURRENT_TIME() WHERE c_email= '$email' AND password = '$password'";
-        $result = mysqli_query($conn, $update);
-        if($result)
+        if($row['verified'] == 1)
         {
-            header("location: cus_index.php");
+            $info_query = "SELECT customerID, customerName FROM customer where c_email = '$email'";
+            $info_result = mysqli_query($conn, $info_query);
+            $info = mysqli_fetch_array($info_result, MYSQLI_ASSOC);
+            
+            //storing the necessary information in session
+            $_SESSION['userid'] = $info['customerID'];
+            $_SESSION['username'] = $info['customerName'];       
+            $_SESSION['email'] = $email;
+            $_SESSION['usertype'] = 'customer';
+            $_SESSION['logged_in'] = true;
+
+            $update = "UPDATE customer_login SET lastloggedintime = CURRENT_TIME() WHERE c_email= '$email' AND password = '$password'";
+            $result = mysqli_query($conn, $update);
+            if($result)
+            {
+                header("location: cus_index.php");
+            }
+            else
+            {
+                header("Location: error.php");
+            }
+        }
+        else
+        {
+            echo "<script> alert(\"Your account has not been verified yet! A verification email was sent to $email\")</script>";
         }
     }
-
     else
     {
         $dealer_query = "SELECT * FROM dealer_login WHERE d_email= '$email' AND password = '$password'";
@@ -44,23 +54,35 @@ if(isset($_POST["submit"]))
     
         if(mysqli_num_rows($dealer_result) == 1)
         {
-            $info_query = "SELECT dealerID, dname FROM dealer where d_email = '$email'";
-            $info_result = mysqli_query($conn, $info_query);
-            $info = mysqli_fetch_array($info_result, MYSQLI_ASSOC);
-        
-            //storing the necessary information in session
-            $_SESSION['userid'] = $info['dealerID'];
-            $_SESSION['username'] = $info['dname'];       
-            $_SESSION['email'] = $email;
-            $_SESSION['usertype'] = 'dealer';
-            $_SESSION['logged_in'] = true;
-
-            $update = "UPDATE dealer_login SET lastloggedintime = CURRENT_TIME() WHERE d_email= '$email' AND password = '$password'";
-            $result = mysqli_query($conn, $update);
-            if($result)
+            if($row['verified'] == 1)
             {
-                header("location: dealer_index.php"); //create a new file and name it as dealer_index.php
+                $info_query = "SELECT dealerID, dname FROM dealer where d_email = '$email'";
+                $info_result = mysqli_query($conn, $info_query);
+                $info = mysqli_fetch_array($info_result, MYSQLI_ASSOC);
+            
+                //storing the necessary information in session
+                $_SESSION['userid'] = $info['dealerID'];
+                $_SESSION['username'] = $info['dname'];       
+                $_SESSION['email'] = $email;
+                $_SESSION['usertype'] = 'dealer';
+                $_SESSION['logged_in'] = true;
+
+                $update = "UPDATE dealer_login SET lastloggedintime = CURRENT_TIME() WHERE d_email= '$email' AND password = '$password'";
+                $result = mysqli_query($conn, $update);
+                if($result)
+                {
+                    header("location: dealer_index.php"); 
+                }
+                else
+                {
+                    header("Location: error.php");
+                }
             }
+            else
+            {
+                echo "<script> alert(\"Your account has not been verified yet! A verification email was sent to $email\")</script>";
+            }
+
         }
         
         else
