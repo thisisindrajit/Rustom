@@ -749,7 +749,7 @@ No cars have been added yet! Add a car by clicking on the <i>Add entry</i> butto
 
   <?php
 
-  if($cardet["cartype"]==="new")
+  if($cardet["cartype"]==="new"||$cardet["cartype"]==="resale")
   {
   $temp++;
   }

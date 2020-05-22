@@ -4,9 +4,10 @@ include("dbconnect.php");
 
 $query = '%'.$_POST["query"].'%';
  
-$stmt = $conn->prepare("select car.carid,name,cartype,status,images from car left join images on car.carid=images.carid 
-and images=(select images from images where carid=car.carid limit 1) having name like ? or car.cartype like ?");
-$stmt->bind_param("ss",$query,$query);
+$stmt = $conn->prepare("select car.carid,name,cartype,status,mname,images from car left join images on car.carid=images.carid 
+inner join manufacturer where manufacturer.manufacturerid=car.manufacturerid and images=(select images from images where carid=car.carid limit 1)
+ having name like ? or car.cartype like ? or mname like ?");
+$stmt->bind_param("sss",$query,$query,$query);
 $stmt->execute();
 
 $result = $stmt->get_result();

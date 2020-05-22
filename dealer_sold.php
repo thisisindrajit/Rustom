@@ -241,7 +241,7 @@ li
 $soldcarsquery = "
 select customername,car.carid as carid,name,DATE_FORMAT(paymentdate,'%d %M %Y') as paymentdate from owns 
 inner join customer inner join car inner join newcar where car.carid=newcar.newcarid and dealerid = $dealerid and 
-paymentstatus='verified' and customer.customerid = newcar.customerid and car.carid=owns.carid";
+paymentstatus='verified' and customer.customerid = newcar.customerid and car.carid=owns.carid order by paymentdate desc";
 $ex = mysqli_query($conn,$soldcarsquery);
 
 if(mysqli_num_rows($ex)===0)
@@ -286,7 +286,7 @@ while($row=mysqli_fetch_assoc($ex))
 $soldresalecarsquery = "
 select customername,car.carid as carid,name,DATE_FORMAT(paymentdate,'%d %M %Y') as paymentdate from owns 
 inner join customer inner join car inner join preownedcar where car.carid=preownedcar.preownedcarid and dealerid = $dealerid and 
-paymentstatus='verified' and customer.customerid = preownedcar.customerid and car.carid=owns.carid";
+paymentstatus='verified' and customer.customerid = preownedcar.customerid and car.carid=owns.carid order by paymentdate desc";
 
 $ex2 = mysqli_query($conn,$soldresalecarsquery);
 

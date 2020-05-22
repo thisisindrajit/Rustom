@@ -151,9 +151,10 @@ li
     position:absolute;
     top:0;
     right:0;
-    background-color:#76448A;
+    /*background-color:#76448A;*/
+    background-color:yellow;
     padding:10px;
-    color:white;
+    color:black;
     font-weight:300;
 }
 

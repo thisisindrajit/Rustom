@@ -15,7 +15,7 @@ $usertype =  $_SESSION['usertype'];
 
 //first query to select all car and its dealer details
 $query1 = "select Name,Dname,Mname,status,manufacturer.phoneno as mph,manufacturer.location as mloc,manufacturer.email as memail,manufacturer.website as mweb,dealer.phoneno as dph,d_email,dealer.website as dweb,mileage,color,status,
-fueltype,Price,discount from car inner join newcar inner join manufacturer inner join owns inner join dealer where car.manufacturerid=manufacturer.manufacturerid and 
+fueltype,Price,discount,customerid from car inner join newcar inner join manufacturer inner join owns inner join dealer where car.manufacturerid=manufacturer.manufacturerid and 
 owns.carid=car.carid and owns.dealerid=dealer.dealerid and car.carid=newcar.newcarid and car.carid=$carid";
 
 $result1 = mysqli_query($conn,$query1);
@@ -296,7 +296,7 @@ else{
 </svg>
 </a>
 
-<img src="logow.png" onclick="gotodash(<?php echo $userid.',\''.$usertype.'\'' ?>)" height="50px" style="margin:auto;cursor:pointer">
+<img src="logow.png" onclick="gotodash(<?php echo '\''.$usertype.'\'' ?>)" height="50px" style="margin:auto;cursor:pointer">
 
 </div>
 
@@ -362,9 +362,18 @@ else{
     ?>
 
     <button type="button" class="btn btn-primary" onclick="buycar(<?php echo $carid.',\'new\'' ?>)">Buy this car</button>
-    <button type="button" class="btn btn-outline-info">Add to wishlist</button>
+    <!--<button type="button" class="btn btn-outline-info">Add to wishlist</button>-->
+    <?php 
+    }
+    else if($firstquery["status"]==="sold out"&&$firstquery["customerid"]===$userid&&$usertype==="customer")
+    {
+    ?>
 
-    <?php
+    <div class="alert alert-success" role="alert" style="margin-bottom:0">
+    Hooray! You bought this car!
+    </div>
+
+    <?php  
     }
     else
     {
@@ -375,8 +384,10 @@ else{
     </div>
 
 
-    <?php }
-    } ?>
+    <?php 
+    }
+    } 
+    ?>
 
   </div>
   </div>
@@ -476,16 +487,16 @@ if(mysqli_num_rows($result3)===0)
 
 <script type="text/javascript">
 
-function gotodash(userid,usertype)
+function gotodash(usertype)
 {
     if(usertype==="customer")
     {
-      window.location.href="cus_index.php?cusid="+userid;
+      window.location.href="cus_index.php";
     }
 
     else
     {
-      window.location.href="dealer_index.php?cusid="+userid;
+      window.location.href="dealer_index.php";
     }
    
 }
@@ -551,7 +562,7 @@ function closeimage()
 
 function buycar(carid,cartype)
 {
-  window.location.href="buycar.php?carid="+carid+"&cartype="+cartype;
+  window.location.href="paymentredirect.php?carid="+carid+"&cartype="+cartype;
 }
 </script>
 <script type="text/javascript" src="JS/list.js"></script>
