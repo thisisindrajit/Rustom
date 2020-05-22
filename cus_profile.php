@@ -255,7 +255,7 @@ if ( window.history.replaceState ) {
                       <div class="form-group">
                            <div class="col-xs-12">
                                 <br>
-                              	<button class="btn btn-lg btn-success" type="submit" id="submit" name="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
+                              	<button class="btn btn-lg btn-success" type="submit" id="submit" name="submit" onclick="update()"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
                                	<button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat" color = "513450"></i> Reset</button>
                             </div>
                       </div>
@@ -293,7 +293,6 @@ if ( window.history.replaceState ) {
 
     $("#update").submit(function(event){
         //event.preventDefault(); // avoid to execute the actual submit of the form.
-
         var formdata = {
             'name' : $('#name').val(),
             'dob' : $('#dob').val(),

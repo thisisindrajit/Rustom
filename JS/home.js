@@ -45,6 +45,13 @@ function getcardetails(cusid)
                 "<h5 class='card-title'>"+result[x].name+"</h5>"+
                 "<h6 class='card-subtitle mb-2'><span style='color:"+statuscolor+"'>"+result[x].status+"</span> | TYPE : "+result[x].cartype+"</h6>";
 
+                if(result[x].discount!=="0"&&result[x].status!=="sold out")
+                {
+
+                card += "<div id='discountbox'>Discount - "+result[x].discount+"%</div>";
+                
+                }
+
                 for(i=0;i<result[x].features.length;i++)
                 {
                     card += "<li>"+result[x].features[i]+"</li>";

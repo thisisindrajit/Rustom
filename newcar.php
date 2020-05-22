@@ -15,7 +15,7 @@ $usertype =  $_SESSION['usertype'];
 
 //first query to select all car and its dealer details
 $query1 = "select Name,Dname,Mname,status,manufacturer.phoneno as mph,manufacturer.location as mloc,manufacturer.email as memail,manufacturer.website as mweb,dealer.phoneno as dph,d_email,dealer.website as dweb,mileage,color,status,
-fueltype,Price from car inner join newcar inner join manufacturer inner join owns inner join dealer where car.manufacturerid=manufacturer.manufacturerid and 
+fueltype,Price,discount from car inner join newcar inner join manufacturer inner join owns inner join dealer where car.manufacturerid=manufacturer.manufacturerid and 
 owns.carid=car.carid and owns.dealerid=dealer.dealerid and car.carid=newcar.newcarid and car.carid=$carid";
 
 $result1 = mysqli_query($conn,$query1);
@@ -329,7 +329,29 @@ else{
     <p class="card-text"><b>Color - </b><?php echo $firstquery["color"]?></p>
     <p class="card-text"><b>Mileage - </b><?php echo $firstquery["mileage"]." km/l" ?></p>
     <p class="card-text"><b>Fuel Type - </b><?php echo $firstquery["fueltype"]?></p>
+
+    <?php if($firstquery["discount"]!==null){ 
+
+      $discount=$firstquery["discount"];
+      $disprice=floor(($discount/100)*$firstquery["Price"]);
+      $newprice=$firstquery["Price"]-$disprice;
+      ?>
+
+  <div class="alert alert-info" role="alert">
+      <p class="card-text"><b>Discount - </b><?php echo $firstquery["discount"]."%"?></p>
+      <p class="card-text"><b>Price - </b><del><?php echo "Rs ".$firstquery["Price"]?></del><?php echo " Rs ".$newprice." only!" ?></p>
+      </div>
+
+      
+    <?php
+    }
+    else
+    {
+    ?>
+
     <p class="card-text"><b>Price - </b><?php echo "Rs ".$firstquery["Price"]?></p>
+
+    <?php } ?>
 
     <?php
 

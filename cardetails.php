@@ -6,11 +6,60 @@ $query="select car.carid,name,cartype,status,images from car left join images on
  images=(select images from images where carid=car.carid limit 1) order by uploadedtime desc"; //to select cars along with its status
 
 if($result = $conn->query($query))
-{
+{   
     $arr = array();
 
     while($row = $result->fetch_array(MYSQLI_ASSOC))
     {
+
+        if($row["cartype"]==='new')
+        {
+        $discountquery = "select discount from newcar where newcarid=".$row['carid'];
+
+        if($ex= mysqli_query($conn, $discountquery)) 
+        {
+            $discountresult= mysqli_fetch_assoc($ex);
+    
+            if($discountresult["discount"]!==null)
+            {
+                $row["discount"]=$discountresult["discount"];
+            }
+            else
+            {
+                $row["discount"]="0";
+            }
+            
+        }
+        }
+
+        else if($row["cartype"]==='resale')
+        {
+        $discountquery = "select discount from preownedcar where preownedcarid=".$row['carid'];
+
+        
+        if($ex= mysqli_query($conn, $discountquery)) 
+        {
+            $discountresult= mysqli_fetch_assoc($ex);
+    
+            if($discountresult["discount"]!==null)
+            {
+                $row["discount"]=$discountresult["discount"];
+            }
+            else
+            {
+                $row["discount"]="0";
+            }
+            
+        }
+        }
+
+        else
+        {
+             $row["discount"]="0";
+        }
+
+
+
 
         if($row["images"]===null)
         {

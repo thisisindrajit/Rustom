@@ -146,6 +146,17 @@ li
     max-width:100%;
 }
 
+#discountbox
+{
+    position:absolute;
+    top:0;
+    right:0;
+    background-color:#76448A;
+    padding:10px;
+    color:white;
+    font-weight:300;
+}
+
 .card-subtitle
 {
     color:#884EA0;
