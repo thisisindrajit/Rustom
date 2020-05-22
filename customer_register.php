@@ -28,11 +28,13 @@ if($stmt= mysqli_prepare($conn, $customer_insert) )
     else
     {
         echo "Error: Could not execute the query: " . mysqli_error($conn);
+        header("Location: error.php");
     }
 }
 else
 {
     echo "Error: Could not prepare the query: " . mysqli_error($conn);
+    header("Location: error.php");
 }
 
 $customer_login = "INSERT INTO CUSTOMER_LOGIN (C_Email, Password) VALUES (?, ?)";
@@ -77,16 +79,19 @@ if($stmt = mysqli_prepare($conn, $customer_login))
         else
         {
             echo "Error: Could not update: ". mysqli_error($conn);
+            header("Location: error.php");
         }
     }
     else
     {
         echo "Error: Could not execute the query: " . mysqli_error($conn);
+        header("Location: error.php");
     }
 }
 else
 {
     echo "Error: Could not prepare the query: " . mysqli_error($conn);
+    header("Location: error.php");
 } 
 }
 else

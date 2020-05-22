@@ -34,6 +34,10 @@ if(isset($_POST["submit"]))
         {
             header("location: cus_index.php");
         }
+        else
+        {
+            header("Location: error.php");
+        }
     }
 
     else
@@ -59,7 +63,11 @@ if(isset($_POST["submit"]))
             $result = mysqli_query($conn, $update);
             if($result)
             {
-                header("location: dealer_index.php"); //create a new file and name it as dealer_index.php
+                header("location: dealer_index.php"); 
+            }
+            else
+            {
+                header("Location: error.php");
             }
         }
         

@@ -26,11 +26,13 @@ if($stmt= mysqli_prepare($conn, $dealer_insert) )
     else
     {
         echo "Error: Could not execute the query: " . mysqli_error($conn);
+        header("Location: error.php");
     }
 }
 else
 {
     echo "Error: Could not prepare the query: " . mysqli_error($conn);
+    header("Location: error.php");
 }
 
 //fetching userid
@@ -79,12 +81,14 @@ if($stmt = mysqli_prepare($conn, $branch_insert))
         else
         {
             echo "Error: Could not execute the query: " . mysqli_error($conn);
+            header("Location: error.php");
         }
     }
 }
 else
 {
     echo "Error: Could not prepare the query: " . mysqli_error($conn);
+    header("Location: error.php");
 }
 
 //Inserting into dealer login
@@ -117,16 +121,19 @@ if($stmt = mysqli_prepare($conn, $dealer_login))
         else
         {
             echo "Error: Could not update: ". mysqli_error($conn);
+            header("Location: error.php");
         }
     }
     else
     {
         echo "Error: Could not execute the query: " . mysqli_error($conn);
+        header("Location: error.php");
     }
 }
 else
 {
     echo "Error: Could not prepare the query: " . mysqli_error($conn);
+    header("Location: error.php");
 } 
 }
 else

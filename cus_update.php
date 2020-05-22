@@ -33,6 +33,7 @@ if($row['CustomerName'] != $c_name || $row['DOB'] != $c_dob || $row['PhoneNo'] !
         else
         {
             echo "Error: Could not execute the query: " . mysqli_error($conn);
+            header("Location: error.php");
         }       
     }
 }

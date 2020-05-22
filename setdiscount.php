@@ -28,6 +28,7 @@ if($cartype==="new")
     else
     {
     echo "Some error occured while setting discount of new car!";
+    header('location: Login/login.php');
     }
 }
 
@@ -45,6 +46,7 @@ else
     else
     {
         echo "Some error occured while setting discount of resale car!";
+        header('location: Login/login.php');
     }
 
 }
