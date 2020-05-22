@@ -514,6 +514,56 @@ No cars have been added yet! Add a car by clicking on the <i>Add entry</i> butto
   $mainresult = mysqli_query($conn,$mainquery);
   $cardet = mysqli_fetch_assoc($mainresult);
   
+
+  if($cardet["cartype"]==='new')
+  {
+  $discountquery = "select discount from newcar where newcarid=".$cardet['carid'];
+
+  if($disex= mysqli_query($conn, $discountquery)) 
+  {
+      $discountresult= mysqli_fetch_assoc($disex);
+
+      if($discountresult["discount"]!==null)
+      {
+          $discount=$discountresult["discount"];
+      }
+      else
+      {
+          $discount="0";
+      }
+      
+  }
+  }
+
+  else if($cardet["cartype"]==='resale')
+  {
+  $discountquery = "select discount from preownedcar where preownedcarid=".$cardet['carid'];
+
+  
+  if($disex= mysqli_query($conn, $discountquery)) 
+  {
+      $discountresult= mysqli_fetch_assoc($disex);
+
+      if($discountresult["discount"]!==null)
+      {
+        $discount=$discountresult["discount"];
+      }
+      else
+      {
+         $discount="0";
+      }
+      
+  }
+  }
+
+  else
+  {
+      $discount="0";
+  }
+
+
+
+
     
   ?>
   <!-- Card Start -->
@@ -615,6 +665,20 @@ No cars have been added yet! Add a car by clicking on the <i>Add entry</i> butto
            <div style="float:left"> 
            <p class="card-text">
             <b>Car Type - </b> <?php echo $cardet["cartype"];?>
+
+
+
+            <?php
+
+            if($discount!=="0"&&$cardet["status"]!=="sold out")
+            {
+            ?>
+
+              | <b>Discount - </b><?php echo $discount;?>%
+
+            <?php
+            }
+            ?>
           </p>
 
           <p class="card-text">

@@ -23,6 +23,57 @@ $output = "<div class='row'>";
 while($row = $result->fetch_array(MYSQLI_ASSOC))
 {
 
+
+
+
+    if($row["cartype"]==='new')
+    {
+    $discountquery = "select discount from newcar where newcarid=".$row['carid'];
+
+    if($ex= mysqli_query($conn, $discountquery)) 
+    {
+        $discountresult= mysqli_fetch_assoc($ex);
+
+        if($discountresult["discount"]!==null)
+        {
+            $row["discount"]=$discountresult["discount"];
+        }
+        else
+        {
+            $row["discount"]="0";
+        }
+        
+    }
+    }
+
+    else if($row["cartype"]==='resale')
+    {
+    $discountquery = "select discount from preownedcar where preownedcarid=".$row['carid'];
+
+    
+    if($ex= mysqli_query($conn, $discountquery)) 
+    {
+        $discountresult= mysqli_fetch_assoc($ex);
+
+        if($discountresult["discount"]!==null)
+        {
+            $row["discount"]=$discountresult["discount"];
+        }
+        else
+        {
+            $row["discount"]="0";
+        }
+        
+    }
+    }
+
+    else
+    {
+         $row["discount"]="0";
+    }
+
+
+
 if($row["images"]===null)
 {
     $row["images"]="dummy.png";
@@ -66,8 +117,15 @@ $output .= '
 <img src="'.$row["images"].'" class="card-img-top" alt="Car image">
 <div class="card-body">
 <h5 class="card-title">'.$row["name"].'</h5>
-<h6 class="card-subtitle mb-2"><span style="color:'.$statuscolor.'">'.$row["status"].'</span> | TYPE : '.$row["cartype"].'</h6><hr><a href="'.$link.'" class="card-link">More Details</a>
-</div>
+<h6 class="card-subtitle mb-2"><span style="color:'.$statuscolor.'">'.$row["status"].'</span> | TYPE : '.$row["cartype"].'</h6><hr><a href="'.$link.'" class="card-link">More Details</a>';
+
+if($row["discount"]!=="0"&&$row["status"]!=="sold out"){
+
+$output .='<div id="discountbox">Discount -'.$row["discount"].'%</div>';
+
+}
+
+$output .= '</div>
 </div>
 </div>';
 
