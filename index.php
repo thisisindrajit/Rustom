@@ -103,18 +103,24 @@ include("session_check.php"); //checking whether to redirect the user to his/her
                 <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image:url(&quot;assets/img/la.jpg&quot;);"><span></span></div>
                 <div class="col-lg-6 my-auto order-lg-1 showcase-text">
                     <h2 style="color: rgba(114,22,77,0.9);">Latest Deals!</h2>
+                    <h2 style="color: rgba(0,0,0,1);">RUSTOM - the first buy limo-MARKET.</h2>
+                    <h4 style="color: rgba(0, 0, 0, 0.49);">Find all the latest car launches at incredible prices.</h4>
                 </div>
             </div>
             <div class="row no-gutters">
                 <div class="col-lg-6 text-white showcase-img" style="background-image:url(&quot;assets/img/lt.jpg&quot;);"><span></span></div>
                 <div class="col-lg-6 my-auto order-lg-1 showcase-text">
-                    <h2 style="color: rgba(114,22,77,0.9);">The Luxury Trio!</h2>
+                    <h2 style="color: rgba(114,22,77,0.9);">Timeless!Luxury!Performance!</h2>
+                    <h2 style="color: rgba(0,0,0,1);">Enjoy your OPULENCE!</h2>
+                    <h4 style="color: rgba(0, 0, 0, 0.49);">RUSTOM brings you all range of premium cars at your service.</h4>
                 </div>
             </div>
             <div class="row no-gutters">
                 <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image:url(&quot;assets/img/ba.jpg&quot;);"><span></span></div>
                 <div class="col-lg-6 my-auto order-lg-1 showcase-text">
                     <h2 style="color: rgba(114,22,77,0.9);">Best Assured!</h2>
+                    <h2 style="color: rgba(0,0,0,1);">We CARE for your CAR!</h2>
+                    <h4 style="color: rgba(0, 0, 0, 0.49);">All Dealerships care about  their Customers but RUSTOM takes it to a whole new level.</h4>
                 </div>
             </div>
         </div>
