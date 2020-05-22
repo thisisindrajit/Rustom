@@ -234,8 +234,8 @@ if ( window.history.replaceState ) {
 
       <div class="text-center container-fluid">
         <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-thumbnail" alt="avatar" style="margin-bottom:10px">
-      <h6>Upload a different photo</h6>
-        <input type="file" class="center-block file-upload" style="width:95px">
+      <!--<h6>Upload a different photo</h6>
+        <input type="file" class="center-block file-upload" style="width:95px">-->
       </div><br>
 
           
@@ -305,7 +305,7 @@ if ( window.history.replaceState ) {
                             <input type="password" class="form-control" name="password2" id="password2" placeholder="Verify password" title="re-enter your password">
                         </div>
                     </div>-->
-                    <div>
+                    <div style="margin-top:25px">
                         <a href="javascript: void(0)" onclick = "changePassword();">Change Password</a>
                     </div>    
                     <div class="form-group">
