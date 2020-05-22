@@ -176,20 +176,21 @@ mysqli_stmt_bind_param($stmt, "ssssss", $name,  $mileage, $color, $fueltype, $m_
     <meta charset="UTF-8">
     <link rel="icon" href="icon.ico">
     <title>Add New Car - Rustom</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <style>
       html, body {
       min-height: 100%;
+      background-color:#F2ECF5;
       }
       body, div, form, input, select, textarea, p { 
       padding: 0;
       margin: 0;
       outline: none;
-      font-family: Roboto, Arial, sans-serif;
-      font-size: 14px;
-      color: #666;
-      line-height: 22px;
+      font-family: 'Rubik', sans-serif;
+      font-size: 16px;
+      color: #000;
+      line-height: 30px;
       }
       h1 {
       position: absolute;
@@ -206,7 +207,7 @@ mysqli_stmt_bind_param($stmt, "ssssss", $name,  $mileage, $color, $fueltype, $m_
       padding: 20px;
       }
       form {
-      width: 100%;
+      width: 80%;
       padding: 20px;
       border-radius: 6px;
       background: #fff;
@@ -218,7 +219,9 @@ mysqli_stmt_bind_param($stmt, "ssssss", $name,  $mileage, $color, $fueltype, $m_
       display: flex;
       justify-content: center;
       align-items: center;
+      background-image:linear-gradient(to right, #5F396F, #C39BD3);
       text-align: center;
+      margin-bottom:20px;
       }
       .banner::after {
       content: "";
@@ -227,119 +230,56 @@ mysqli_stmt_bind_param($stmt, "ssssss", $name,  $mileage, $color, $fueltype, $m_
       width: 100%;
       height: 100%;
       }
-      input, textarea, select {
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 3px;
+      input, select {
+      margin-bottom:15px;
+      margin-top:5px;
+      border: 1px solid #c0c0c0;
+      border-radius: 5px;
+      padding: 7.5px;
+      transition:all 0.15s ease-in-out;
       }
+
       input {
-      width: calc(100% - 10px);
-      padding: 5px;
+      width: calc(100% - 15px);
       }
       select {
       width: 100%;
-      padding: 7px 0;
+      padding: 10px 5px;
       background: transparent;
       }
-      textarea {
-      width: calc(100% - 12px);
-      padding: 5px;
-      }
+     
       .item:hover p, .item:hover i, .question:hover p, .question label:hover, input:hover::placeholder {
       color: #333;
       }
-      .item input:hover, .item select:hover, .item textarea:hover {
+      .item input:hover, .item select:hover,.name-item input:hover,.item input:focus, .item select:focus,.name-item input:focus {
       border: 1px solid transparent;
-      box-shadow: 0 0 6px 0 #333;
-      color: #333;
+      box-shadow: 0 0 6px 0 #5F396F;
       }
       .item {
       position: relative;
       margin: 10px 0;
       }
-      input[type="date"]::-webkit-inner-spin-button {
-      display: none;
-      }
-      .item i, input[type="date"]::-webkit-calendar-picker-indicator {
-      position: absolute;
-      font-size: 20px;
-      color: #a9a9a9;
-      }
-      .item i {
-      right: 1%;
-      top: 30px;
-      z-index: 1;
-      }
-      [type="date"]::-webkit-calendar-picker-indicator {
-      right: 0;
-      z-index: 2;
-      opacity: 0;
-      cursor: pointer;
-      }
-      input[type="time"]::-webkit-inner-spin-button {
-      margin: 2px 22px 0 0;
-      }
-      input[type=radio], input.other {
-      display: none;
-      }
-      label.radio {
-      position: relative;
-      display: inline-block;
-      margin: 5px 20px 10px 0;
-      cursor: pointer;
-      }
-      .question span {
-      margin-left: 30px;
-      }
-      label.radio:before {
-      content: "";
-      position: absolute;
-      top: 2px;
-      left: 0;
-      width: 15px;
-      height: 15px;
-      border-radius: 50%;
-      border: 2px solid #ccc;
-      }
-      #radio_5:checked ~ input.other {
-      display: block;
-      }
-      input[type=radio]:checked + label.radio:before {
-      border: 2px solid #444;
-      background: #444;
-      }
-      label.radio:after {
-      content: "";
-      position: absolute;
-      top: 7px;
-      left: 5px;
-      width: 7px;
-      height: 4px;
-      border: 3px solid #fff;
-      border-top: none;
-      border-right: none;
-      transform: rotate(-45deg);
-      opacity: 0;
-      }
-      input[type=radio]:checked + label:after {
-      opacity: 1;
-      }
+
       .btn-block {
       margin-top: 10px;
       text-align: center;
       }
       button {
-      width: 150px;
-      padding: 10px;
+      width: 25%;
+      padding: 15px;
+      font-family: 'Rubik', sans-serif;
       border: none;
       border-radius: 5px; 
-      background: #444;
-      font-size: 16px;
+     background-color:#5F396F;
+      font-size: 18px;
       color: #fff;
       cursor: pointer;
+      transition:all 0.2s ease-in-out;
+      margin-bottom:15px;
       }
+
       button:hover {
-      background: #666;
+        background-color:#C39BD3;
       }
       @media (min-width: 568px) {
       .name-item, .city-item {
@@ -354,23 +294,75 @@ mysqli_stmt_bind_param($stmt, "ssssss", $name,  $mileage, $color, $fueltype, $m_
       width: calc(50% - 8px);
       }
       }
+
+      @media screen and (max-width:769px)
+      {
+        form {
+        width: 100%;
+        }
+        button {
+        width: 100%;
+        }
+      }
     </style>
   </head>
+
+
+
+  <script type="text/javascript">
+
+function back()
+{
+  window.location.href="dealer_index.php";
+}
+</script>
+
   <body>
+
+
+
+  <?php
+
+      $manuquery = "select mname from manufacturer";
+      $manuex = mysqli_query($conn, $manuquery);
+
+  ?>
     <div class="testbox">
       <form action="" method="POST" enctype="multipart/form-data">
+      <div id="back" style="border-radius:5px;padding:10px;background-color:#D7BDE2;color:#512E5F;margin-bottom:10px;cursor:pointer;width:fit-content;font-size:18px" onclick="back()">< Go back</div>
         <div class="banner">
           <h1>New Car Form</h1>
         </div>
         <div class="item">
-          <b>Car Details:</b>
-          <div class="name-item">
-            <input type="text" name="name" placeholder="Car Name (along with manufacturer name | eg - Ford EcoSport)" required>
-            <input type="text" name="m_name" placeholder="Manufacturer Name"  required/>
+          <b>Basic Car Details</b>
+        
+          <div class="item">
+          <!--<input type="text" name="m_name" placeholder="Manufacturer Name"  required/>-->
+
+          Manufacturer Name
+            <select name="m_name" required>
+
+            <?php 
+            while($row=mysqli_fetch_assoc($manuex))
+            { 
+            ?>
+              <option value="<?php echo $row['mname']?>"><?php echo $row['mname']?></option>
+            <?php  
+            }
+            ?>
+
+            </select>
+
+
           </div>
+
+          <div class="item">
+            <input type="text" name="name" placeholder="Car Name (along with manufacturer name | eg - Ford EcoSport)" required>
+          </div>
+
           <div class="name-item">
             <input type="text" name="color" placeholder="Color"  required/>
-            <input type="number" name="mileage" placeholder="Mileage" step="0.1" min="0"  required>
+            <input type="number" name="mileage" placeholder="Mileage (km/l)" step="0.1" min="0"  required>
           </div>
         </div>
 
@@ -387,7 +379,7 @@ mysqli_stmt_bind_param($stmt, "ssssss", $name,  $mileage, $color, $fueltype, $m_
             </select>
 		</div>
 		<div class="item">
-          <input type="number" name="price" placeholder="On-road price (in numbers only)" min="0"  required>
+          <input type="number" name="price" placeholder="On-road price (in INR only)" min="0"  required>
         </div>      
         
         
@@ -403,12 +395,12 @@ mysqli_stmt_bind_param($stmt, "ssssss", $name,  $mileage, $color, $fueltype, $m_
         </div>
 
         <div class="item">
-        Choose a car image (optional)
-          <input type="file" name="carimage">
+        <b>Choose a car image (optional)</b>
+          <input type="file" name="carimage" style="display:flex;align-items:center">
         </div>
 
         <div class="btn-block">
-          <button type="submit" name="submit">ADD</button>
+          <button type="submit" name="submit">ADD CAR</button>
         </div>
       </form>
     </div>
