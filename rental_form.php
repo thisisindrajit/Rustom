@@ -81,7 +81,8 @@ mysqli_stmt_bind_param($stmt, "sssssss", $name,  $mileage, $color, $fueltype, $m
         
                 if(!mysqli_query($conn, $featurequery))
                 {
-                  echo "Error while inserting feature into table!";
+                  //echo "Error while inserting feature into table!";
+                  header("location:error.php");
                 }
    
 
@@ -99,7 +100,8 @@ mysqli_stmt_bind_param($stmt, "sssssss", $name,  $mileage, $color, $fueltype, $m
 
               if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") 
               {
-              echo "Sorry only JPG, JPEG, PNG files are allowed.";
+              //echo "Sorry only JPG, JPEG, PNG files are allowed.";
+              header("location:error.php");
               }
 
               else
@@ -126,7 +128,8 @@ mysqli_stmt_bind_param($stmt, "sssssss", $name,  $mileage, $color, $fueltype, $m
 
               else
               {
-                echo "some error occured while inserting image path in database!";
+                //echo "some error occured while inserting image path in database!";
+                header("location:error.php");
               }
 
               }
@@ -142,20 +145,23 @@ mysqli_stmt_bind_param($stmt, "sssssss", $name,  $mileage, $color, $fueltype, $m
 
             else
             {
-            echo "Some error occurred while inserting data!" . mysqli_error($conn);
+            //echo "Some error occurred while inserting data!" . mysqli_error($conn);
+            header("location:error.php");
             }
 
         }
 
         else
         {
-            echo "Some error occurred while inserting data in owns table!";
+            //echo "Some error occurred while inserting data in owns table!";
+            header("location:error.php");
         }
         
     }
     else
     {
-        echo "Error: Could not execute the query: " . mysqli_error($conn);
+        //echo "Error: Could not execute the query: " . mysqli_error($conn);
+        header("location:error.php");
     }
 
 }
