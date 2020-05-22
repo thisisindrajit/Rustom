@@ -16,6 +16,7 @@ html
 {
     height: 100%;
     width:100%;
+    overflow-y: scroll;
 }
 
 body{
@@ -28,6 +29,9 @@ body{
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
+    display:flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .container{    
@@ -39,9 +43,8 @@ body{
     align-items:center;
     justify-content:center;
     padding:20px 0;
-    margin: 20px auto;
-    background-color: black;
-    opacity: 0.8;
+    margin:auto;
+    background-color: rgba(0,0,0,0.8);
     color: white;
 }
 #select{
@@ -66,10 +69,11 @@ body{
     object-fit:contain;
     padding:25px;
     border: 2px;
-    border-radius: 50%;
+    border-radius: 35%;
     height: 220px;
     width: 220px;
     background-color: white;
+    cursor:pointer;
 }
 
 #customer,#dealer
@@ -90,11 +94,11 @@ body{
     display:none;
 }
 
-@media only screen and (max-width:870px)
+@media only screen and (max-width:950px)
 {
     .container{    
     height: auto;
-    min-width: 100%;
+    min-width: 80%;
     }
 
     #register_option
@@ -136,6 +140,15 @@ body{
 
 
 }
+
+
+@media only screen and (max-width:500px)
+{
+    .container{    
+    height: auto;
+    min-width: 100%;
+    }
+}
 </style>
 <body>
     
@@ -174,7 +187,7 @@ body{
             </div>
             <div class="form-group">
                 <label for="phone_no">Phone Number</label>
-                <input type="text" class="form-control" name="C_phoneNo" placeholder="Phone Number" required>
+                <input type="tel" class="form-control" name="C_phoneNo" placeholder="Phone Number" required>
             </div>
             <div class="form-group">
                 <label for="address">Address</label>
@@ -207,7 +220,7 @@ body{
             </div>
             <div class="form-group">
                 <label for="phone_no">Phone Number</label>
-                <input type="text" class="form-control" name="phone_no" placeholder="Phone Number" required>
+                <input type="text" maxlength="10" class="form-control" name="phone_no" placeholder="Phone Number" required>
             </div>
             <div class="form-group">
                 <label for="website">Website</label>
@@ -230,7 +243,9 @@ body{
                 </div>
             </div>
             <div style="text-align:center;"><a href="javascript:void(0);" onclick="addBranch();">+Add Branch</a></div>
-            <div class="form-group" style="padding: 20px;"><button type="submit" name="dealerRegister" class="btn btn-primary">Register</button></div>
+            <div class="form-group" style="padding: 20px;"><button type="submit" name="dealerRegister" class="btn btn-primary">Register</button>
+            </div>
+            
         </form>
         </div>
 </div>

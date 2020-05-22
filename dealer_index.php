@@ -168,7 +168,11 @@ form.example::after {
 }
 
 
-
+#entry:hover
+{
+  text-decoration: underline;
+  color:black;
+}
 
 #listicon
 {
@@ -261,7 +265,7 @@ form.example::after {
 
 }
 
-@media screen and (max-width:769px)
+@media screen and (max-width:767px)
 {
     #explore
     {
@@ -372,23 +376,23 @@ if ( window.history.replaceState ) {
         
         <div class="row">
             <div class="column">
-            <a href="new_form.php">
+            <a href="new_form.php" id="entry">
             <img src="car2.jpg" style="width:100%;height: 85%;margin-bottom:5px">
-            <h4>New Car</h4>
+            <h4 style="font-weight:300;color:black">New Car</h4>
             </a>
           </div>
 
           <div class="column">
-            <a href="resale_form.php">
+            <a href="resale_form.php" id="entry">
             <img src="car1.jpg" style="width:100%;height: 85%;margin-bottom:5px">
-            <h4>Pre-Owned Car</h4>
+            <h4 style="font-weight:300;color:black">Pre-owned Car</h4>
             </a>
           </div>
           
           <div class="column">
-            <a href="rental_from.php">
+            <a href="rental_form.php" id="entry">
             <img src="car3.jpg" style="width:100%;height: 85%;margin-bottom:5px">
-            <h4>Rental Car</h4>
+            <h4 style="font-weight:300;color:black">Rental Car</h4>
             </a>
           </div>
 
@@ -427,7 +431,7 @@ if(isset($_SESSION['deletesoldoutcar'])&&$_SESSION['deletesoldoutcar']===true)
 ?>
 
 <div class="alert alert-danger" role="alert">
-<b>Sorry! You can't delete a sold out car!</b>
+<b>Sorry! You can't delete a sold out or rented car!</b>
 </div>
 
 <?php
@@ -510,7 +514,8 @@ No cars have been added yet! Add a car by clicking on the <i>Add entry</i> butto
   {
 
   //query to get all car details
-  $mainquery = "select carid,name,status,cartype from car where carid=".$row["carid"];
+  $mainquery = "select car.carid as carid,name,status,cartype,images from car left join images on images.carid=car.carid and 
+  images=(select images from images where carid=car.carid limit 1) having car.carid=".$row["carid"];
   $mainresult = mysqli_query($conn,$mainquery);
   $cardet = mysqli_fetch_assoc($mainresult);
   
@@ -585,14 +590,14 @@ No cars have been added yet! Add a car by clicking on the <i>Add entry</i> butto
 
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="d-block w-100" src="car1.jpg" height="275px" alt="First slide">
+                    <img class="d-block w-100" src="<?php echo $cardet["images"]?>" height="275px" alt="First slide">
                 </div>
-                <div class="carousel-item">
+                <!--<div class="carousel-item">
                     <img class="d-block w-100" src="car2.jpg" height="275px"  alt="Second slide">
                 </div>
                 <div class="carousel-item">
                     <img class="d-block w-100" src="car3.jpg" height="275px"  alt="Third slide">
-                </div>
+                </div>-->
             </div>
 
 
@@ -682,7 +687,21 @@ No cars have been added yet! Add a car by clicking on the <i>Add entry</i> butto
           </p>
 
           <p class="card-text">
-            <b>Availability - </b> <?php echo $cardet["status"];?>
+            <b>Availability - </b>
+            <?php if ($cardet["status"]==="available") { ?>
+            
+              <span style="color:#2ECC71"><?php echo $cardet["status"];?></span>
+
+            <?php }
+            else {
+              ?>
+
+              <span style="color:#E74C3C"><?php echo $cardet["status"];?></span>
+
+            <?php
+            }
+            ?>
+            
           </p>
 
           
@@ -729,7 +748,13 @@ No cars have been added yet! Add a car by clicking on the <i>Add entry</i> butto
   </div>
 
   <?php
+
+  if($cardet["cartype"]==="new")
+  {
   $temp++;
+  }
+
+
   }
   ?>
 

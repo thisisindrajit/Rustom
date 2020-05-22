@@ -278,6 +278,13 @@ if ( window.history.replaceState ) {
                     <h3>Branch Details</h3>
                     
                     <?php
+
+                    if(mysqli_num_rows($branch_result)===0)
+                    {
+                    ?>
+                    No branches set by you yet!
+                    <?php
+                    }
                     $branch_count = 1;
                     while($branch_row = mysqli_fetch_assoc($branch_result))
                     {?>
