@@ -75,7 +75,7 @@ include("session_check.php"); //checking whether to redirect the user to his/her
 <body>
     <nav class="navbar navbar-light navbar-expand bg-light navigation-clean">
         <div class="container" id="header"><a class="navbar-brand" href="#" style="color: rgba(114,22,77,0.9)">RUSTOM <span style="color:black">Car Dealership</span></a>
-                <div class="collapse navbar-collapse" id="navcol-1"><a class="ml-auto" id="loginbut" href="login.php">Sign in</a></div>
+                <div class="collapse navbar-collapse" id="navcol-1"><a class="ml-auto" id="loginbut" href="login.php">Login</a></div>
         </div>
     </nav>
     <header class="masthead text-white text-center" style="background: url('assets/img/bg-neon.jpg')no-repeat center center;background-size: cover;">
