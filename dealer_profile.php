@@ -359,13 +359,13 @@ if ( window.history.replaceState ) {
             <div class="form-group">
                 <div class="col-xs-6">
                     <label for="newpassword"><h4>New Password</h4></label>
-                    <input type="password" class="form-control" name="newpassword" id="newpassword" placeholder="New Password" onchange="confirmPassword();" required>
+                    <input type="password" class="form-control" name="newpassword" id="newpassword" placeholder="New Password" onchange="confirmPassword();" required minlength="8">
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-xs-6">
                     <label for="confirmpassword"><h4>Confirm Password</h4></label>
-                    <input type="password" class="form-control" name="confirmpassword" id="confirmpassword" placeholder="Confirm Password" onchange="confirmPassword();" required>
+                    <input type="password" class="form-control" name="confirmpassword" id="confirmpassword" placeholder="Confirm Password" onchange="confirmPassword();" required minlength="8">
                 </div>
             </div>
             <div id="password_match" class="alert alert-info" role="alert">  

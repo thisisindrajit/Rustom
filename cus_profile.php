@@ -343,13 +343,13 @@ if ( window.history.replaceState ) {
             <div class="form-group">
                 <div class="col-xs-6">
                     <label for="newpassword"><h4>New Password</h4></label>
-                    <input type="password" class="form-control" name="newpassword" id="newpassword" placeholder="New Password" onchange="confirmPassword();" required>
+                    <input type="password" class="form-control" name="newpassword" id="newpassword" placeholder="New Password" onchange="confirmPassword();" required minlength="8">
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-xs-6">
                     <label for="confirmpassword"><h4>Confirm Password</h4></label>
-                    <input type="password" class="form-control" name="confirmpassword" id="confirmpassword" placeholder="Confirm Password" onchange="confirmPassword();" required>
+                    <input type="password" class="form-control" name="confirmpassword" id="confirmpassword" placeholder="Confirm Password" onchange="confirmPassword();" required minlength="8">
                 </div>
             </div>
             <div id="password_match" class="alert alert-info" role="alert">  
@@ -371,6 +371,20 @@ if ( window.history.replaceState ) {
 
 <script>
     $(document).ready(function() {
+        //Date validation
+    var dtToday = new Date();
+    var month = dtToday.getMonth() + 1;     // getMonth() is zero-based
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear() - 18;
+    if(month < 10)
+    month = '0' + month.toString();
+    if(day < 10)
+    day = '0' + day.toString();
+
+    var maxDate = year + '-' + month + '-' + day;
+    $('#dob').attr('max', maxDate);
+    
+    //for file upload
     var readURL = function(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
