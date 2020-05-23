@@ -43,7 +43,7 @@ if(isset($_POST["submit"]))
         }
         else
         {
-            echo "<script> alert(\"Your account has not been verified yet! A verification email was sent to $email\")</script>";
+            echo "<script> alert(\"Your account has not been verified yet! A verification email has already been sent to $email. Please acknowledge it in order to activate your account! Happy Rustoming!\")</script>";
         }
     }
     else
@@ -80,7 +80,7 @@ if(isset($_POST["submit"]))
             }
             else
             {
-                echo "<script> alert(\"Your account has not been verified yet! A verification email was sent to $email\")</script>";
+                echo "<script> alert(\"Your account has not been verified yet! A verification email has already been sent to $email. Please acknowledge it in order to activate your account! Happy Rustoming!\")</script>";
             }
 
         }

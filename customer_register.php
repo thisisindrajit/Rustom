@@ -49,12 +49,12 @@ if($stmt = mysqli_prepare($conn, $customer_login))
         echo "Login insertion successful";
         //Sending verification email
         $subject = "Rustom Email Verification";
-        $message = "Hello $c_name, you are one step away from rustoming! <a href= 'https://localhost/CARS/verify.php?vkey=$vkey'>Click Here</a> to verify your email address";
+        $message = "Hello $c_name, you are one step away from Rustoming! <a href= 'https://localhost/CARS/verify.php?vkey=$vkey'>Click Here</a> to verify your email address and activate your account!";
         $headers = "From: thisisourprojectx@gmail.com" . "\r\n";
         // Always set content-type when sending HTML email
         $headers .= "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-        if(mail($d_email,$subject,$message,$headers))
+        if(mail($c_email,$subject,$message,$headers))
         {
             header("Location: thankyou.php");
         }

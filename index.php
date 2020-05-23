@@ -178,7 +178,7 @@ include("session_check.php"); //checking whether to redirect the user to his/her
                     <ul class="list-inline mb-2">
                         <li class="list-inline-item"><a href="#" style="color: rgb(248,249,250);">About</a></li>
                         <li class="list-inline-item"><a href="#" style="color: rgb(248,249,250);">Contact</a></li>
-                        <li class="list-inline-item"><a href="#" style="color: rgb(248,249,250);">Terms of &nbsp;Use &amp;&nbsp; Privacy Policy</a></li>
+                        <li class="list-inline-item"><a href="#" style="color: rgb(248,249,250);">Terms of Use &amp Privacy Policy</a></li>
                         <li class="list-inline-item"></li>
                     </ul>
                     <p class="text-left text-muted small mb-4 mb-lg-0" style="color: rgb(248,249,250);">© RUSTOM. All Rights Reserved.</p>
