@@ -181,7 +181,7 @@ body{
             </div>
             <div class="form-group">
                 <label for="email">Email address</label>
-                <input type="email" class="form-control" name="C_email" aria-describedby="emailHelp" placeholder="Email" required>
+                <input type="email" class="form-control" name="C_email" id="C_email" onchange="validateEmail()" aria-describedby="emailHelp" placeholder="Email" required>
             </div>
             <div class="form-group">
                 <label for="dob">Date of Birth</label>
@@ -218,7 +218,7 @@ body{
             </div>
             <div class="form-group">
                 <label for="email">Email address</label>
-                <input type="email" class="form-control" name="D_email" aria-describedby="emailHelp" placeholder="Email" required>
+                <input type="email" class="form-control" name="D_email" id="D_email" onchange="validateEmail()" aria-describedby="emailHelp" placeholder="Email" required>
             </div>
             <div class="form-group">
                 <label for="phone_no">Phone Number</label>
@@ -245,7 +245,7 @@ body{
                 </div>
             </div>
             <div style="text-align:center;"><a href="javascript:void(0);" onclick="addBranch();">+Add Branch</a></div>
-            <div class="form-group" style="padding: 20px;"><button type="submit" name="dealerRegister" class="btn btn-primary">Register</button>
+            <div class="form-group" style="padding: 20px;"><button type="submit" name="dealerRegister" onclick="validateEmail()" class="btn btn-primary">Register</button>
             </div>
             
         </form>
