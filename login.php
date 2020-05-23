@@ -203,7 +203,7 @@ body{
     </div>
     <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" class="form-control" name="password" placeholder="Password" required>
+        <input type="password" class="form-control" name="password" placeholder="Password" required >
     </div>
     <div style="text-align: center;"><button type="submit" name="submit" class="btn btn-primary">Login</button></div>
 </form>

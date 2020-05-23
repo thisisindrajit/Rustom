@@ -37,3 +37,17 @@ function addBranch()
     location.innerHTML = '<label for="location'+branch_count+'">Branch '+branch_count+' Location</label><input type="text" class="form-control" name="location'+branch_count+'" placeholder="Branch '+branch_count+' Location/Address" required>';
     document.getElementById('branch_details').appendChild(location);
 }
+
+$(document).ready(function() {
+    var dtToday = new Date();
+    var month = dtToday.getMonth() + 1;     // getMonth() is zero-based
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear() - 18;
+    if(month < 10)
+    month = '0' + month.toString();
+    if(day < 10)
+    day = '0' + day.toString();
+
+    var maxDate = year + '-' + month + '-' + day;
+    $('#dateID').attr('max', maxDate);
+});

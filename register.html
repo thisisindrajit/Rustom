@@ -150,6 +150,8 @@ body{
     }
 }
 </style>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="JS/register.js"></script>
 <body>
     
 <div class= "container">
@@ -175,7 +177,7 @@ body{
             <hr width="90%" style="background-color:white;border:none;height:2px">
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" class="form-control" name="C_name" placeholder="Name" required>
+                <input type="text" class="form-control" name="C_name" placeholder="Name" required minlength="2">
             </div>
             <div class="form-group">
                 <label for="email">Email address</label>
@@ -183,11 +185,11 @@ body{
             </div>
             <div class="form-group">
                 <label for="dob">Date of Birth</label>
-                <input type="date" class="form-control" name="C_DOB" placeholder="Date of Birth" required>
+                <input type="date" id="dateID" class="form-control" name="C_DOB" placeholder="Date of Birth" required >
             </div>
             <div class="form-group">
                 <label for="phone_no">Phone Number</label>
-                <input type="tel" class="form-control" name="C_phoneNo" placeholder="Phone Number" required>
+                <input type="tel" class="form-control" name="C_phoneNo" placeholder="Phone Number" required minlength="10">
             </div>
             <div class="form-group">
                 <label for="address">Address</label>
@@ -199,7 +201,7 @@ body{
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" name="C_password" placeholder="Password" required>
+                <input type="password" class="form-control" name="C_password" placeholder="Password" required minlength="8" maxlength="20">
             </div>
             <div class="form-group"><button type="submit" name="customerRegister" class="btn btn-primary">Register</button></div>
         </form>
@@ -212,7 +214,7 @@ body{
             <hr width="90%" style="background-color:white;border:none;height:2px">
             <div class="form-group">
                 <label for="name">Dealer Name</label>
-                <input type="text" class="form-control" name="D_name" placeholder="Name" required>
+                <input type="text" class="form-control" name="D_name" placeholder="Name" required minlength="2">
             </div>
             <div class="form-group">
                 <label for="email">Email address</label>
@@ -220,7 +222,7 @@ body{
             </div>
             <div class="form-group">
                 <label for="phone_no">Phone Number</label>
-                <input type="text" maxlength="10" class="form-control" name="phone_no" placeholder="Phone Number" required>
+                <input type="text" maxlength="10" class="form-control" name="phone_no" placeholder="Phone Number" required minlength="10">
             </div>
             <div class="form-group">
                 <label for="website">Website</label>
@@ -228,7 +230,7 @@ body{
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" name="D_password" placeholder="Password" required>
+                <input type="password" class="form-control" name="D_password" placeholder="Password" required minlength="8" maxlength="20">
             </div>
             <div id="branch_details">
                 <h4 >Branch Details</h4>
@@ -250,6 +252,5 @@ body{
         </div>
 </div>
 </body>
-<script src="JS/register.js"></script>
 </html>
 
