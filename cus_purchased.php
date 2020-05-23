@@ -238,7 +238,7 @@ li
 
 <?php 
 
-$purchasedcarsquery = "select car.carid as carid,name,DATE_FORMAT(paymentdate,'%d %M %Y') as paymentdate from car inner join newcar where customerid = $cusid
+$purchasedcarsquery = "select car.carid as carid,name,DATE_FORMAT(paymentdate,'%d %M %Y') as paymentdate,price,discount from car inner join newcar where customerid = $cusid
 and paymentstatus = 'verified' and car.carid = newcarid order by paymentdate desc";
 $ex = mysqli_query($conn,$purchasedcarsquery);
 
@@ -262,6 +262,26 @@ while($row=mysqli_fetch_assoc($ex))
 <div class="card-body">
 <h5 class="card-title"><?php echo $row["name"] ?></h5>
 <h6 class="card-subtitle mb-2">Purchased on <?php echo $row["paymentdate"]?></h6>
+<div style="padding:20px 0;background-color:#F2F3F4; border-radius:5px;text-align:center;margin-top:15px">
+<h6 class="card-subtitle" style="color:black">Price - <?php echo $row["price"]?></h6>
+
+<?php
+if($row["discount"]===null)
+{
+?>
+
+<h6 class="card-subtitle mt-2" style="color:black">Discount - None</h6>
+<?php
+}
+else
+{
+?>
+<h6 class="card-subtitle mt-2" style="color:black">Discount - <?php echo $row["discount"]?>%</h6>
+
+<?php
+}
+?>
+</div>
 <hr>
 <a href="<?php echo "newcar.php?carid=".$row["carid"]?>" class="card-link">Car Details</a>
 </div>
@@ -281,7 +301,7 @@ while($row=mysqli_fetch_assoc($ex))
 
 
 <?php
-$purchasedresalecarsquery = "select car.carid as carid,name,DATE_FORMAT(paymentdate,'%d %M %Y') as paymentdate from car inner join preownedcar 
+$purchasedresalecarsquery = "select car.carid as carid,name,DATE_FORMAT(paymentdate,'%d %M %Y') as paymentdate,resaleprice,discount from car inner join preownedcar 
 where customerid = $cusid and paymentstatus = 'verified' and car.carid = preownedcarid order by paymentdate desc";
 $ex2 = mysqli_query($conn,$purchasedresalecarsquery);
 
@@ -306,6 +326,26 @@ while($row=mysqli_fetch_assoc($ex2))
 <div class="card-body">
 <h5 class="card-title"><?php echo $row["name"] ?></h5>
 <h6 class="card-subtitle mb-2">Purchased on <?php echo $row["paymentdate"]?></h6>
+<div style="padding:20px 0;background-color:#F2F3F4; border-radius:5px;text-align:center;margin-top:15px">
+<h6 class="card-subtitle" style="color:black">Price - <?php echo $row["resaleprice"]?></h6>
+
+<?php
+if($row["discount"]===null)
+{
+?>
+
+<h6 class="card-subtitle mt-2" style="color:black">Discount - None</h6>
+<?php
+}
+else
+{
+?>
+<h6 class="card-subtitle mt-2" style="color:black">Discount - <?php echo $row["discount"]?>%</h6>
+
+<?php
+}
+?>
+</div>
 <hr>
 <a href="<?php echo "resalecar.php?carid=".$row["carid"]?>" class="card-link">Car Details</a>
 </div>

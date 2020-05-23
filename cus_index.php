@@ -264,7 +264,7 @@ li
   </svg>
     
   </span>
-  <input type="text" id="query" class="form-control shadow-none" placeholder="Search for cars and car types..." onkeyup="searchcars()" onclick="searchcars()" style="border-color:#C39BD3;border-radius:0;border-left:none">
+  <input type="text" id="query" class="form-control shadow-none" placeholder="Search for cars, manufacturers and car types..." onkeyup="searchcars()" onclick="searchcars()" style="border-color:#C39BD3;border-radius:0;border-left:none">
 </div>
 
 
