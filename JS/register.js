@@ -1,3 +1,4 @@
+var option;
 function customer()
 {
     console.log('Customer Login');
@@ -7,6 +8,7 @@ function customer()
     document.getElementsByClassName('text')[1].style.display = "none";
     document.getElementsByClassName('text')[2].style.display = "none";
     document.getElementById('customer_register').style.display = "block";
+    option = 1; 
 }
 
 function dealer()
@@ -18,6 +20,7 @@ function dealer()
     document.getElementsByClassName('text')[1].style.display = "none";
     document.getElementsByClassName('text')[2].style.display = "none";
     document.getElementById('dealer_register').style.display = "block";
+    option = 2;
 }
 var branch_count = 1;
 function addBranch()
@@ -51,3 +54,36 @@ $(document).ready(function() {
     var maxDate = year + '-' + month + '-' + day;
     $('#dateID').attr('max', maxDate);
 });
+
+function validateEmail()
+{
+    if (option == 1)
+    {
+        email = document.getElementById('C_email').value;
+    }
+    else 
+    {
+        email = document.getElementById('D_email').value;
+    }
+    console.log(email);
+    console.log(option);
+    var mailformat = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    if(email.match(mailformat))
+    {
+        console.log("Correct");
+        return true;
+    }
+    else
+    {
+    alert("Please enter a valid email address!");    //The pop up alert for an invalid email address;
+    if (option == 1)
+    {
+        document.getElementById('C_email').value = "";
+    }
+    else 
+    {
+        document.getElementById('D_email').value = "";
+    }
+    return false;
+    }
+} 
