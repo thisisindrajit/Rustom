@@ -28,11 +28,11 @@ else
     $row =mysqli_fetch_assoc($result);
     if($password === $row['password'])
     {
-        echo "Password Verified";
+        echo "Password Verified!";
     }
     else
     {
-        echo "Invalid Password";
+        echo "Invalid Password!";
     }
 }
 ?>

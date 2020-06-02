@@ -155,7 +155,12 @@ h4
   font-size: 28px;
   font-weight: bold;
 }
-
+@media only screen and (max-width:650px)
+{
+    .modal-content {
+    width: 100%;
+    }   
+}
 .close:hover,
 .close:focus {
   color: #000;

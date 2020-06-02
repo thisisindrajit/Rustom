@@ -147,7 +147,12 @@ h4
   border: 1px solid #888;
   width: 40%;
 }
-
+@media only screen and (max-width:650px)
+{
+    .modal-content {
+    width: 100%;
+    }   
+}
 /* The Close Button */
 .close {
   color: #aaaaaa;
