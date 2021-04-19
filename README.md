@@ -1,7 +1,7 @@
 # RUSTOM
 
 Rustom is a car rental/purchase web app that allows 2 parties to perform business for both vehicle dealers and customers to maintain accounts. 
-Managers/representatives of dealers maintain their stock on the database hosted on the web app. Customers interact with the listings on the site and then can either: 
+Managers/representatives of dealers maintain their stock on the database. Customers interact with the listings on the site and then can either: 
 
   - Rent a vehicle
   - Buy New car 
