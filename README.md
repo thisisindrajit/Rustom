@@ -19,8 +19,7 @@ Managers/representatives of dealers maintain their stock on the database hosted 
 ![login](https://github.com/thisisindrajit/Rustom/blob/master/screenshots/login.png)
 
 ### Register
-#### Customer Register
-![cus_reg](https://github.com/thisisindrajit/Rustom/blob/master/screenshots/customer%20register.png)
+![initial_reg](https://github.com/thisisindrajit/Rustom/blob/master/screenshots/customer%20register.png)
 #### Dealer Register
 ![dealer_reg](https://github.com/thisisindrajit/Rustom/blob/master/screenshots/dealer%20register.png)
 
